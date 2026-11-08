@@ -30,7 +30,7 @@ class SemanticCache:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
         self._local_cache: list[dict[str, Any]] = []
-        self._redis_client = None
+        self._redis_client: Any = None
         self._init_redis()
 
     def _init_redis(self) -> None:

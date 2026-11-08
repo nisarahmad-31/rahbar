@@ -61,3 +61,10 @@ def test_metrics_count_requests_by_route(client: TestClient) -> None:
     client.post("/api/ask", json={"question": "Count this request"})
     text = client.get("/metrics").text
     assert 'rahbar_requests_total{path="/api/ask",status="200"}' in text
+
+
+def test_readyz_checks_in_stub_mode(client: TestClient) -> None:
+    r = client.get("/readyz")
+    assert r.status_code == 200
+    assert r.json()["status"] == "ready"
+

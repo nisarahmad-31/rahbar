@@ -8,6 +8,8 @@ from __future__ import annotations
 import hashlib
 import logging
 import math
+from typing import Any
+
 import httpx
 
 from ..config import Settings
@@ -65,20 +67,21 @@ class ChromaRetriever:
         query_vector = self._embed_question(question)
 
         # Metadata filter: exclude superseded documents unless explicitly requested
-        where_filter = None if include_superseded else {"superseded": False}
+        where_filter: Any = None if include_superseded else {"superseded": False}
+        query_embeddings: Any = [query_vector]
 
-        results = collection.query(
-            query_embeddings=[query_vector],
+        results: Any = collection.query(
+            query_embeddings=query_embeddings,
             n_results=k,
             where=where_filter,
             include=["documents", "metadatas", "distances"],
         )
 
         passages: list[Passage] = []
-        ids = results.get("ids", [[]])[0]
-        docs = results.get("documents", [[]])[0]
-        metas = results.get("metadatas", [[]])[0]
-        distances = results.get("distances", [[]])[0]
+        ids = results.get("ids", [[]])[0] if results.get("ids") else []
+        docs = results.get("documents", [[]])[0] if results.get("documents") else []
+        metas = results.get("metadatas", [[]])[0] if results.get("metadatas") else []
+        distances = results.get("distances", [[]])[0] if results.get("distances") else []
 
         for chunk_id, text, meta, dist in zip(ids, docs, metas, distances):
             # Chroma returns cosine distance in [0, 2]; similarity is 1 - distance

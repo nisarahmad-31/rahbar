@@ -5,13 +5,10 @@ Uses stub and mock providers: completely offline, zero external network, zero ex
 
 from __future__ import annotations
 
-import pytest
-from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
 from app.config import Settings
-from app.main import app
-from app.schemas import Answer, Citation, Passage
+from app.schemas import Answer, Passage
 from app.services.answer import answer_question
 from app.services.cache import SemanticCache
 
@@ -123,3 +120,80 @@ def test_semantic_cache_never_caches_followups() -> None:
     assert cache.is_followup("Why did that happen?")
     assert cache.is_followup("What about the other campus?")
     assert not cache.is_followup("What is the minimum CGPA required for graduation?")
+
+
+def test_semantic_cache_operations() -> None:
+    from app.schemas import AskResponse
+    from app.services.cache import cosine_similarity
+
+    assert cosine_similarity([1.0, 0.0], [1.0, 0.0]) == 1.0
+    assert cosine_similarity([], []) == 0.0
+    assert cosine_similarity([1.0], [1.0, 2.0]) == 0.0
+
+    cache = SemanticCache(Settings(cache_threshold=0.88))
+    assert cache.get("What is the CGPA needed?", [0.1, 0.2, 0.3]) is None
+
+    sample_resp = AskResponse(
+        request_id="cached-1",
+        answer="CGPA must be 2.0 or higher.",
+        citations=[],
+        answered_from_context=True,
+        confidence="high",
+        retrieved=[],
+        provider="stub",
+    )
+    cache.set("What is the CGPA needed?", [0.1, 0.2, 0.3], sample_resp)
+    hit = cache.get("What is the CGPA needed?", [0.1, 0.2, 0.3])
+    assert hit is not None
+    assert hit.answer == "CGPA must be 2.0 or higher."
+
+    cache.invalidate()
+    assert cache.get("What is the CGPA needed?", [0.1, 0.2, 0.3]) is None
+
+
+def test_retriever_and_provider_factories() -> None:
+    from app.providers.llm import get_provider
+    from app.retrieval import get_retriever
+    from app.retrieval.chroma import _deterministic_query_vector
+
+    prov = get_provider(Settings(llm_provider="stub"))
+    assert prov.name == "stub"
+
+    ret = get_retriever(Settings(retriever="stub"))
+    assert ret.name == "stub"
+
+    vec = _deterministic_query_vector("hello world", dim=64)
+    assert len(vec) == 64
+
+
+def test_citation_verification() -> None:
+    from app.schemas import Citation, Passage
+    from app.services.answer import _verify_citations
+
+    passages = [
+        Passage(chunk_id="c1", text="Test passage text.", source="doc.pdf", section="Sec 1", page=2, score=0.85)
+    ]
+    citations = [Citation(source="doc.pdf", section="Sec 1", page=2)]
+    verified = _verify_citations(citations, passages)
+    assert len(verified) == 1
+    assert verified[0].source == "doc.pdf"
+
+    # Fabricated citation should be dropped and replaced with top passage citation
+    bogus = [Citation(source="bogus.pdf", section="Fake", page=99)]
+    fallback = _verify_citations(bogus, passages)
+    assert len(fallback) == 1
+    assert fallback[0].source == "doc.pdf"
+
+
+def test_stub_provider_generation() -> None:
+    from app.providers.llm.stub import StubProvider
+    from app.schemas import Passage
+
+    prov = StubProvider()
+    passages = [
+        Passage(chunk_id="c1", text="Sample text", source="doc.pdf", section="Sec 1", page=1, score=0.9)
+    ]
+    ans = prov.generate("What is this?", passages)
+    assert ans.answer
+    assert ans.citations
+
