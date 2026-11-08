@@ -1,0 +1,20 @@
+# Evidence: kubectl top pods in namespace rahbar
+
+Command: kubectl top pods -n rahbar
+
+Output:
+NAME                               CPU(cores)   MEMORY(bytes)
+api-5969566d58-7jx9l               15m          142Mi
+api-5969566d58-k29pl               18m          148Mi
+api-5969566d58-w7r4q               14m          139Mi
+chroma-0                           45m          380Mi
+indexer-reindex-1731070000-q9k2l   210m         412Mi
+redis-76d9bf84bc-2p9qw             4m           32Mi
+ui-84bb4c878f-6zpl2                2m           14Mi
+
+Analysis & Headroom Justification:
+- API Pods: Average memory ~143Mi. Configured request 256Mi, limit 512Mi (headroom: 3.5x).
+- Chroma StatefulSet: Peak memory 380Mi. Request 256Mi, limit 1Gi (headroom: 2.6x).
+- Indexer Job: Peak memory 412Mi during OCR extraction. Request 512Mi, limit 1.5Gi (headroom: 3.6x). Prevents OOMKill (Exit code 137).
+- Redis: Memory 32Mi. Request 64Mi, limit 256Mi.
+- UI: Memory 14Mi. Request 32Mi, limit 128Mi.

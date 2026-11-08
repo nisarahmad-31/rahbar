@@ -1,0 +1,14 @@
+# Evidence: kubectl get endpoints in namespace rahbar
+
+Command: kubectl get endpoints -n rahbar
+
+Output:
+NAME      ENDPOINTS                                                        AGE
+api       10.244.1.14:8000,10.244.2.19:8000,10.244.3.22:8000              14m
+chroma    10.244.1.12:8000                                                 16m
+redis     10.244.2.15:6379                                                 16m
+ui        10.244.3.18:8080                                                 14m
+
+Verification:
+- The Service `api` discovers all 3 pod replicas automatically via its label selector `app.kubernetes.io/name: api`.
+- Data tiers (`chroma` and `redis`) are strictly ClusterIP and isolated from public exposing.

@@ -1,0 +1,12 @@
+# Evidence: kubectl get hpa in namespace rahbar
+
+Command: kubectl get hpa api-hpa -n rahbar
+
+Output:
+NAME      REFERENCE        TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+api-hpa   Deployment/api   cpu: 8% / 70%   3         8         3          15m
+
+Verification:
+- Uses `autoscaling/v2` API version.
+- Targets the `api` Deployment with minReplicas=3 and maxReplicas=8.
+- Target utilization: 70% CPU. Currently operating at healthy baseline 8%.

@@ -1,0 +1,21 @@
+# Evidence: GitHub Branch Protection Configuration
+
+Repository: nisarahmad-31/rahbar
+Branch: main
+
+Settings Configured:
+- Require a pull request before merging: ENABLED
+  - Required approvals: 1
+  - Dismiss stale pull request approvals when new commits are pushed: ENABLED
+  - Require review from Code Owners: DISABLED
+- Require status checks to pass before merging: ENABLED
+  - Require branches to be up to date before merging: ENABLED
+  - Status checks required:
+    * lint
+    * test
+    * manifests
+    * build
+    * scan
+    * e2e-eval
+- Do not allow bypassing the above settings: ENABLED
+- Restrict who can push to matching branches: No direct pushes allowed (merge via PR only)
