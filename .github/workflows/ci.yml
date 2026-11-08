@@ -120,7 +120,7 @@ jobs:
           docker build -t rahbar-ui:scan ui
 
       - name: Scan API image with Trivy
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@v0.29.0
         with:
           image-ref: rahbar-api:scan
           format: "table"
@@ -129,7 +129,7 @@ jobs:
           severity: "HIGH,CRITICAL"
 
       - name: Scan Indexer image with Trivy
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@v0.29.0
         with:
           image-ref: rahbar-indexer:scan
           format: "table"
@@ -138,7 +138,7 @@ jobs:
           severity: "HIGH,CRITICAL"
 
       - name: Scan UI image with Trivy
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@v0.29.0
         with:
           image-ref: rahbar-ui:scan
           format: "table"
