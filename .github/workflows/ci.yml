@@ -1,0 +1,197 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [dev]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff==0.11.8 mypy==1.15.0 -r api/requirements-dev.txt -r indexer/requirements-dev.txt
+
+      - name: Run Ruff Linter
+        run: ruff check api indexer eval corpus
+
+      - name: Run Mypy Type Checker
+        run: |
+          cd api && mypy app
+          cd ../indexer && mypy pipeline
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest==8.3.5 pytest-cov -r api/requirements-dev.txt -r indexer/requirements-dev.txt
+
+      - name: Run Unit Tests with Coverage Gate (>= 60%)
+        run: |
+          cd api && pytest --cov=app --cov-fail-under=60 -q
+          cd ../indexer && pytest -q
+
+  manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v3
+
+      - name: Set up Kubeconform
+        uses: yannh/kubeconform-action@v0.2.1
+        with:
+          k8s-version: "1.30.0"
+
+      - name: Validate Kubernetes Manifests
+        run: |
+          kustomize build k8s/overlays/prod | kubeconform -strict -schema-location default -summary
+
+  build:
+    needs: [lint, test, manifests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build API image
+        uses: docker/build-push-action@v6
+        with:
+          context: api
+          push: false
+          tags: rahbar-api:${{ github.sha }}
+
+      - name: Build Indexer image
+        uses: docker/build-push-action@v6
+        with:
+          context: indexer
+          push: false
+          tags: rahbar-indexer:${{ github.sha }}
+
+      - name: Build UI image
+        uses: docker/build-push-action@v6
+        with:
+          context: ui
+          push: false
+          tags: rahbar-ui:${{ github.sha }}
+
+  scan:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build local images for scanning
+        run: |
+          docker build -t rahbar-api:scan api
+          docker build -t rahbar-indexer:scan indexer
+          docker build -t rahbar-ui:scan ui
+
+      - name: Scan API image with Trivy
+        uses: aquasecurity/trivy-action@0.29.0
+        with:
+          image-ref: rahbar-api:scan
+          format: "table"
+          exit-code: "0"
+          ignore-unfixed: true
+          severity: "HIGH,CRITICAL"
+
+      - name: Scan Indexer image with Trivy
+        uses: aquasecurity/trivy-action@0.29.0
+        with:
+          image-ref: rahbar-indexer:scan
+          format: "table"
+          exit-code: "0"
+          ignore-unfixed: true
+          severity: "HIGH,CRITICAL"
+
+      - name: Scan UI image with Trivy
+        uses: aquasecurity/trivy-action@0.29.0
+        with:
+          image-ref: rahbar-ui:scan
+          format: "table"
+          exit-code: "0"
+          ignore-unfixed: true
+          severity: "HIGH,CRITICAL"
+
+  e2e-eval:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install eval dependencies
+        run: |
+          pip install httpx pyyaml pydantic
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.12.0
+        with:
+          cluster_name: rahbar-ci
+
+      - name: Build and load local images into kind
+        run: |
+          docker build -t rahbar-api:dev api
+          docker build -t rahbar-indexer:dev indexer
+          docker build -t rahbar-ui:dev ui
+          kind load docker-image rahbar-api:dev --name rahbar-ci
+          kind load docker-image rahbar-indexer:dev --name rahbar-ci
+          kind load docker-image rahbar-ui:dev --name rahbar-ci
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -k k8s/overlays/dev
+          kubectl create secret generic rahbar-secret -n rahbar --from-literal=LLM_API_KEY="ci-key" --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Run indexer Job on CI fixtures
+        run: |
+          kubectl set env job/indexer CORPUS_DIR=eval/fixtures -n rahbar || true
+          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=120s || true
+
+      - name: Wait for API rollout status
+        run: |
+          kubectl rollout status deployment/api -n rahbar --timeout=180s
+
+      - name: Run eval gate against live stack
+        run: |
+          kubectl port-forward svc/api 8000:8000 -n rahbar &
+          sleep 5
+          python eval/run_eval.py --api http://127.0.0.1:8000 --golden eval/fixtures/golden.fixture.yaml
