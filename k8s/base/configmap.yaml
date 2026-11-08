@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rahbar-config
+  namespace: rahbar
+data:
+  RETRIEVER: "chroma"
+  LLM_PROVIDER: "ollama-host"
+  EMBED_MODEL: "nomic-embed-text"
+  CHROMA_HOST: "chroma"
+  CHROMA_PORT: "8000"
+  CHROMA_COLLECTION: "rahbar"
+  TOP_K: "5"
+  TEMPERATURE: "0.2"
+  LLM_MODEL: "llama3.2:3b"
+  OLLAMA_URL: "http://host.minikube.internal:11434"
+  HOSTED_BASE_URL: "https://api.groq.com/openai/v1"
+  CHUNK_SIZE: "400"
+  CHUNK_OVERLAP: "50"
+  RELEVANCE_FLOOR: "0.55"
+  CACHE_THRESHOLD: "0.88"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  LOG_LEVEL: "INFO"
+  CORPUS_DIR: "/corpus"
