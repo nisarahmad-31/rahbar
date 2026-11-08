@@ -90,8 +90,9 @@ spec:
       ports:
         - protocol: TCP
           port: 6379
-    - ipBlock:
-        cidr: 0.0.0.0/0
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
       ports:
         - protocol: TCP
           port: 11434
@@ -160,8 +161,9 @@ spec:
       ports:
         - protocol: TCP
           port: 8000
-    - ipBlock:
-        cidr: 0.0.0.0/0
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
       ports:
         - protocol: TCP
           port: 11434
