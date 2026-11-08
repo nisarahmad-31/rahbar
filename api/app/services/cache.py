@@ -54,10 +54,10 @@ class SemanticCache:
             lower.startswith("why "),
             lower.startswith("what about "),
             lower.startswith("and "),
-            "what did you mean",
-            "tell me more",
-            "earlier you said",
-            "previous answer",
+            "what did you mean" in lower,
+            "tell me more" in lower,
+            "earlier you said" in lower,
+            "previous answer" in lower,
         ]
         return any(signals)
 
