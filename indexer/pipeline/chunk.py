@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import re
 from .models import Chunk, Document
 
@@ -45,7 +44,6 @@ def chunk(doc: Document, size: int, overlap: int) -> list[Chunk]:
             para_tokens = _approx_token_count(para)
             if para_tokens <= size:
                 # Whole paragraph fits in one chunk
-                cid = hashlib.sha256(f"{doc.source}:{page.page}:{chunk_index}:{para[:40]}".encode()).hexdigest()[:16]
                 chunks.append(
                     Chunk(
                         id=f"{doc.source}-{page.page}-{chunk_index}",
