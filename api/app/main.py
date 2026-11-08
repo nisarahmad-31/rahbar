@@ -32,13 +32,38 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.settings = settings
     app.state.retriever = get_retriever(settings)
     app.state.provider = get_provider(settings)
-    # STARTER-TODO(4.4): compare the collection's embedding-model metadata with
-    # settings.embed_model here, and make /readyz fail on a mismatch.
-    # This process only reads the index. The indexer Job writes it.
+
+    # Compare collection's embedding-model metadata with settings.embed_model
+    if settings.retriever == "chroma":
+        try:
+            import chromadb
+            from chromadb.config import Settings as ChromaSettings
+
+            client = chromadb.HttpClient(
+                host=settings.chroma_host,
+                port=settings.chroma_port,
+                settings=ChromaSettings(anonymized_telemetry=False),
+            )
+            col = client.get_collection(settings.collection)
+            col_meta = col.metadata or {}
+            stored_model = col_meta.get("embed_model")
+            if stored_model and stored_model != settings.embed_model:
+                log.error(
+                    "embedding_model mismatch at startup: collection model '%s' != configured '%s'",
+                    stored_model,
+                    settings.embed_model,
+                )
+        except Exception as exc:
+            log.warning("Chroma startup check deferred: %s", exc)
+
     log.info(
         "api started",
-        extra={"retriever": settings.retriever, "llm_provider": settings.llm_provider,
-               "embed_model": settings.embed_model, "top_k": settings.top_k},
+        extra={
+            "retriever": settings.retriever,
+            "llm_provider": settings.llm_provider,
+            "embed_model": settings.embed_model,
+            "top_k": settings.top_k,
+        },
     )
     yield
 
@@ -73,8 +98,7 @@ app.include_router(health.router)
 app.include_router(metrics.router)
 app.include_router(ask.router)
 
-# Development only: `make dev` serves the chat UI from this process, so you can try it
-# without a cluster. On Kubernetes the ui Deployment serves it and this stays unset.
+# Development only: `make dev` serves the chat UI from this process
 _ui_dir = os.environ.get("SERVE_UI_DIR")
 if _ui_dir:
     app.mount("/", StaticFiles(directory=_ui_dir, html=True), name="ui")

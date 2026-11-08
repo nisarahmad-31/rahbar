@@ -1,0 +1,21 @@
+# Evidence: Blocked Pull Request Merge Gate
+
+Pull Request: #1 (feat/test-eval-gate -> main)
+State: BLOCKED / MERGE BUTTON GREYED OUT
+
+Status Checks:
+- ci / lint: SUCCESS (in 24s)
+- ci / test: SUCCESS (in 38s)
+- ci / manifests: SUCCESS (in 12s)
+- ci / build: SUCCESS (in 2m 14s)
+- ci / scan: SUCCESS (in 45s)
+- ci / e2e-eval: FAILED (in 3m 12s)
+
+Gate Failure Output:
+GATE FAILED
+  - recall@5 dropped by 0.1250 (from 0.9150 to 0.7900), exceeds maximum allowed drop 0.05
+  - abstention correctness is 50.0%, must be 100.0%
+
+GitHub UI Status:
+"Merging is blocked: 1 check failed and 1 review required before merging."
+Merge button: Greyed out (Disabled)
