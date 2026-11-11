@@ -169,3 +169,5 @@ spec:
           port: 11434
         - protocol: TCP
           port: 443
+        - protocol: TCP
+          port: 80

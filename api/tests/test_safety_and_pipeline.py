@@ -197,3 +197,103 @@ def test_stub_provider_generation() -> None:
     assert ans.answer
     assert ans.citations
 
+
+def test_answer_question_uses_semantic_cache_and_metrics() -> None:
+    from app.logjson import request_id_var
+    from app.retrieval.stub import StubRetriever
+    from app.routes import metrics
+    from app.schemas import Citation
+    from app.services.answer import get_cache
+
+    class CountingHighProvider:
+        name = "counting"
+        calls = 0
+
+        def generate(self, question: str, passages: list[Passage]) -> Answer:
+            self.calls += 1
+            top = passages[0]
+            return Answer(
+                reasoning="grounded",
+                answer="Attendance requirement is 80%.",
+                citations=[Citation(source=top.source, section=top.section, page=top.page)],
+                answered_from_context=True,
+                confidence="high",
+            )
+
+    settings = Settings(cache_threshold=0.88)
+    get_cache(settings).invalidate()
+    prov = CountingHighProvider()
+    ret = StubRetriever()
+
+    hits_before = metrics.CACHE_HITS._value.get()
+    tok_before = request_id_var.set("req-1")
+    try:
+        r1 = answer_question("What is the semester attendance rule?", ret, prov, settings)
+        assert r1.request_id == "req-1"
+    finally:
+        request_id_var.reset(tok_before)
+
+    tok_after = request_id_var.set("req-2")
+    try:
+        r2 = answer_question("What is the semester attendance rule?", ret, prov, settings)
+        assert r2.request_id == "req-2"
+    finally:
+        request_id_var.reset(tok_after)
+
+    assert prov.calls == 1
+    assert metrics.CACHE_HITS._value.get() >= hits_before + 1
+    get_cache(settings).invalidate()
+
+
+def test_superseded_flag_passed_only_when_requested() -> None:
+    class SpyRetriever:
+        name = "spy"
+        seen: list[bool] = []
+
+        def retrieve(self, question: str, k: int, include_superseded: bool = False) -> list[Passage]:
+            self.seen.append(include_superseded)
+            return [
+                Passage(
+                    chunk_id="spy-1",
+                    text="Attendance policy text.",
+                    source="doc.pdf",
+                    section="1.21",
+                    page=1,
+                    score=0.9,
+                )
+            ]
+
+    from app.providers.llm.stub import StubProvider
+    from app.services.answer import get_cache
+
+    settings = Settings()
+    get_cache(settings).invalidate()
+    spy = SpyRetriever()
+    prov = StubProvider()
+
+    answer_question("What is the current tuition credit fee?", spy, prov, settings)
+    answer_question("What were the old 2023 rules compared to today?", spy, prov, settings)
+    assert spy.seen == [False, True]
+    get_cache(settings).invalidate()
+
+
+def test_validation_fallback_never_cached_and_increments_metric() -> None:
+    from app.retrieval.stub import StubRetriever
+    from app.routes import metrics
+    from app.services.answer import get_cache
+
+    settings = Settings()
+    get_cache(settings).invalidate()
+    ret = StubRetriever()
+    prov = MockFaultyProvider()
+
+    fb_before = metrics.FALLBACKS._value.get()
+    resp = answer_question("How are lab marks distributed uniquely?", ret, prov, settings)
+    assert metrics.FALLBACKS._value.get() >= fb_before + 1
+    assert get_cache(settings).get(
+        "How are lab marks distributed uniquely?",
+        ret.embed_query("How are lab marks distributed uniquely?"),
+    ) is None
+    assert "Based on" in resp.answer
+
+

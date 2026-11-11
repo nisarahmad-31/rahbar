@@ -103,27 +103,60 @@ jobs:
         with:
           cluster_name: rahbar-prod
 
+      - name: Pull published SHA images and load into kind
+        run: |
+          if [ -n "${{ secrets.DOCKERHUB_USERNAME }}" ] && [ -n "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+            PREFIX="${{ secrets.DOCKERHUB_USERNAME }}"
+          else
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+            REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            PREFIX="ghcr.io/${REPO_OWNER}"
+          fi
+          docker pull "${PREFIX}/rahbar-api:${{ github.sha }}"
+          docker pull "${PREFIX}/rahbar-indexer:${{ github.sha }}"
+          docker pull "${PREFIX}/rahbar-ui:${{ github.sha }}"
+          kind load docker-image "${PREFIX}/rahbar-api:${{ github.sha }}" --name rahbar-prod
+          kind load docker-image "${PREFIX}/rahbar-indexer:${{ github.sha }}" --name rahbar-prod
+          kind load docker-image "${PREFIX}/rahbar-ui:${{ github.sha }}" --name rahbar-prod
+          echo "IMAGE_PREFIX=${PREFIX}" >> $GITHUB_ENV
+
       - name: Deploy Kubernetes manifests
         run: |
-          kubectl apply -k k8s/overlays/prod
+          kubectl apply -f k8s/base/namespace.yaml
+          kubectl create configmap rahbar-corpus --from-file=eval/fixtures -n rahbar --dry-run=client -o yaml | kubectl apply -f -
           kubectl create secret generic rahbar-secret -n rahbar --from-literal=LLM_API_KEY="prod-key" --dry-run=client -o yaml | kubectl apply -f -
+          kubectl apply -k k8s/overlays/prod
+          kubectl patch configmap rahbar-config -n rahbar --type merge -p '{"data":{"LLM_PROVIDER":"stub","RELEVANCE_FLOOR":"0.15"}}'
 
-      - name: Update deployment image to commit SHA
+      - name: Update workload images to commit SHA and index corpus
         run: |
-          if [ -n "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
-            IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/rahbar-api:${{ github.sha }}"
-          else
-            REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-            IMAGE="ghcr.io/${REPO_OWNER}/rahbar-api:${{ github.sha }}"
-          fi
-          kubectl set image deployment/api api=${IMAGE} -n rahbar || true
+          kubectl set image deployment/api api="${IMAGE_PREFIX}/rahbar-api:${{ github.sha }}" -n rahbar
+          kubectl set image deployment/ui ui="${IMAGE_PREFIX}/rahbar-ui:${{ github.sha }}" -n rahbar
+          kubectl set image cronjob/reindex indexer="${IMAGE_PREFIX}/rahbar-indexer:${{ github.sha }}" -n rahbar
+          kubectl rollout status statefulset/chroma -n rahbar --timeout=180s
+          kubectl rollout status deployment/redis -n rahbar --timeout=120s
+          kubectl delete job indexer -n rahbar --ignore-not-found
+          kubectl create job indexer --from=cronjob/reindex -n rahbar
+          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=180s
 
       - name: Wait for API rollout status
         run: |
-          kubectl rollout status deployment/api -n rahbar --timeout=180s || true
+          kubectl rollout status deployment/api -n rahbar --timeout=180s
+          kubectl rollout status deployment/ui -n rahbar --timeout=120s
 
-      - name: Ingress smoke test
+      - name: Live API and Ingress object smoke test
         run: |
+          kubectl get ingress rahbar-ingress -n rahbar
           kubectl port-forward svc/api 8000:8000 -n rahbar &
-          sleep 5
-          curl -f http://127.0.0.1:8000/healthz || exit 0
+          PF_PID=$!
+          trap "kill $PF_PID 2>/dev/null || true" EXIT
+          for i in $(seq 1 20); do
+            if curl -sf http://127.0.0.1:8000/readyz >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:8000/healthz
+          curl -sf http://127.0.0.1:8000/readyz
+          curl -sf -X POST http://127.0.0.1:8000/api/ask -H "Content-Type: application/json" -d '{"question":"When is a student placed on academic warning?"}'

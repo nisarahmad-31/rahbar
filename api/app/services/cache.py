@@ -61,9 +61,11 @@ class SemanticCache:
         ]
         return any(signals)
 
-    def should_never_cache(self, question: str, response: AskResponse) -> bool:
-        """Never-cache rules: follow-ups, abstentions, and low-confidence responses."""
-        if self.is_followup(question):
+    def should_never_cache(
+        self, question: str, response: AskResponse, fallback_used: bool = False
+    ) -> bool:
+        """Never-cache rules: follow-ups, abstentions, fallbacks, and low-confidence uncited replies."""
+        if fallback_used or self.is_followup(question):
             return True
         if not response.answered_from_context:
             return True
@@ -105,9 +107,15 @@ class SemanticCache:
 
         return None
 
-    def set(self, question: str, query_vector: list[float], response: AskResponse) -> None:
+    def set(
+        self,
+        question: str,
+        query_vector: list[float],
+        response: AskResponse,
+        fallback_used: bool = False,
+    ) -> None:
         """Store response in semantic cache unless prohibited by never-cache rules."""
-        if self.should_never_cache(question, response):
+        if self.should_never_cache(question, response, fallback_used=fallback_used):
             log.debug("Skipping cache according to never-cache rules.")
             return
 

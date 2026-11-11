@@ -42,5 +42,16 @@ _PASSAGES = [
 class StubRetriever:
     name = "stub"
 
-    def retrieve(self, question: str, k: int) -> list[Passage]:
+    def embed_query(self, question: str) -> list[float]:
+        from .chroma import _deterministic_query_vector
+
+        return _deterministic_query_vector(question)
+
+    def retrieve(
+        self,
+        question: str,
+        k: int,
+        include_superseded: bool = False,
+        query_vector: list[float] | None = None,
+    ) -> list[Passage]:
         return [p.model_copy() for p in _PASSAGES[:k]]

@@ -9,6 +9,9 @@ from .models import Document, Page
 RUNNING_HEADER_PATTERNS = [
     re.compile(r"^Page \d+(?: of \d+)?$", re.M | re.I),
     re.compile(r"^FAST-NUCES (?:Student|Academic) Handbook.*$", re.M | re.I),
+    re.compile(r"^Undergraduate Academic Rules and Regulations \d{4}$", re.M | re.I),
+    re.compile(r"^Student Handbook \d{4}$", re.M | re.I),
+    re.compile(r"^NATIONAL UNIVERSITY OF COMPUTER AND EMERGING SCIENCES$", re.M),
     re.compile(r"^Annual Report \d{4}-\d{2,4}$", re.M | re.I),
     re.compile(r"^\d+\s*\|\s*P a g e$", re.M | re.I),
     re.compile(r"^P a g e\s*\|\s*\d+$", re.M | re.I),
