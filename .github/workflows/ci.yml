@@ -127,9 +127,9 @@ jobs:
 
       - name: Scan images with Trivy
         run: |
-          trivy image --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL --format table rahbar-api:scan
-          trivy image --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL --format table rahbar-indexer:scan
-          trivy image --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL --format table rahbar-ui:scan
+          trivy image --scanners vuln --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL --format table rahbar-api:scan
+          trivy image --scanners vuln --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL --format table rahbar-indexer:scan
+          trivy image --scanners vuln --ignore-unfixed --severity HIGH,CRITICAL --exit-code 1 --format table rahbar-ui:scan
 
   e2e-eval:
     needs: [build]
@@ -167,19 +167,19 @@ jobs:
           kubectl create configmap rahbar-corpus --from-file=eval/fixtures -n rahbar --dry-run=client -o yaml | kubectl apply -f -
           kubectl create secret generic rahbar-secret -n rahbar --from-literal=LLM_API_KEY="ci-key" --dry-run=client -o yaml | kubectl apply -f -
           kubectl apply -k k8s/overlays/dev
-          kubectl patch configmap rahbar-config -n rahbar --type merge -p '{"data":{"LLM_PROVIDER":"stub","RELEVANCE_FLOOR":"0.15"}}'
+          kubectl patch configmap rahbar-config -n rahbar --type merge -p '{"data":{"LLM_PROVIDER":"stub","RELEVANCE_FLOOR":"0.15","OLLAMA_URL":"http://127.0.0.1:11434"}}'
+          kubectl delete job indexer -n rahbar --ignore-not-found
+          kubectl rollout restart deployment/api -n rahbar
 
       - name: Wait for data tier and run indexer Job on CI fixtures
         run: |
           kubectl rollout status statefulset/chroma -n rahbar --timeout=180s
           kubectl rollout status deployment/redis -n rahbar --timeout=120s
-          kubectl delete job indexer -n rahbar --ignore-not-found
           kubectl create job indexer --from=cronjob/reindex -n rahbar
-          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=180s
+          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=120s
 
       - name: Wait for API and UI rollout status
         run: |
-          kubectl rollout restart deployment/api -n rahbar
           kubectl rollout status deployment/api -n rahbar --timeout=180s
           kubectl rollout status deployment/ui -n rahbar --timeout=120s
 

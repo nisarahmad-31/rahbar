@@ -33,6 +33,17 @@ spec:
         runAsNonRoot: true
         runAsUser: 999
         fsGroup: 999
+      initContainers:
+        - name: init-redis-data
+          image: busybox:1.36.1
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "chown -R 999:999 /data"]
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
       containers:
         - name: redis
           image: redis:7.4-alpine
