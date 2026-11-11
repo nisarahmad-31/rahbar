@@ -119,32 +119,17 @@ jobs:
           docker build -t rahbar-indexer:scan indexer
           docker build -t rahbar-ui:scan ui
 
-      - name: Scan API image with Trivy
-        uses: aquasecurity/trivy-action@v0.29.0
-        with:
-          image-ref: rahbar-api:scan
-          format: "table"
-          exit-code: "0"
-          ignore-unfixed: true
-          severity: "HIGH,CRITICAL"
+      - name: Install Trivy
+        run: |
+          TRIVY_VER="0.76.2"
+          curl -sfL "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VER}/trivy_${TRIVY_VER}_Linux-64bit.tar.gz" | tar -xz -C /tmp trivy
+          sudo mv /tmp/trivy /usr/local/bin/trivy
 
-      - name: Scan Indexer image with Trivy
-        uses: aquasecurity/trivy-action@v0.29.0
-        with:
-          image-ref: rahbar-indexer:scan
-          format: "table"
-          exit-code: "0"
-          ignore-unfixed: true
-          severity: "HIGH,CRITICAL"
-
-      - name: Scan UI image with Trivy
-        uses: aquasecurity/trivy-action@v0.29.0
-        with:
-          image-ref: rahbar-ui:scan
-          format: "table"
-          exit-code: "0"
-          ignore-unfixed: true
-          severity: "HIGH,CRITICAL"
+      - name: Scan images with Trivy
+        run: |
+          trivy image --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL --format table rahbar-api:scan
+          trivy image --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL --format table rahbar-indexer:scan
+          trivy image --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL --format table rahbar-ui:scan
 
   e2e-eval:
     needs: [build]
@@ -176,22 +161,47 @@ jobs:
           kind load docker-image rahbar-indexer:dev --name rahbar-ci
           kind load docker-image rahbar-ui:dev --name rahbar-ci
 
-      - name: Apply Kubernetes manifests
+      - name: Apply Kubernetes manifests and CI fixture corpus
         run: |
-          kubectl apply -k k8s/overlays/dev
+          kubectl apply -f k8s/base/namespace.yaml
+          kubectl create configmap rahbar-corpus --from-file=eval/fixtures -n rahbar --dry-run=client -o yaml | kubectl apply -f -
           kubectl create secret generic rahbar-secret -n rahbar --from-literal=LLM_API_KEY="ci-key" --dry-run=client -o yaml | kubectl apply -f -
+          kubectl apply -k k8s/overlays/dev
+          kubectl patch configmap rahbar-config -n rahbar --type merge -p '{"data":{"LLM_PROVIDER":"stub","RELEVANCE_FLOOR":"0.15"}}'
 
-      - name: Run indexer Job on CI fixtures
+      - name: Wait for data tier and run indexer Job on CI fixtures
         run: |
-          kubectl set env job/indexer CORPUS_DIR=eval/fixtures -n rahbar || true
-          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=120s || true
+          kubectl rollout status statefulset/chroma -n rahbar --timeout=180s
+          kubectl rollout status deployment/redis -n rahbar --timeout=120s
+          kubectl delete job indexer -n rahbar --ignore-not-found
+          kubectl create job indexer --from=cronjob/reindex -n rahbar
+          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=180s
 
-      - name: Wait for API rollout status
+      - name: Wait for API and UI rollout status
         run: |
+          kubectl rollout restart deployment/api -n rahbar
           kubectl rollout status deployment/api -n rahbar --timeout=180s
+          kubectl rollout status deployment/ui -n rahbar --timeout=120s
 
       - name: Run eval gate against live stack
         run: |
           kubectl port-forward svc/api 8000:8000 -n rahbar &
-          sleep 5
-          python eval/run_eval.py --api http://127.0.0.1:8000 --golden eval/fixtures/golden.fixture.yaml --baseline eval/fixtures/baseline.fixture.json --update-baseline
+          PF_PID=$!
+          trap "kill $PF_PID 2>/dev/null || true" EXIT
+          for i in $(seq 1 20); do
+            if curl -sf http://127.0.0.1:8000/readyz >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:8000/readyz
+          python eval/run_eval.py --api http://127.0.0.1:8000 --golden eval/fixtures/golden.fixture.yaml --baseline /tmp/no-baseline.json --out /tmp/e2e-results.json
+
+      - name: Dump cluster diagnostics on failure
+        if: failure()
+        run: |
+          kubectl get all -n rahbar || true
+          kubectl describe pods -n rahbar || true
+          kubectl logs job/indexer -n rahbar || true
+          kubectl logs -l app.kubernetes.io/name=chroma -n rahbar --tail=50 || true
+          kubectl logs -l app.kubernetes.io/name=api -n rahbar --tail=50 || true

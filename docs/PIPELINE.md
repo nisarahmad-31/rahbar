@@ -90,3 +90,12 @@ RAHBAR caches previous question-answer pairs in Redis using cosine similarity on
 Recall@k is computed by matching the retrieved `(source, section)` pairs in the API response against the golden ground-truth annotations:
 $$\text{recall@}k = \frac{\text{relevant passages retrieved in top } k}{\text{total relevant passages}}$$
 Section matching is performed case-insensitively with substring tolerance, allowing `5.4 Academic Warning` to match clause `5.4`. Citation validity requires that 100% of generated citations reference chunks present in the query's `retrieved` payload.
+
+---
+
+## 7. Corpus Delivery to the Indexer Job
+
+Third-party university documents (`corpus/raw/`) are never committed to Git or baked into container images directly (`34.9 MB`, exceeding Git/ConfigMap limits). Instead, `k8s/base/indexer-job.yaml` and `k8s/base/reindex-cronjob.yaml` use a two-tier delivery path:
+1. **Mounted Corpus (`/corpus`)**: An optional `rahbar-corpus` ConfigMap (used by CI `e2e-eval` to mount the tiny `eval/fixtures/` Markdown files) or volume is checked first at `CORPUS_DIR=/corpus`.
+2. **Respectful Startup Bootstrap (`/tmp/corpus`)**: When `/corpus` contains no files (e.g., on a fresh clone running against the real university corpus), `pipeline/run.py` fetches documents one at a time with a 2-second rate limit from `sources.yaml` into writable `/tmp/corpus` (respecting `readOnlyRootFilesystem: true`) before running Extract -> Clean -> Chunk -> Embed -> Store.
+

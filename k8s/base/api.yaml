@@ -36,6 +36,8 @@ spec:
             - configMapRef:
                 name: rahbar-config
           env:
+            - name: HOME
+              value: "/tmp"
             - name: LLM_API_KEY
               valueFrom:
                 secretKeyRef:

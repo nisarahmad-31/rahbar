@@ -23,7 +23,9 @@ spec:
         - name: indexer
           image: rahbar-indexer:dev
           imagePullPolicy: IfNotPresent
-          args: ["--dummy"]
+          env:
+            - name: HOME
+              value: "/tmp"
           envFrom:
             - configMapRef:
                 name: rahbar-config
@@ -43,6 +45,13 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+            - name: corpus
+              mountPath: /corpus
+              readOnly: true
       volumes:
         - name: tmp
           emptyDir: {}
+        - name: corpus
+          configMap:
+            name: rahbar-corpus
+            optional: true
