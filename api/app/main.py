@@ -33,29 +33,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.retriever = get_retriever(settings)
     app.state.provider = get_provider(settings)
 
-    # Compare collection's embedding-model metadata with settings.embed_model
-    if settings.retriever == "chroma":
-        try:
-            import chromadb
-            from chromadb.config import Settings as ChromaSettings
-
-            client = chromadb.HttpClient(
-                host=settings.chroma_host,
-                port=settings.chroma_port,
-                settings=ChromaSettings(anonymized_telemetry=False),
-            )
-            col = client.get_collection(settings.collection)
-            col_meta = col.metadata or {}
-            stored_model = col_meta.get("embed_model")
-            if stored_model and stored_model != settings.embed_model:
-                log.error(
-                    "embedding_model mismatch at startup: collection model '%s' != configured '%s'",
-                    stored_model,
-                    settings.embed_model,
-                )
-        except Exception as exc:
-            log.warning("Chroma startup check deferred: %s", exc)
-
+    # Defer Chroma / embed_model checks to /readyz so port 8000 binds immediately
+    # and startupProbe (/healthz) never blocks waiting for Chroma during cold boot.
     log.info(
         "api started",
         extra={

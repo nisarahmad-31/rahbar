@@ -56,14 +56,14 @@ def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
     if not texts:
         return []
 
-    batch_size = 32
+    batch_size = 8
     all_embeddings: list[list[float]] = []
     embed_url = f"{settings.ollama_url.rstrip('/')}/api/embed"
 
     for i in range(0, len(texts), batch_size):
         batch = texts[i : i + batch_size]
         try:
-            with httpx.Client(timeout=30.0) as client:
+            with httpx.Client(timeout=90.0) as client:
                 res = client.post(
                     embed_url,
                     json={"model": settings.embed_model, "input": batch},

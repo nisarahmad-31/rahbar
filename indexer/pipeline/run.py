@@ -148,7 +148,13 @@ def run_pipeline(settings: IndexerSettings) -> int:
     for path, doc_version, superseded in documents:
         doc = clean(extract(str(path), doc_version, superseded))
         pieces = chunk(doc, settings.chunk_size, settings.chunk_overlap)
-        log("chunked", source=path.name, chunks=len(pieces))
+        log(
+            "chunked",
+            source=path.name,
+            pages=len(doc.pages),
+            ocr_pages=sum(1 for p in doc.pages if p.ocr),
+            chunks=len(pieces),
+        )
         all_chunks.extend(pieces)
     vectors = embed([c.text for c in all_chunks], settings)
     return store(all_chunks, vectors, settings)

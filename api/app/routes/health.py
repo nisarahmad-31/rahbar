@@ -31,16 +31,19 @@ def readyz(request: Request, response: Response) -> dict[str, object]:
     if settings.retriever == "stub":
         return {"status": "ready", "checks": {"retriever": "stub", "provider": "stub"}}
 
-    # 1. Chroma & collection check
+    # 1. Chroma & collection check (reuse client to keep probe latency <20ms)
     try:
-        import chromadb
-        from chromadb.config import Settings as ChromaSettings
+        chroma_client = getattr(request.app.state, "_chroma_client", None)
+        if chroma_client is None:
+            import chromadb
+            from chromadb.config import Settings as ChromaSettings
 
-        chroma_client = chromadb.HttpClient(
-            host=settings.chroma_host,
-            port=settings.chroma_port,
-            settings=ChromaSettings(anonymized_telemetry=False),
-        )
+            chroma_client = chromadb.HttpClient(
+                host=settings.chroma_host,
+                port=settings.chroma_port,
+                settings=ChromaSettings(anonymized_telemetry=False),
+            )
+            request.app.state._chroma_client = chroma_client
         chroma_client.heartbeat()
         checks["chroma"] = "reachable"
 
@@ -68,6 +71,7 @@ def readyz(request: Request, response: Response) -> dict[str, object]:
             checks["embedding_model"] = "match"
 
     except Exception as exc:
+        request.app.state._chroma_client = None
         failures.append(f"chroma unreachable: {exc}")
         checks["chroma"] = f"unreachable: {exc}"
 

@@ -29,6 +29,7 @@ spec:
         app.kubernetes.io/component: cache
     spec:
       automountServiceAccountToken: false
+      enableServiceLinks: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
