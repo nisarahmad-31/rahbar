@@ -5,20 +5,44 @@ from __future__ import annotations
 import hashlib
 import logging
 import math
+import re
 import httpx
 
 from .config import IndexerSettings
 
 log = logging.getLogger("rahbar.embed")
 
+_STOP_WORDS = frozenset({
+    "a", "an", "the", "is", "are", "was", "were", "be", "been", "to", "of",
+    "in", "on", "at", "for", "with", "and", "or", "what", "when", "where",
+    "who", "how", "do", "does", "did", "i", "my", "it", "this", "that", "if",
+    "can", "may", "under", "per", "as", "by", "from", "into", "about",
+})
+
 
 def _deterministic_vector(text: str, dim: int = 768) -> list[float]:
-    """Fallback deterministic unit vector if Ollama is unreachable in offline tests."""
-    vec = []
-    for i in range(dim):
-        h = hashlib.sha256(f"{i}:{text}".encode()).hexdigest()
-        val = (int(h[:8], 16) / 0xFFFFFFFF) * 2.0 - 1.0
-        vec.append(val)
+    """Deterministic feature-hashed lexical unit vector when Ollama is unreachable offline."""
+    tokens = [
+        t for t in re.findall(r"[a-z0-9]+(?:\.[0-9]+)?", text.lower())
+        if t not in _STOP_WORDS and len(t) > 1
+    ]
+    if not tokens:
+        tokens = [text.lower() or "empty"]
+    features: list[tuple[str, float]] = [(t, 1.0) for t in tokens]
+    for t in tokens:
+        if len(t) >= 5 and t.isalpha():
+            features.append((f"stem:{t[:4]}", 0.7))
+    for a, b in zip(tokens, tokens[1:]):
+        features.append((f"{a}_{b}", 1.2))
+
+    vec = [0.0] * dim
+    for feat, weight in features:
+        h = hashlib.sha256(feat.encode("utf-8")).digest()
+        for off in (0, 4, 8):
+            idx = int.from_bytes(h[off : off + 2], "big") % dim
+            sign = 1.0 if (h[off + 2] & 1) == 0 else -1.0
+            vec[idx] += sign * weight
+
     norm = math.sqrt(sum(x * x for x in vec)) or 1.0
     return [x / norm for x in vec]
 

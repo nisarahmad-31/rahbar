@@ -45,6 +45,7 @@ def store(chunks: list[Chunk], vectors: list[list[float]], settings: IndexerSett
     col_meta = {
         "embed_model": settings.embed_model,
         "dimension": dimension,
+        "hnsw:space": "cosine",
     }
 
     try:

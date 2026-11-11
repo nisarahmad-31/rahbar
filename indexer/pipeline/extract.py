@@ -105,6 +105,13 @@ def extract(path: str, doc_version: str, superseded: bool) -> Document:
 
     else:
         text = file_path.read_text(encoding="utf-8", errors="replace")
+        # Strip YAML front matter (used by CI fixture Markdown files) so metadata is not indexed as prose
+        lines = text.splitlines()
+        if lines and lines[0].strip() == "---":
+            for end_idx in range(1, len(lines)):
+                if lines[end_idx].strip() == "---":
+                    text = "\n".join(lines[end_idx + 1 :]).lstrip()
+                    break
         pages.append(Page(source=source, page=1, text=text, ocr=False))
 
     return Document(source=source, doc_version=doc_version, superseded=superseded, pages=pages)

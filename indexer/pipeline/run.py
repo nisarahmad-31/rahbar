@@ -12,12 +12,76 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
+from urllib.parse import quote, urlsplit
 
 from .config import IndexerSettings, get_settings
 from .models import Chunk
+
+_PAUSE_SECONDS = 2.0
+_DRIVE_VIEW = re.compile(r"https?://drive\.google\.com/file/d/([^/?#]+)")
+
+
+def _normalise_url(url: str) -> str:
+    m = _DRIVE_VIEW.match(url)
+    if m:
+        return f"https://drive.google.com/uc?export=download&id={m.group(1)}"
+    return quote(url, safe=":/?&=%#+,;@!$'()*~")
+
+
+def _slug(name: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")[:80] or "document"
+
+
+def _guess_ext(url: str, content_type: str) -> str:
+    ct = content_type.lower()
+    if "pdf" in ct:
+        return ".pdf"
+    if "html" in ct:
+        return ".html"
+    suffix = Path(urlsplit(url).path).suffix.lower()
+    return suffix if suffix in {".pdf", ".html", ".htm", ".txt", ".md"} else ".bin"
+
+
+def _bootstrap_corpus_from_sources(sources_path: Path, dest_dir: Path) -> None:
+    """Respectful one-at-a-time fallback fetch into /tmp/corpus when /corpus is empty."""
+    import httpx
+    import yaml  # type: ignore[import-untyped]
+
+    data = yaml.safe_load(sources_path.read_text(encoding="utf-8")) or {}
+    docs = data.get("documents") or []
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    entries: list[dict[str, object]] = []
+    headers = {"User-Agent": "RAHBAR-coursework-fetcher/1.0 (CS4032 student project; one request at a time)"}
+
+    with httpx.Client(headers=headers, follow_redirects=True, timeout=60.0) as client:
+        for i, doc in enumerate(docs):
+            url = _normalise_url(str(doc["url"]))
+            name = str(doc["name"])
+            try:
+                resp = client.get(url)
+                if resp.status_code == 200:
+                    ext = _guess_ext(url, resp.headers.get("content-type", ""))
+                    fname = f"{_slug(name)}{ext}"
+                    (dest_dir / fname).write_bytes(resp.content)
+                    entries.append({
+                        "name": name,
+                        "file": fname,
+                        "doc_version": str(doc.get("doc_version", "unknown")),
+                        "superseded": bool(doc.get("superseded", False)),
+                    })
+                    log("fetched", file=fname, bytes=len(resp.content))
+                else:
+                    log("fetch failed", name=name, status=resp.status_code)
+            except Exception as exc:
+                log("fetch error", name=name, error=str(exc))
+            if i + 1 < len(docs):
+                time.sleep(_PAUSE_SECONDS)
+
+    (dest_dir / "_index.json").write_text(json.dumps(entries, indent=2), encoding="utf-8")
 
 
 def log(msg: str, **fields: object) -> None:
@@ -71,6 +135,13 @@ def run_pipeline(settings: IndexerSettings) -> int:
     from .store import store
 
     documents = discover(settings.corpus_dir)
+    if not documents:
+        sources_file = Path(os.environ.get("CORPUS_SOURCES_FILE", "/app/sources.yaml"))
+        if sources_file.exists():
+            tmp_dir = Path(os.environ.get("TMP_CORPUS_DIR", "/tmp/corpus"))
+            log("corpus_dir empty, bootstrapping politely from sources.yaml", dest=str(tmp_dir))
+            _bootstrap_corpus_from_sources(sources_file, tmp_dir)
+            documents = discover(str(tmp_dir))
     if not documents:
         raise SystemExit(f"no documents found in {settings.corpus_dir}")
     all_chunks: list[Chunk] = []

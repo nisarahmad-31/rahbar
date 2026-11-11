@@ -6,9 +6,38 @@ import re
 from .models import Chunk, Document
 
 HEADING_PATTERN = re.compile(
-    r"^(?:#{1,4}\s+|(?:\d+\.)+\d*\s+|[A-Z][A-Za-z0-9\s,-]{2,40}:)(.+)$",
-    re.M,
+    r"^(?:#{1,6}\s+\S+|(?:\d+\.)+\d*\s+[A-Z][^.!?\n]{1,70}|[A-Z][A-Za-z0-9\s,-]{2,40}:)$"
 )
+
+
+def _is_heading(line: str) -> bool:
+    """Return True for Markdown headers or concise section titles, not full prose sentences."""
+    s = line.strip()
+    if not s:
+        return False
+    if s.startswith("#"):
+        return True
+    if len(s) <= 80 and len(s.split()) <= 10 and not s.endswith((".", "!", "?")):
+        return bool(HEADING_PATTERN.match(s))
+    return False
+
+
+def _merge_standalone_headings(paragraphs: list[str]) -> list[str]:
+    """Attach a bare single-line heading paragraph to its following body paragraph so chunks retain context."""
+    merged: list[str] = []
+    i = 0
+    while i < len(paragraphs):
+        p = paragraphs[i]
+        next_is_heading = (
+            i + 1 < len(paragraphs) and _is_heading(paragraphs[i + 1].split("\n")[0])
+        )
+        if "\n" not in p and _is_heading(p) and i + 1 < len(paragraphs) and not next_is_heading:
+            merged.append(f"{p}\n{paragraphs[i + 1]}")
+            i += 2
+        else:
+            merged.append(p)
+            i += 1
+    return merged
 
 
 def _approx_token_count(text: str) -> int:
@@ -31,14 +60,14 @@ def chunk(doc: Document, size: int, overlap: int) -> list[Chunk]:
     chunk_index = 0
 
     for page in doc.pages:
-        paragraphs = [p.strip() for p in page.text.split("\n\n") if p.strip()]
-        
+        raw_paragraphs = [p.strip() for p in page.text.split("\n\n") if p.strip()]
+        paragraphs = _merge_standalone_headings(raw_paragraphs)
+
         for para in paragraphs:
-            # Check if paragraph begins with a heading or clause
+            # Check if paragraph begins with a heading or clause title
             lines = para.split("\n")
             first_line = lines[0].strip()
-            heading_match = HEADING_PATTERN.match(first_line)
-            if heading_match or first_line.startswith("#"):
+            if _is_heading(first_line):
                 current_section = first_line.lstrip("#").strip()
 
             para_tokens = _approx_token_count(para)
