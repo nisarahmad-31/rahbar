@@ -132,31 +132,14 @@ def extract(path: str, doc_version: str, superseded: bool) -> Document:
     if suffix == ".pdf":
         try:
             ocr_needed: list[int] = []
-            with pdfplumber.open(file_path) as pdf:
-                for idx, pl_page in enumerate(pdf.pages, start=1):
-                    try:
-                        text = pl_page.extract_text() or ""
+            reader = PdfReader(str(file_path))
+            for idx, page in enumerate(reader.pages, start=1):
+                text = page.extract_text() or ""
+                if len(text.strip()) < 20:
+                    ocr_needed.append(idx)
+                pages.append(Page(source=source, page=idx, text=text, ocr=False))
 
-                        # Extract tables only on pages with grid lines/rectangles to avoid costly scans on prose pages.
-                        if len(pl_page.lines) >= 4 or len(pl_page.rects) >= 4:
-                            tables = pl_page.extract_tables()
-                            table_texts = []
-                            for table in tables:
-                                for row in table:
-                                    clean_row = [str(cell).strip() if cell else "" for cell in row]
-                                    non_empty = [c for c in clean_row if c]
-                                    if len(non_empty) >= 2 and any(any(ch.isalnum() for ch in c) for c in non_empty):
-                                        table_texts.append(" | ".join(clean_row))
-                            if table_texts:
-                                text += "\n\n" + "\n".join(table_texts)
-
-                        if len(text.strip()) < 20:
-                            ocr_needed.append(idx)
-
-                        pages.append(Page(source=source, page=idx, text=text, ocr=False))
-                    finally:
-                        pl_page.flush_cache()
-
+            # Run batched OCR only on scanned pages without an embedded text layer.
             if ocr_needed:
                 ocr_texts = _run_batched_ocr(str(file_path), ocr_needed)
                 for p in pages:
@@ -165,11 +148,14 @@ def extract(path: str, doc_version: str, superseded: bool) -> Document:
                         p.text = ocr_result
                         p.ocr = True
         except Exception as exc:
-            log.warning(f"pdfplumber failed for {source}, falling back to pypdf: {exc}")
-            reader = PdfReader(str(file_path))
-            for idx, page in enumerate(reader.pages, start=1):
-                text = page.extract_text() or ""
-                pages.append(Page(source=source, page=idx, text=text, ocr=False))
+            log.warning(f"pypdf failed for {source}, falling back to pdfplumber: {exc}")
+            with pdfplumber.open(file_path) as pdf:
+                for idx, pl_page in enumerate(pdf.pages, start=1):
+                    try:
+                        text = pl_page.extract_text() or ""
+                        pages.append(Page(source=source, page=idx, text=text, ocr=False))
+                    finally:
+                        pl_page.flush_cache()
 
     elif suffix in (".html", ".htm"):
         raw_html = file_path.read_text(encoding="utf-8", errors="replace")
