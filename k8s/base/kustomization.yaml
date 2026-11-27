@@ -7,6 +7,8 @@ resources:
   - namespace.yaml
   - serviceaccounts.yaml
   - data-pvc.yaml
+  - observability-pvc.yaml
+  - gate-configmap.yaml
   - configmap.yaml
   - chroma.yaml
   - redis.yaml

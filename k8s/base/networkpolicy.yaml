@@ -59,8 +59,10 @@ metadata:
   namespace: rahbar
 spec:
   podSelector:
-    matchLabels:
-      app.kubernetes.io/name: api
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values: ["api", "api-candidate"]
   policyTypes:
     - Ingress
     - Egress
@@ -69,6 +71,9 @@ spec:
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: ui
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: eval-gate
       ports:
         - protocol: TCP
           port: 8000
@@ -102,6 +107,28 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  name: allow-eval-gate
+  namespace: rahbar
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: eval-gate
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values: ["api", "api-candidate"]
+      ports:
+        - protocol: TCP
+          port: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
   name: allow-chroma
   namespace: rahbar
 spec:
@@ -115,6 +142,9 @@ spec:
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: api
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: api-candidate
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: indexer
@@ -138,6 +168,9 @@ spec:
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: api
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: api-candidate
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: indexer

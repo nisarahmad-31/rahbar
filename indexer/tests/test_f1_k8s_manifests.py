@@ -56,7 +56,7 @@ def test_f1_cronjob_and_sole_writer_isolation() -> None:
     netpols = {d["metadata"]["name"]: d for d in _load_docs(K8S_BASE / "networkpolicy.yaml")}
     chroma_from = netpols["allow-chroma"]["spec"]["ingress"][0]["from"]
     allowed_names = {entry["podSelector"]["matchLabels"]["app.kubernetes.io/name"] for entry in chroma_from}
-    assert allowed_names == {"api", "indexer"}
+    assert allowed_names == {"api", "api-candidate", "indexer"}
 
     api_docs = _load_docs(K8S_BASE / "api.yaml")
     api_deploy = next(d for d in api_docs if d["kind"] == "Deployment")

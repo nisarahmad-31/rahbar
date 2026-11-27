@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rahbar-eval-pvc
+  namespace: rahbar
+  labels:
+    app.kubernetes.io/name: eval-gate
+    app.kubernetes.io/component: evaluation
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rahbar-gate-config
+  namespace: rahbar
+  labels:
+    app.kubernetes.io/name: eval-gate
+    app.kubernetes.io/component: evaluation
+data:
+  TARGET_API_URL: "http://api-candidate:8000"
+  EVAL_MODE: "candidate"
+  EVAL_LABEL: "k8s_candidate"
+  EVAL_RUNS: "1"
+  EVAL_STRATIFIED_LIMIT: "12"
+  EVAL_SKIP_NOISE: "true"
+  gate_config.json: |
+    {
+      "description": "Cluster release gate thresholds for Part F2 (ConfigMap-driven, no image rebuild).",
+      "max_recall5_drop": 0.02,
+      "min_faithfulness_lexical": 0.65,
+      "max_latency_p95_ms": 110000.0,
+      "min_abstention_correctness": 0.80,
+      "min_citation_validity": 0.85,
+      "require_abstention_not_lower_than_baseline": false
+    }
