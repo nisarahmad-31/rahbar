@@ -1,0 +1,55 @@
+{
+  "decision": "PASS",
+  "passed": true,
+  "checks": [
+    {
+      "metric": "recall@5_drop",
+      "baseline": 0.7778,
+      "candidate": 0.7778,
+      "measured": 0.0,
+      "threshold": "<= 0.02",
+      "passed": true
+    },
+    {
+      "metric": "faithfulness_lexical",
+      "baseline": 0.7024,
+      "candidate": 0.7083,
+      "measured": 0.7083,
+      "threshold": ">= 0.65",
+      "passed": true
+    },
+    {
+      "metric": "latency_p95_ms",
+      "baseline": 86205.29,
+      "candidate": 45713.3,
+      "measured": 45713.3,
+      "threshold": "<= 110000.0",
+      "passed": true
+    },
+    {
+      "metric": "abstention_correctness",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "measured": 1.0,
+      "threshold": ">= 0.8",
+      "passed": true
+    },
+    {
+      "metric": "citation_validity",
+      "baseline": 0.875,
+      "candidate": 1.0,
+      "measured": 1.0,
+      "threshold": ">= 0.85",
+      "passed": true
+    }
+  ],
+  "config": {
+    "description": "Cluster release gate thresholds for Part F2 (ConfigMap-driven, no image rebuild).",
+    "max_recall5_drop": 0.02,
+    "min_faithfulness_lexical": 0.65,
+    "max_latency_p95_ms": 110000.0,
+    "min_abstention_correctness": 0.8,
+    "min_citation_validity": 0.85,
+    "require_abstention_not_lower_than_baseline": false
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "window": {
+    "since": null,
+    "until": null,
+    "raw_records_loaded": 24,
+    "records_in_window": 24
+  },
+  "summary": {
+    "total_queries": 24,
+    "status_breakdown": {
+      "answered": 4,
+      "abstained": 15,
+      "cache_hit": 1,
+      "fallback": 4,
+      "rejected": 0
+    },
+    "top1_similarity_distribution": {
+      "count": 23,
+      "min": 0.0755,
+      "p25": 0.2635,
+      "p50": 0.5618,
+      "p75": 0.798,
+      "p95": 0.8471,
+      "max": 0.8495,
+      "mean": 0.5272,
+      "buckets": {
+        "<0.55": 10,
+        "0.55-0.65": 3,
+        "0.65-0.75": 1,
+        "0.75-0.85": 9,
+        ">=0.85": 0
+      }
+    },
+    "abstention_count": 15,
+    "abstention_rate": 0.625,
+    "cache_hit_count": 1,
+    "cache_hit_rate": 0.0417,
+    "p50_latency_ms_per_stage": {
+      "total": 359.01,
+      "embed": 135.84,
+      "cache": 9.11,
+      "retrieval": 29.7,
+      "guardrail": 0.01,
+      "generation": 0.0
+    },
+    "p95_latency_ms_per_stage": {
+      "total": 79472.1,
+      "embed": 3511.16,
+      "cache": 49.6,
+      "retrieval": 151.86,
+      "guardrail": 2.92,
+      "generation": 79228.2
+    },
+    "injection_attempts_flagged": 3,
+    "injection_events_count": 3,
+    "injection_trace_ids": [
+      "aeb068eed98f4ffc9c940cd05f36c94d",
+      "45f268e28f2f4a46a26897f9a6f09b6f",
+      "a273326591374422bfbb575b034c3870"
+    ],
+    "injection_flagged_chunks": [
+      "advisor-notice@2026-10-1-2"
+    ]
+  }
+}

@@ -1,0 +1,826 @@
+{
+  "timestamp": "2026-11-27T17:32:32Z",
+  "label": "k8s_candidate_topk1",
+  "seed": 42,
+  "api_url": "http://api-candidate:8000",
+  "golden_path": "/app/eval/golden.jsonl",
+  "module_embedding": {
+    "timestamp": "2026-11-27T11:15:53Z",
+    "model": "nomic-embed-text",
+    "backend": "ollama",
+    "ollama_url": "http://172.28.112.1:11434",
+    "dimensions": 768,
+    "seed": 42,
+    "chunk_size": 400,
+    "chunk_overlap": 50,
+    "hardware_context": {
+      "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "python": "3.12.3",
+      "cpu_count": 8
+    },
+    "paraphrase_pairs_count": 16,
+    "unrelated_pairs_count": 16,
+    "paraphrase_mean_cosine": 0.719447,
+    "unrelated_mean_cosine": 0.435815,
+    "cosine_similarity_gap": 0.283633,
+    "paraphrase_similarities": [
+      0.825504,
+      0.729658,
+      0.655322,
+      0.707802,
+      0.772311,
+      0.737012,
+      0.761365,
+      0.675403,
+      0.779817,
+      0.713193,
+      0.685027,
+      0.678217,
+      0.571505,
+      0.635481,
+      0.802886,
+      0.780654
+    ],
+    "unrelated_similarities": [
+      0.409005,
+      0.446533,
+      0.549065,
+      0.402201,
+      0.415214,
+      0.534599,
+      0.394063,
+      0.461121,
+      0.433541,
+      0.391706,
+      0.428134,
+      0.449642,
+      0.464044,
+      0.405071,
+      0.422589,
+      0.366506
+    ],
+    "chunks_timed": 17,
+    "total_embed_ms": 3546.289,
+    "ms_per_chunk": 208.605,
+    "determinism": {
+      "sample_text": "A student whose cumulative grade point average falls below 2.00 is placed on Academic Warning.",
+      "max_abs_diff": 0.0,
+      "l2_diff": 0.0,
+      "exact_match": true
+    },
+    "chunk_embed_stats": {
+      "chunks_embedded": 17,
+      "embed_api_calls": 3,
+      "ollama_calls": 3,
+      "fallback_calls": 0
+    },
+    "actual_chunk_vectors_count": 17
+  },
+  "run1": {
+    "summary": {
+      "questions_total": 12,
+      "answerable_count": 9,
+      "unanswerable_count": 3,
+      "recall@3": 0.6667,
+      "recall@5": 0.6667,
+      "mrr": 0.7778,
+      "ndcg@5": 0.6918,
+      "faithfulness_lexical": 0.6945,
+      "faithfulness_llm_judge": null,
+      "abstention_correctness": 1.0,
+      "citation_validity": 1.0,
+      "latency_p50_ms": 15624.68,
+      "latency_p95_ms": 29710.88
+    },
+    "rows": [
+      {
+        "id": "g01",
+        "query": "What CGPA puts an undergraduate student on Academic Warning?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "2.00",
+        "citations": [
+          {
+            "source": "b03_academic_rules_2026.md",
+            "section": "1. Academic Standing and Warning",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2026-11-1-1"
+        ],
+        "retrieved_sources": [
+          "b03_academic_rules_2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 26196.85
+      },
+      {
+        "id": "g04",
+        "query": "What minimum CGPA is required to graduate?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "not available",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 13326.13
+      },
+      {
+        "id": "g07",
+        "query": "How much attendance shortage can the Head of Department condone for an inpatient medical emergency?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "10 percent",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "2. Condonation for Medical Emergencies",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-2"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 17923.23
+      },
+      {
+        "id": "g11",
+        "query": "How many grade points do A- and B+ carry on the 4.00 grading scale?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "{\"A-\": 3.67, \"B+\": 3.33}",
+        "citations": [
+          {
+            "source": "grading-scale-2026.md",
+            "section": "1. Letter Grades and Grade Points",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 24695.32
+      },
+      {
+        "id": "g14",
+        "query": "What is the daily overdue fine per book at the central library?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "PKR 50",
+        "citations": [
+          {
+            "source": "library-rules-2026.md",
+            "section": "2. Overdue Fines and Reference Material",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-2"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 20719.16
+      },
+      {
+        "id": "g17",
+        "query": "If a student drops a course on day 15 of classes, how much of their BS per-credit tuition is refunded and what was the original rate per credit?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "Based on fee-schedule-2026.md (3. Tuition Refund Timeline): ## 3. Tuition Refund Timeline\n3.1 A full 100 percent tuition refund is granted when a course is dropped within the first 10 calendar days of classes. Between day 11 and day 20, a 50 percent refund applies. No tuition refund is issued after day 20....",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "3. Tuition Refund Timeline",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-3"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.75,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 12432.69
+      },
+      {
+        "id": "g21",
+        "query": "What penalty can the Unfair Means Committee impose if a candidate cheats, and can a repeated course replace that F under Fall 2026 rules?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "Based on b02_exam_conduct_2026.md (2. Penalties for Unfair Means): ## 2. Penalties for Unfair Means\n2.1 Any student found using unfair means during a mid-term or final examination shall have the paper cancelled and be referred to the Unfair Means Committee, which may award an F grade in the course or suspend enrollm...",
+        "citations": [
+          {
+            "source": "b02_exam_conduct_2026.md",
+            "section": "2. Penalties for Unfair Means",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "exam-conduct@2026-09-1-2"
+        ],
+        "retrieved_sources": [
+          "b02_exam_conduct_2026.md"
+        ],
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.6667,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 8050.77
+      },
+      {
+        "id": "g30",
+        "query": "Is there a late registration fee or administrative charge for late tuition payment?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "Yes",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "2. Administrative Charges",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 26227.98
+      },
+      {
+        "id": "g33",
+        "query": "Can a student repeat a failed course below a B grade and how many repeats are allowed?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "A student can repeat a failed course below a B grade and is allowed up to four repeats across the degree.",
+        "citations": [
+          {
+            "source": "b03_academic_rules_2026.md",
+            "section": "2. Course Repetition",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2026-11-1-2"
+        ],
+        "retrieved_sources": [
+          "b03_academic_rules_2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.6667,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 33967.75
+      },
+      {
+        "id": "g23",
+        "query": "What are the campus shuttle bus timings and monthly transport pass fee?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 463.65
+      },
+      {
+        "id": "g27",
+        "query": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "scholarship-policy@2026-09-1-1"
+        ],
+        "retrieved_sources": [
+          "b01_scholarship_policy_2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 250.27
+      },
+      {
+        "id": "g39",
+        "query": "What are the opening hours of the campus student health clinic?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "advisor-notice@2026-10-1-1"
+        ],
+        "retrieved_sources": [
+          "b11_injected_advisor_notice.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 307.53
+      }
+    ]
+  },
+  "run2": {
+    "summary": {
+      "questions_total": 12,
+      "answerable_count": 9,
+      "unanswerable_count": 3,
+      "recall@3": 0.6667,
+      "recall@5": 0.6667,
+      "mrr": 0.7778,
+      "ndcg@5": 0.6918,
+      "faithfulness_lexical": 0.6945,
+      "faithfulness_llm_judge": null,
+      "abstention_correctness": 1.0,
+      "citation_validity": 1.0,
+      "latency_p50_ms": 15624.68,
+      "latency_p95_ms": 29710.88
+    },
+    "rows": [
+      {
+        "id": "g01",
+        "query": "What CGPA puts an undergraduate student on Academic Warning?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "2.00",
+        "citations": [
+          {
+            "source": "b03_academic_rules_2026.md",
+            "section": "1. Academic Standing and Warning",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2026-11-1-1"
+        ],
+        "retrieved_sources": [
+          "b03_academic_rules_2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 26196.85
+      },
+      {
+        "id": "g04",
+        "query": "What minimum CGPA is required to graduate?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "not available",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 13326.13
+      },
+      {
+        "id": "g07",
+        "query": "How much attendance shortage can the Head of Department condone for an inpatient medical emergency?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "10 percent",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "2. Condonation for Medical Emergencies",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-2"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 17923.23
+      },
+      {
+        "id": "g11",
+        "query": "How many grade points do A- and B+ carry on the 4.00 grading scale?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "{\"A-\": 3.67, \"B+\": 3.33}",
+        "citations": [
+          {
+            "source": "grading-scale-2026.md",
+            "section": "1. Letter Grades and Grade Points",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 24695.32
+      },
+      {
+        "id": "g14",
+        "query": "What is the daily overdue fine per book at the central library?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "PKR 50",
+        "citations": [
+          {
+            "source": "library-rules-2026.md",
+            "section": "2. Overdue Fines and Reference Material",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-2"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 20719.16
+      },
+      {
+        "id": "g17",
+        "query": "If a student drops a course on day 15 of classes, how much of their BS per-credit tuition is refunded and what was the original rate per credit?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "Based on fee-schedule-2026.md (3. Tuition Refund Timeline): ## 3. Tuition Refund Timeline\n3.1 A full 100 percent tuition refund is granted when a course is dropped within the first 10 calendar days of classes. Between day 11 and day 20, a 50 percent refund applies. No tuition refund is issued after day 20....",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "3. Tuition Refund Timeline",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-3"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.75,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 12432.69
+      },
+      {
+        "id": "g21",
+        "query": "What penalty can the Unfair Means Committee impose if a candidate cheats, and can a repeated course replace that F under Fall 2026 rules?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "Based on b02_exam_conduct_2026.md (2. Penalties for Unfair Means): ## 2. Penalties for Unfair Means\n2.1 Any student found using unfair means during a mid-term or final examination shall have the paper cancelled and be referred to the Unfair Means Committee, which may award an F grade in the course or suspend enrollm...",
+        "citations": [
+          {
+            "source": "b02_exam_conduct_2026.md",
+            "section": "2. Penalties for Unfair Means",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "exam-conduct@2026-09-1-2"
+        ],
+        "retrieved_sources": [
+          "b02_exam_conduct_2026.md"
+        ],
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.6667,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 8050.77
+      },
+      {
+        "id": "g30",
+        "query": "Is there a late registration fee or administrative charge for late tuition payment?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "Yes",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "2. Administrative Charges",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 26227.98
+      },
+      {
+        "id": "g33",
+        "query": "Can a student repeat a failed course below a B grade and how many repeats are allowed?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "A student can repeat a failed course below a B grade and is allowed up to four repeats across the degree.",
+        "citations": [
+          {
+            "source": "b03_academic_rules_2026.md",
+            "section": "2. Course Repetition",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2026-11-1-2"
+        ],
+        "retrieved_sources": [
+          "b03_academic_rules_2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.6667,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 33967.75
+      },
+      {
+        "id": "g23",
+        "query": "What are the campus shuttle bus timings and monthly transport pass fee?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 463.65
+      },
+      {
+        "id": "g27",
+        "query": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "scholarship-policy@2026-09-1-1"
+        ],
+        "retrieved_sources": [
+          "b01_scholarship_policy_2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 250.27
+      },
+      {
+        "id": "g39",
+        "query": "What are the opening hours of the campus student health clinic?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "advisor-notice@2026-10-1-1"
+        ],
+        "retrieved_sources": [
+          "b11_injected_advisor_notice.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 307.53
+      }
+    ]
+  },
+  "stochasticity_diff": {
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "mrr": 0.0,
+    "ndcg@5": 0.0,
+    "faithfulness_lexical": 0.0,
+    "abstention_correctness": 0.0,
+    "citation_validity": 0.0,
+    "latency_p50_ms": 0.0,
+    "latency_p95_ms": 0.0
+  },
+  "noise_test": {
+    "summary": {
+      "questions_total": 12,
+      "answerable_count": 9,
+      "unanswerable_count": 3,
+      "recall@3": 0.6667,
+      "recall@5": 0.6667,
+      "mrr": 0.7778,
+      "ndcg@5": 0.6918,
+      "faithfulness_lexical": 0.6945,
+      "faithfulness_llm_judge": null,
+      "abstention_correctness": 1.0,
+      "citation_validity": 1.0,
+      "latency_p50_ms": 15624.68,
+      "latency_p95_ms": 29710.88
+    },
+    "rows": []
+  },
+  "noise_delta": {
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "mrr": 0.0,
+    "ndcg@5": 0.0
+  },
+  "judge_human_agreement": null,
+  "summary_table_markdown": "| Level | Metric | Run 1 | Noise (Typos) | Run 2 - Run 1 |\n| --- | --- | ---: | ---: | ---: |\n| Module (Embedding) | Paraphrase / Unrelated / Gap | 0.719447/0.435815/0.283633 | \u2014 | max_diff=0.0 |\n| Module (Embedding) | Speed (ms/chunk) | 208.605 | \u2014 | \u2014 |\n| Component (Retrieval) | Recall@3 | 0.6667 | 0.6667 | +0.0000 |\n| Component (Retrieval) | Recall@5 | 0.6667 | 0.6667 | +0.0000 |\n| Component (Retrieval) | MRR | 0.7778 | 0.7778 | +0.0000 |\n| Component (Retrieval) | nDCG@5 | 0.6918 | 0.6918 | +0.0000 |\n| End-to-End | Faithfulness (lexical) | 0.6945 | 0.6945 | +0.0000 |\n| End-to-End | Faithfulness (LLM judge) | None | \u2014 | \u2014 |\n| End-to-End | Abstention Correctness | 1.0 | 1.0 | +0.0000 |\n| End-to-End | Citation Validity | 1.0 | 1.0 | +0.0000 |\n| End-to-End | Latency p50 / p95 (ms) | 15624.68 / 29710.88 | 15624.68 / 29710.88 | +0.00 / +0.00 |"
+}

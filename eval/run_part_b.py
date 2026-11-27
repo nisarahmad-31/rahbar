@@ -419,6 +419,23 @@ def format_summary_table(report: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _stratified_subset(questions: list[dict[str, Any]], limit: int) -> list[dict[str, Any]]:
+    if limit <= 0 or limit >= len(questions):
+        return questions
+    ans = [q for q in questions if not q.get("must_abstain")]
+    abs_qs = [q for q in questions if q.get("must_abstain")]
+    abs_target = max(1, round(limit * (len(abs_qs) / max(1, len(questions)))))
+    ans_target = max(1, limit - abs_target)
+
+    def _pick_even(pool: list[dict[str, Any]], n: int) -> list[dict[str, Any]]:
+        if n >= len(pool):
+            return pool
+        return [pool[int(i * len(pool) / n)] for i in range(n)]
+
+    selected = _pick_even(ans, ans_target) + _pick_even(abs_qs, abs_target)
+    return selected[:limit]
+
+
 def run_suite(
     *,
     api_url: str,
@@ -433,9 +450,12 @@ def run_suite(
     passage_lookup: dict[str, str] | None = None,
     noise_retriever: Any = None,
     label: str = "baseline",
+    runs: int = 2,
+    stratified_limit: int = 0,
+    skip_noise: bool = False,
 ) -> tuple[dict[str, Any], Path]:
     random.seed(seed)
-    questions = load_golden_jsonl(golden_path)
+    questions = _stratified_subset(load_golden_jsonl(golden_path), stratified_limit)
     module_data = json.loads(module_path.read_text(encoding="utf-8")) if module_path.exists() else {}
 
     run1 = evaluate_once(
@@ -448,25 +468,32 @@ def run_suite(
         judge_model=judge_model,
         passage_lookup=passage_lookup,
     )
-    run2 = evaluate_once(
-        questions,
-        api_url,
-        host_header=host_header,
-        noise_typos=False,
-        seed=seed,
-        ollama_judge_url=None,
-        passage_lookup=passage_lookup,
-    )
-    noise_res = evaluate_once(
-        questions,
-        api_url,
-        host_header=host_header,
-        noise_typos=True,
-        seed=seed,
-        ollama_judge_url=None,
-        passage_lookup=passage_lookup,
-        direct_retriever=noise_retriever,
-    )
+    if runs >= 2:
+        run2 = evaluate_once(
+            questions,
+            api_url,
+            host_header=host_header,
+            noise_typos=False,
+            seed=seed,
+            ollama_judge_url=None,
+            passage_lookup=passage_lookup,
+        )
+    else:
+        run2 = run1
+
+    if skip_noise and noise_retriever is None:
+        noise_res = {"summary": dict(run1["summary"]), "rows": []}
+    else:
+        noise_res = evaluate_once(
+            questions,
+            api_url,
+            host_header=host_header,
+            noise_typos=True,
+            seed=seed,
+            ollama_judge_url=None,
+            passage_lookup=passage_lookup,
+            direct_retriever=noise_retriever,
+        )
 
     s1, s2, sn = run1["summary"], run2["summary"], noise_res["summary"]
     stoch_diff = {
@@ -522,6 +549,9 @@ def main() -> int:
     parser.add_argument("--relevance-floor", type=float, default=0.65)
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--label", default="baseline")
+    parser.add_argument("--runs", type=int, default=2, choices=[1, 2], help="Number of passes (2 checks stochasticity)")
+    parser.add_argument("--stratified-limit", type=int, default=0, help="Optional stratified question cap for fast CI/K8s jobs")
+    parser.add_argument("--skip-noise", action="store_true", help="Skip live noise pass when noise_retriever is not set")
     args = parser.parse_args()
 
     noise_ret = None
@@ -562,6 +592,9 @@ def main() -> int:
         passage_lookup=passage_lookup,
         noise_retriever=noise_ret,
         label=args.label,
+        runs=args.runs,
+        stratified_limit=args.stratified_limit,
+        skip_noise=args.skip_noise,
     )
     print(report["summary_table_markdown"])
     print(f"\nTimestamped Part B report written to: {out_file}")
