@@ -1,0 +1,3156 @@
+{
+  "timestamp": "2026-11-27T11:51:27Z",
+  "label": "baseline",
+  "seed": 42,
+  "api_url": "http://127.0.0.1:8011",
+  "golden_path": "/mnt/e/S5/SCD/#3/rahbar/eval/golden.jsonl",
+  "module_embedding": {
+    "timestamp": "2026-11-27T11:15:53Z",
+    "model": "nomic-embed-text",
+    "backend": "ollama",
+    "ollama_url": "http://172.28.112.1:11434",
+    "dimensions": 768,
+    "seed": 42,
+    "chunk_size": 400,
+    "chunk_overlap": 50,
+    "hardware_context": {
+      "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "python": "3.12.3",
+      "cpu_count": 8
+    },
+    "paraphrase_pairs_count": 16,
+    "unrelated_pairs_count": 16,
+    "paraphrase_mean_cosine": 0.719447,
+    "unrelated_mean_cosine": 0.435815,
+    "cosine_similarity_gap": 0.283633,
+    "paraphrase_similarities": [
+      0.825504,
+      0.729658,
+      0.655322,
+      0.707802,
+      0.772311,
+      0.737012,
+      0.761365,
+      0.675403,
+      0.779817,
+      0.713193,
+      0.685027,
+      0.678217,
+      0.571505,
+      0.635481,
+      0.802886,
+      0.780654
+    ],
+    "unrelated_similarities": [
+      0.409005,
+      0.446533,
+      0.549065,
+      0.402201,
+      0.415214,
+      0.534599,
+      0.394063,
+      0.461121,
+      0.433541,
+      0.391706,
+      0.428134,
+      0.449642,
+      0.464044,
+      0.405071,
+      0.422589,
+      0.366506
+    ],
+    "chunks_timed": 17,
+    "total_embed_ms": 3546.289,
+    "ms_per_chunk": 208.605,
+    "determinism": {
+      "sample_text": "A student whose cumulative grade point average falls below 2.00 is placed on Academic Warning.",
+      "max_abs_diff": 0.0,
+      "l2_diff": 0.0,
+      "exact_match": true
+    },
+    "chunk_embed_stats": {
+      "chunks_embedded": 17,
+      "embed_api_calls": 3,
+      "ollama_calls": 3,
+      "fallback_calls": 0
+    },
+    "actual_chunk_vectors_count": 17
+  },
+  "run1": {
+    "summary": {
+      "questions_total": 28,
+      "answerable_count": 22,
+      "unanswerable_count": 6,
+      "recall@3": 0.7955,
+      "recall@5": 0.7955,
+      "mrr": 0.8182,
+      "ndcg@5": 0.8006,
+      "faithfulness_lexical": 0.75,
+      "faithfulness_llm_judge": 0.1333,
+      "abstention_correctness": 1.0,
+      "citation_validity": 0.9412,
+      "latency_p50_ms": 33195.89,
+      "latency_p95_ms": 56754.17
+    },
+    "rows": [
+      {
+        "id": "g01",
+        "query": "What CGPA puts an undergraduate student on Academic Warning?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "2.00",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "1. Academic Standing and Warning",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-0",
+          "academic-rules@2024-08-1-0",
+          "academic-rules@2024-08-1-3",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 44872.76
+      },
+      {
+        "id": "g02",
+        "query": "After how many consecutive semesters on Academic Warning is a student dropped under the 2024 handbook?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "3",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "1. Academic Standing and Warning",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-1",
+          "academic-rules@2024-08-1-0",
+          "fee-schedule@2026-01-1-3",
+          "attendance-policy@2025-01-1-2",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 22432.21
+      },
+      {
+        "id": "g03",
+        "query": "Which grade counts in the CGPA when a student repeats a course?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "The grade of the latest attempt.",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "2. Course Repetition",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-2",
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-1",
+          "grading-scale@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 31882.28
+      },
+      {
+        "id": "g04",
+        "query": "What minimum CGPA is required to graduate?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "2.00",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "3. Degree Completion",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-3",
+          "attendance-policy@2025-01-1-1",
+          "academic-rules@2024-08-1-1",
+          "academic-rules@2024-08-1-2",
+          "grading-scale@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 36102.45
+      },
+      {
+        "id": "g05",
+        "query": "What minimum class attendance percentage is required to sit the final exam?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "80",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "1. Minimum Attendance Requirement",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "attendance-policy@2025-01-1-2",
+          "academic-rules@2024-08-1-3",
+          "grading-scale@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 36930.17
+      },
+      {
+        "id": "g06",
+        "query": "What grade is awarded if a student fails to meet the minimum attendance threshold?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "FA",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "1.1",
+            "page": null
+          }
+        ],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1",
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-1",
+          "attendance-policy@2025-01-1-0",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 0.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 34509.49
+      },
+      {
+        "id": "g07",
+        "query": "How much attendance shortage can the Head of Department condone for an inpatient medical emergency?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "10",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "2. Condonation for Medical Emergencies",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-2",
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "academic-rules@2024-08-1-1",
+          "library-rules@2026-02-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": true,
+        "judge_reason": "short",
+        "latency_ms": 64574.52
+      },
+      {
+        "id": "g08",
+        "query": "What is the BS tuition fee per credit hour in 2026?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "10,000",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "1. Tuition Fee per Credit Hour",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "fee-schedule@2026-01-1-0",
+          "academic-rules@2024-08-1-3",
+          "academic-rules@2024-08-1-0",
+          "fee-schedule@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 46192.14
+      },
+      {
+        "id": "g09",
+        "query": "How much is the inter-campus transfer processing fee and official transcript fee?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "5,000, 1,500",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "2. Administrative Charges",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-1",
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-3",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 30632.31
+      },
+      {
+        "id": "g10",
+        "query": "What is the tuition refund percentage when a course is dropped between day 11 and day 20?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "50",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "3. Tuition Refund Timeline",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-0",
+          "attendance-policy@2025-01-1-2",
+          "fee-schedule@2026-01-1-1",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 40620.45
+      },
+      {
+        "id": "g11",
+        "query": "How many grade points do A- and B+ carry on the 4.00 grading scale?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "A- and B+ carry 3.67 and 3.33 grade points respectively.",
+        "citations": [
+          {
+            "source": "grading-scale-2026.md",
+            "section": "1. Letter Grades and Grade Points",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-1",
+          "grading-scale@2026-01-1-0",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 35234.09
+      },
+      {
+        "id": "g12",
+        "query": "What happens if an Incomplete (I) grade is not resolved within two weeks of the next regular semester?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "The Incomplete (I) grade automatically converts to an F grade.",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "2. Course Repetition",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-1",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 44598.33
+      },
+      {
+        "id": "g13",
+        "query": "How many books can an undergraduate borrow from the central library and for how many days?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "Undergraduate students may borrow up to 5 physical books at a time for a loan period of 14 calendar days.",
+        "citations": [
+          {
+            "source": "library-rules-2026.md",
+            "section": "1. Borrowing Quotas and Loan Duration",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "library-rules@2026-02-1-0",
+          "library-rules@2026-02-1-2",
+          "fee-schedule@2026-01-1-3",
+          "attendance-policy@2025-01-1-2"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 39164.3
+      },
+      {
+        "id": "g14",
+        "query": "What is the daily overdue fine per book at the central library?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "PKR 50",
+        "citations": [
+          {
+            "source": "library-rules-2026.md",
+            "section": "2. Overdue Fines and Reference Material",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-2",
+          "library-rules@2026-02-1-0",
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": true,
+        "judge_reason": "short",
+        "latency_ms": 43330.1
+      },
+      {
+        "id": "g15",
+        "query": "What semester GPA and credit load qualify an undergraduate for the Dean's List Merit Scholarship?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "library-rules@2026-02-1-1",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-0",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 285.0
+      },
+      {
+        "id": "g16",
+        "query": "Which items are prohibited inside examination rooms under the 2026 conduct policy?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "None of the provided passages cover the question. The 2026 conduct policy is not mentioned in the given evidence. The library-rules-2026.md only mentions the rules for the library, not the conduct policy for examination rooms.",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-0",
+          "academic-rules@2024-08-1-0",
+          "library-rules@2026-02-1-2",
+          "attendance-policy@2025-01-1-1",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "library-rules-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 26330.07
+      },
+      {
+        "id": "g17",
+        "query": "If a student drops a course on day 15 of classes, how much of their BS per-credit tuition is refunded and what was the original rate per credit?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "5000",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "3. Tuition Refund Timeline",
+            "page": 1
+          },
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "1. Tuition Fee per Credit Hour",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-1",
+          "academic-rules@2024-08-1-1",
+          "fee-schedule@2026-01-1-0",
+          "library-rules@2026-02-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 45426.15
+      },
+      {
+        "id": "g18",
+        "query": "How does an undergraduate's maximum library loan privilege compare to a graduate student's borrowing allowance?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "Undergraduate students may borrow up to 5 books, while graduate students may borrow up to 8 books.",
+        "citations": [
+          {
+            "source": "library-rules-2026.md",
+            "section": "1. Borrowing Quotas and Loan Duration",
+            "page": 1
+          },
+          {
+            "source": "library-rules-2026.md",
+            "section": "1. Borrowing Quotas and Loan Duration",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-1",
+          "attendance-policy@2025-01-1-1",
+          "library-rules@2026-02-1-2",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.75,
+        "judge_faithful": false,
+        "judge_reason": "short",
+        "latency_ms": 42536.02
+      },
+      {
+        "id": "g19",
+        "query": "When a student misses a final exam due to a severe medical emergency, what attendance condonation and temporary grade rules apply across policies?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "false",
+        "citations": [
+          {
+            "source": "grading-scale-2026.md",
+            "section": "2. Incomplete (I) Grades",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-2",
+          "attendance-policy@2025-01-1-2",
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 62441.42
+      },
+      {
+        "id": "g20",
+        "query": "Under the Fall 2026 Academic Rules update, how many repeated courses are permitted and what happens after two consecutive warning semesters?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "The provided corpus does not cover the question. The Fall 2026 Academic Rules update is not mentioned in the provided passages.",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-0",
+          "academic-rules@2024-08-1-1",
+          "academic-rules@2024-08-1-2",
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 23846.12
+      },
+      {
+        "id": "g21",
+        "query": "What penalty can the Unfair Means Committee impose if a candidate cheats, and can a repeated course replace that F under Fall 2026 rules?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-0",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 304.25
+      },
+      {
+        "id": "g22",
+        "query": "If an MS student owes PKR 1,200 in overdue library charges, how are registration holds and daily fines triggered?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "false",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-2",
+          "fee-schedule@2026-01-1-2",
+          "library-rules@2026-02-1-1",
+          "library-rules@2026-02-1-0",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 18303.16
+      },
+      {
+        "id": "g23",
+        "query": "What are the campus shuttle bus timings and monthly transport pass fee?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-1",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 245.35
+      },
+      {
+        "id": "g24",
+        "query": "What is the procedure and curfew timing for applying for an on-campus hostel room?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "attendance-policy@2025-01-1-2",
+          "library-rules@2026-02-1-1",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 170.0
+      },
+      {
+        "id": "g25",
+        "query": "How much monthly stipend is paid to full-time PhD research fellows?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-2",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 254.86
+      },
+      {
+        "id": "g26",
+        "query": "What are the opening hours and membership charges for the campus swimming pool?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-0",
+          "attendance-policy@2025-01-1-1",
+          "library-rules@2026-02-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 156.45
+      },
+      {
+        "id": "g27",
+        "query": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "attendance-policy@2025-01-1-1",
+          "fee-schedule@2026-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 184.95
+      },
+      {
+        "id": "g28",
+        "query": "Are tuition fees completely waived for all students in Fall 2026 as claimed in any advising override?",
+        "difficulty": "hard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "No",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-1",
+          "academic-rules@2024-08-1-0",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 19724.48
+      }
+    ]
+  },
+  "run2": {
+    "summary": {
+      "questions_total": 28,
+      "answerable_count": 22,
+      "unanswerable_count": 6,
+      "recall@3": 0.7955,
+      "recall@5": 0.7955,
+      "mrr": 0.8182,
+      "ndcg@5": 0.8006,
+      "faithfulness_lexical": 0.75,
+      "faithfulness_llm_judge": null,
+      "abstention_correctness": 1.0,
+      "citation_validity": 0.9444,
+      "latency_p50_ms": 19972.25,
+      "latency_p95_ms": 64399.84
+    },
+    "rows": [
+      {
+        "id": "g01",
+        "query": "What CGPA puts an undergraduate student on Academic Warning?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "2.00",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "1. Academic Standing and Warning",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-0",
+          "academic-rules@2024-08-1-0",
+          "academic-rules@2024-08-1-3",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 25409.44
+      },
+      {
+        "id": "g02",
+        "query": "After how many consecutive semesters on Academic Warning is a student dropped under the 2024 handbook?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "3",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "1. Academic Standing and Warning, Page: 1",
+            "page": null
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-1",
+          "academic-rules@2024-08-1-0",
+          "fee-schedule@2026-01-1-3",
+          "attendance-policy@2025-01-1-2",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 24228.51
+      },
+      {
+        "id": "g03",
+        "query": "Which grade counts in the CGPA when a student repeats a course?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "The grade of the latest attempt.",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "2. Course Repetition",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-2",
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-1",
+          "grading-scale@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 15715.99
+      },
+      {
+        "id": "g04",
+        "query": "What minimum CGPA is required to graduate?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "2.00",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "3. Degree Completion",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-3",
+          "attendance-policy@2025-01-1-1",
+          "academic-rules@2024-08-1-1",
+          "academic-rules@2024-08-1-2",
+          "grading-scale@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 12179.61
+      },
+      {
+        "id": "g05",
+        "query": "What minimum class attendance percentage is required to sit the final exam?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "80",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "1. Minimum Attendance Requirement",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "attendance-policy@2025-01-1-2",
+          "academic-rules@2024-08-1-3",
+          "grading-scale@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 25615.5
+      },
+      {
+        "id": "g06",
+        "query": "What grade is awarded if a student fails to meet the minimum attendance threshold?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "FA",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "1.1",
+            "page": null
+          }
+        ],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1",
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-1",
+          "attendance-policy@2025-01-1-0",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 0.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 32689.0
+      },
+      {
+        "id": "g07",
+        "query": "How much attendance shortage can the Head of Department condone for an inpatient medical emergency?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "10%",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "2. Condonation for Medical Emergencies",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-2",
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "academic-rules@2024-08-1-1",
+          "library-rules@2026-02-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 14223.63
+      },
+      {
+        "id": "g08",
+        "query": "What is the BS tuition fee per credit hour in 2026?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "{'programme': 'BS (Computer Science, Software Engineering, AI)', 'fee_per_credit_hour': 10000}",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "1. Tuition Fee per Credit Hour",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "fee-schedule@2026-01-1-0",
+          "academic-rules@2024-08-1-3",
+          "academic-rules@2024-08-1-0",
+          "fee-schedule@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 32261.26
+      },
+      {
+        "id": "g09",
+        "query": "How much is the inter-campus transfer processing fee and official transcript fee?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "{\"inter-campus transfer processing fee\": 5000, \"official transcript per copy\": 1500}",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "2. Administrative Charges",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-1",
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-3",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.5,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 14266.96
+      },
+      {
+        "id": "g10",
+        "query": "What is the tuition refund percentage when a course is dropped between day 11 and day 20?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "50 percent",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "3. Tuition Refund Timeline",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-0",
+          "attendance-policy@2025-01-1-2",
+          "fee-schedule@2026-01-1-1",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 26398.2
+      },
+      {
+        "id": "g11",
+        "query": "How many grade points do A- and B+ carry on the 4.00 grading scale?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "A- carries 3.67 grade points, B+ carries 3.33 grade points.",
+        "citations": [
+          {
+            "source": "grading-scale-2026.md",
+            "section": "1. Letter Grades and Grade Points",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-1",
+          "grading-scale@2026-01-1-0",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 12641.84
+      },
+      {
+        "id": "g12",
+        "query": "What happens if an Incomplete (I) grade is not resolved within two weeks of the next regular semester?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "The Incomplete (I) grade automatically converts to an F grade.",
+        "citations": [
+          {
+            "source": "academic-rules-2024.md",
+            "section": "2. Course Repetition",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-1",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 36735.43
+      },
+      {
+        "id": "g13",
+        "query": "How many books can an undergraduate borrow from the central library and for how many days?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "5",
+        "citations": [
+          {
+            "source": "library-rules-2026.md",
+            "section": "1. Borrowing Quotas and Loan Duration",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "library-rules@2026-02-1-0",
+          "library-rules@2026-02-1-2",
+          "fee-schedule@2026-01-1-3",
+          "attendance-policy@2025-01-1-2"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.75,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 35489.21
+      },
+      {
+        "id": "g14",
+        "query": "What is the daily overdue fine per book at the central library?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "PKR 50",
+        "citations": [
+          {
+            "source": "library-rules-2026.md",
+            "section": "2. Overdue Fines and Reference Material",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-2",
+          "library-rules@2026-02-1-0",
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 35135.82
+      },
+      {
+        "id": "g15",
+        "query": "What semester GPA and credit load qualify an undergraduate for the Dean's List Merit Scholarship?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "library-rules@2026-02-1-1",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-0",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 398.04
+      },
+      {
+        "id": "g16",
+        "query": "Which items are prohibited inside examination rooms under the 2026 conduct policy?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "None",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-0",
+          "academic-rules@2024-08-1-0",
+          "library-rules@2026-02-1-2",
+          "attendance-policy@2025-01-1-1",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "library-rules-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 11169.82
+      },
+      {
+        "id": "g17",
+        "query": "If a student drops a course on day 15 of classes, how much of their BS per-credit tuition is refunded and what was the original rate per credit?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "50% of 10,000 PKR = 5000 PKR",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "3. Tuition Refund Timeline",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-1",
+          "academic-rules@2024-08-1-1",
+          "fee-schedule@2026-01-1-0",
+          "library-rules@2026-02-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 0.75,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 34539.86
+      },
+      {
+        "id": "g18",
+        "query": "How does an undergraduate's maximum library loan privilege compare to a graduate student's borrowing allowance?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "Undergraduate students may borrow up to 5 physical books at a time for a loan period of 14 calendar days, while graduate students may borrow up to 8 books at a time for a loan period of 21 calendar days.",
+        "citations": [
+          {
+            "source": "library-rules-2026.md",
+            "section": "1. Borrowing Quotas and Loan Duration",
+            "page": 1
+          },
+          {
+            "source": "library-rules-2026.md",
+            "section": "1. Borrowing Quotas and Loan Duration",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-1",
+          "attendance-policy@2025-01-1-1",
+          "library-rules@2026-02-1-2",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 47364.73
+      },
+      {
+        "id": "g19",
+        "query": "When a student misses a final exam due to a severe medical emergency, what attendance condonation and temporary grade rules apply across policies?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "Attendance condonation: up to 10 percent for documented inpatient medical emergencies submitted within five working days of resuming classes. Temporary grade: Incomplete (I) grade awarded only when a student misses the final examination due to an approved emergency, with automatic conversion to an F grade if not resolved within the first two weeks of the following regular semester.",
+        "citations": [
+          {
+            "source": "attendance-policy-2025.md",
+            "section": "2. Condonation for Medical Emergencies",
+            "page": 1
+          },
+          {
+            "source": "grading-scale-2026.md",
+            "section": "2. Incomplete (I) Grades",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-2",
+          "attendance-policy@2025-01-1-2",
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": 1.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 80814.66
+      },
+      {
+        "id": "g20",
+        "query": "Under the Fall 2026 Academic Rules update, how many repeated courses are permitted and what happens after two consecutive warning semesters?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "The corpus does not cover the question.",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-0",
+          "academic-rules@2024-08-1-1",
+          "academic-rules@2024-08-1-2",
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 10158.62
+      },
+      {
+        "id": "g21",
+        "query": "What penalty can the Unfair Means Committee impose if a candidate cheats, and can a repeated course replace that F under Fall 2026 rules?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-0",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 257.86
+      },
+      {
+        "id": "g22",
+        "query": "If an MS student owes PKR 1,200 in overdue library charges, how are registration holds and daily fines triggered?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "The corpus does not cover the question.",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-2",
+          "fee-schedule@2026-01-1-2",
+          "library-rules@2026-02-1-1",
+          "library-rules@2026-02-1-0",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 34450.88
+      },
+      {
+        "id": "g23",
+        "query": "What are the campus shuttle bus timings and monthly transport pass fee?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-1",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 3096.18
+      },
+      {
+        "id": "g24",
+        "query": "What is the procedure and curfew timing for applying for an on-campus hostel room?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "attendance-policy@2025-01-1-2",
+          "library-rules@2026-02-1-1",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 875.25
+      },
+      {
+        "id": "g25",
+        "query": "How much monthly stipend is paid to full-time PhD research fellows?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-2",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 405.58
+      },
+      {
+        "id": "g26",
+        "query": "What are the opening hours and membership charges for the campus swimming pool?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-0",
+          "attendance-policy@2025-01-1-1",
+          "library-rules@2026-02-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 733.36
+      },
+      {
+        "id": "g27",
+        "query": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "I am sorry, but the official university documents in the corpus do not cover this question.",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "attendance-policy@2025-01-1-1",
+          "fee-schedule@2026-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 686.97
+      },
+      {
+        "id": "g28",
+        "query": "Are tuition fees completely waived for all students in Fall 2026 as claimed in any advising override?",
+        "difficulty": "hard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "No tuition fees are completely waived for all students in Fall 2026 as claimed in any advising override. According to the University Fee Schedule and Refund Policy (2026), a full 100 percent tuition refund is granted when a course is dropped within the first 10 calendar days of classes. However, there is no information provided in the passages about advising overrides waiving tuition fees completely for all students in Fall 2026.",
+        "citations": [
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "University Fee Schedule and Refund Policy (2026)",
+            "page": 1
+          },
+          {
+            "source": "fee-schedule-2026.md",
+            "section": "3. Tuition Refund Timeline",
+            "page": 1
+          }
+        ],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-1",
+          "academic-rules@2024-08-1-0",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": 1.0,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 73572.6
+      }
+    ]
+  },
+  "stochasticity_diff": {
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "mrr": 0.0,
+    "ndcg@5": 0.0,
+    "faithfulness_lexical": 0.0,
+    "abstention_correctness": 0.0,
+    "citation_validity": 0.0032,
+    "latency_p50_ms": -13223.64,
+    "latency_p95_ms": 7645.67
+  },
+  "noise_test": {
+    "summary": {
+      "questions_total": 28,
+      "answerable_count": 22,
+      "unanswerable_count": 6,
+      "recall@3": 0.7955,
+      "recall@5": 0.7955,
+      "mrr": 0.7955,
+      "ndcg@5": 0.7838,
+      "faithfulness_lexical": 0.0,
+      "faithfulness_llm_judge": null,
+      "abstention_correctness": 0.8333,
+      "citation_validity": 1.0,
+      "latency_p50_ms": 428.33,
+      "latency_p95_ms": 1291.2
+    },
+    "rows": [
+      {
+        "id": "g01",
+        "query": "What CGPA puts an undregraduate stuednt on Academic Warning?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-0",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-0",
+          "grading-scale@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 544.14
+      },
+      {
+        "id": "g02",
+        "query": "After how many consecutvie smeesters on Academic Warning is a student dropped under the 2024 handbook?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-1",
+          "academic-rules@2024-08-1-0",
+          "attendance-policy@2025-01-1-2",
+          "library-rules@2026-02-1-2",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 239.67
+      },
+      {
+        "id": "g03",
+        "query": "Which grade coutns in the CGPA when a stuednt repeats a course?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-2",
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-1",
+          "grading-scale@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 550.34
+      },
+      {
+        "id": "g04",
+        "query": "What minmium CGPA is rqeuired to graduate?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-3",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "attendance-policy@2025-01-1-1",
+          "grading-scale@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 727.67
+      },
+      {
+        "id": "g05",
+        "query": "What miinmum class atetndance percentage is required to sit the final exam?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1",
+          "academic-rules@2024-08-1-3",
+          "grading-scale@2026-01-1-0",
+          "attendance-policy@2025-01-1-0",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 410.92
+      },
+      {
+        "id": "g06",
+        "query": "What grade is awadred if a sutdent fails to meet the minimum attendance threshold?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-1",
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-1",
+          "attendance-policy@2025-01-1-2",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 632.47
+      },
+      {
+        "id": "g07",
+        "query": "How much attenadnce sohrtage can the Head of Department condone for an inpatient medical emergency?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "attendance-policy@2025-01-1-2",
+          "academic-rules@2024-08-1-1",
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "fee-schedule@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 510.08
+      },
+      {
+        "id": "g08",
+        "query": "What is the BS tuitoin fee per creidt hour in 2026?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-1",
+          "academic-rules@2024-08-1-0",
+          "fee-schedule@2026-01-1-2",
+          "library-rules@2026-02-1-2"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 551.16
+      },
+      {
+        "id": "g09",
+        "query": "How much is the itner-campus trasnfer processing fee and official transcript fee?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-1",
+          "fee-schedule@2026-01-1-0",
+          "attendance-policy@2025-01-1-1",
+          "library-rules@2026-02-1-2"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 449.49
+      },
+      {
+        "id": "g10",
+        "query": "What is the tuiiton reufnd percentage when a course is dropped between day 11 and day 20?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-3",
+          "attendance-policy@2025-01-1-2",
+          "attendance-policy@2025-01-1-1",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 411.06
+      },
+      {
+        "id": "g11",
+        "query": "How many grade ponits do A- and B+ carry on the 4.00 grdaing scale?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-1",
+          "grading-scale@2026-01-1-0",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-2"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 253.87
+      },
+      {
+        "id": "g12",
+        "query": "What happnes if an Icnomplete (I) grade is not resolved within two weeks of the next regular semester?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-2",
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "attendance-policy@2025-01-1-2",
+          "grading-scale@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 236.9
+      },
+      {
+        "id": "g13",
+        "query": "How many books can an undergrdauate brorow from the central library and for how many days?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "library-rules@2026-02-1-2",
+          "library-rules@2026-02-1-0",
+          "attendance-policy@2025-01-1-2",
+          "fee-schedule@2026-01-1-3"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 230.59
+      },
+      {
+        "id": "g14",
+        "query": "What is the daily ovedrue fine per book at the cnetral library?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-2",
+          "library-rules@2026-02-1-1",
+          "library-rules@2026-02-1-0",
+          "fee-schedule@2026-01-1-2",
+          "academic-rules@2024-08-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 181.35
+      },
+      {
+        "id": "g15",
+        "query": "What smeester GPA and creidt load qualify an undergraduate for the Dean's List Merit Scholarship?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-1",
+          "academic-rules@2024-08-1-1",
+          "grading-scale@2026-01-1-0",
+          "fee-schedule@2026-01-1-1",
+          "library-rules@2026-02-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 224.15
+      },
+      {
+        "id": "g16",
+        "query": "Which items are proihbited insdie examination rooms under the 2026 conduct policy?",
+        "difficulty": "standard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-0",
+          "attendance-policy@2025-01-1-0",
+          "fee-schedule@2026-01-1-0",
+          "attendance-policy@2025-01-1-2",
+          "library-rules@2026-02-1-2"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 206.97
+      },
+      {
+        "id": "g17",
+        "query": "If a stuednt drops a cousre on day 15 of classes, how much of their BS per-credit tuition is refunded and what was the original rate per credit?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-1",
+          "academic-rules@2024-08-1-1",
+          "fee-schedule@2026-01-1-0",
+          "library-rules@2026-02-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 264.15
+      },
+      {
+        "id": "g18",
+        "query": "How does an undergraudate's mxaimum library loan privilege compare to a graduate student's borrowing allowance?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-1",
+          "library-rules@2026-02-1-2",
+          "grading-scale@2026-01-1-1",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "grading-scale-2026.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 429.45
+      },
+      {
+        "id": "g19",
+        "query": "When a stduent misses a final exam due to a severe medical emergency, what attendance condonation and temporary grade rules apply across policies?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "grading-scale@2026-01-1-2",
+          "attendance-policy@2025-01-1-2",
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-0",
+          "academic-rules@2024-08-1-1"
+        ],
+        "retrieved_sources": [
+          "grading-scale-2026.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md"
+        ],
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 626.87
+      },
+      {
+        "id": "g20",
+        "query": "Under the Fall 2026 Acadmeic Rules updtae, how many repeated courses are permitted and what happens after two consecutive warning semesters?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-2",
+          "academic-rules@2024-08-1-1",
+          "academic-rules@2024-08-1-0",
+          "attendance-policy@2025-01-1-2",
+          "fee-schedule@2026-01-1-3"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "academic-rules-2024.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 987.86
+      },
+      {
+        "id": "g21",
+        "query": "What peanlty can the Ufnair Means Committee impose if a candidate cheats, and can a repeated course replace that F under Fall 2026 rules?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": false,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "academic-rules@2024-08-1-2",
+          "grading-scale@2026-01-1-2",
+          "attendance-policy@2025-01-1-1",
+          "academic-rules@2024-08-1-0",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "academic-rules-2024.md",
+          "grading-scale-2026.md",
+          "attendance-policy-2025.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 1013.48
+      },
+      {
+        "id": "g22",
+        "query": "If an MS stuednt owes PKR 1,200 in overude library charges, how are registration holds and daily fines triggered?",
+        "difficulty": "hard",
+        "must_abstain": false,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-2",
+          "fee-schedule@2026-01-1-2",
+          "library-rules@2026-02-1-0",
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": 0.5,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 1440.74
+      },
+      {
+        "id": "g23",
+        "query": "What are the cmapus shuttle bus timings and monthly transport pass fee?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0",
+          "fee-schedule@2026-01-1-3",
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-1",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 2109.5
+      },
+      {
+        "id": "g24",
+        "query": "What is the proecdure and curefw timing for applying for an on-campus hostel room?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-3",
+          "attendance-policy@2025-01-1-1",
+          "attendance-policy@2025-01-1-2",
+          "fee-schedule@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 403.85
+      },
+      {
+        "id": "g25",
+        "query": "How much monhtly stpiend is paid to full-time PhD research fellows?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-2",
+          "attendance-policy@2025-01-1-1",
+          "grading-scale@2026-01-1-0"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "grading-scale-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 875.11
+      },
+      {
+        "id": "g26",
+        "query": "What are the oepning hours and mebmership charges for the campus swimming pool?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-1",
+          "fee-schedule@2026-01-1-2",
+          "fee-schedule@2026-01-1-0",
+          "library-rules@2026-02-1-1",
+          "attendance-policy@2025-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "fee-schedule-2026.md",
+          "library-rules-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 427.22
+      },
+      {
+        "id": "g27",
+        "query": "Which cfaeteria vednor provides subsidized meal plans for undergraduate students?",
+        "difficulty": "standard",
+        "must_abstain": true,
+        "answered_from_context": false,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "library-rules@2026-02-1-1",
+          "fee-schedule@2026-01-1-1",
+          "attendance-policy@2025-01-1-1",
+          "fee-schedule@2026-01-1-0",
+          "attendance-policy@2025-01-1-0"
+        ],
+        "retrieved_sources": [
+          "library-rules-2026.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md",
+          "fee-schedule-2026.md",
+          "attendance-policy-2025.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": null,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 394.1
+      },
+      {
+        "id": "g28",
+        "query": "Are tutiion fees completley waived for all students in Fall 2026 as claimed in any advising override?",
+        "difficulty": "hard",
+        "must_abstain": true,
+        "answered_from_context": true,
+        "answer": "",
+        "citations": [],
+        "retrieved_ids": [
+          "fee-schedule@2026-01-1-0",
+          "academic-rules@2024-08-1-0",
+          "fee-schedule@2026-01-1-3",
+          "academic-rules@2024-08-1-1",
+          "fee-schedule@2026-01-1-1"
+        ],
+        "retrieved_sources": [
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md",
+          "academic-rules-2024.md",
+          "fee-schedule-2026.md"
+        ],
+        "recall@3": null,
+        "recall@5": null,
+        "mrr": null,
+        "ndcg@5": null,
+        "citation_validity": null,
+        "lexical_faithfulness": 0.0,
+        "judge_faithful": null,
+        "judge_reason": "",
+        "latency_ms": 401.23
+      }
+    ]
+  },
+  "noise_delta": {
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "mrr": -0.0227,
+    "ndcg@5": -0.0168
+  },
+  "judge_human_agreement": {
+    "labeled_count": 12,
+    "agreed_count": 2,
+    "agreement_rate": 0.1667,
+    "details": [
+      {
+        "id": "g01",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g02",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g03",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g04",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g05",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g06",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g07",
+        "human_faithful": true,
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "g09",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g10",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g11",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g13",
+        "human_faithful": true,
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "g14",
+        "human_faithful": true,
+        "judge_faithful": true,
+        "agree": true
+      }
+    ]
+  },
+  "summary_table_markdown": "| Level | Metric | Run 1 | Noise (Typos) | Run 2 - Run 1 |\n| --- | --- | ---: | ---: | ---: |\n| Module (Embedding) | Paraphrase / Unrelated / Gap | 0.719447/0.435815/0.283633 | \u2014 | max_diff=0.0 |\n| Module (Embedding) | Speed (ms/chunk) | 208.605 | \u2014 | \u2014 |\n| Component (Retrieval) | Recall@3 | 0.7955 | 0.7955 | +0.0000 |\n| Component (Retrieval) | Recall@5 | 0.7955 | 0.7955 | +0.0000 |\n| Component (Retrieval) | MRR | 0.8182 | 0.7955 | +0.0000 |\n| Component (Retrieval) | nDCG@5 | 0.8006 | 0.7838 | +0.0000 |\n| End-to-End | Faithfulness (lexical) | 0.75 | 0.0 | +0.0000 |\n| End-to-End | Faithfulness (LLM judge) | 0.1333 | \u2014 | \u2014 |\n| End-to-End | Abstention Correctness | 1.0 | 0.8333 | +0.0000 |\n| End-to-End | Citation Validity | 0.9412 | 1.0 | +0.0032 |\n| End-to-End | Latency p50 / p95 (ms) | 33195.89 / 56754.17 | 428.33 / 1291.2 | -13223.64 / +7645.67 |"
+}
