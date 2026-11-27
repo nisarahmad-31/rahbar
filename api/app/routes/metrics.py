@@ -25,6 +25,11 @@ CACHE_HITS = Counter("rahbar_cache_hits_total", "Semantic cache hits")
 CACHE_MISSES = Counter("rahbar_cache_misses_total", "Semantic cache misses")
 ABSTENTIONS = Counter("rahbar_abstentions_total", "Honest abstentions when context is absent")
 FALLBACKS = Counter("rahbar_fallbacks_total", "Fallbacks triggered by schema or provider errors")
+INJECTION_ATTEMPTS = Counter(
+    "rahbar_injection_attempts_total",
+    "Prompt injection attempts flagged in query or retrieved context",
+    ["location"],
+)
 TOKENS = Counter("rahbar_tokens_total", "Tokens in and out per request", ["direction"])
 
 
