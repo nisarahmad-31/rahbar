@@ -138,6 +138,9 @@ spec:
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: api
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: indexer
       ports:
         - protocol: TCP
           port: 6379
@@ -161,6 +164,13 @@ spec:
       ports:
         - protocol: TCP
           port: 8000
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: redis
+      ports:
+        - protocol: TCP
+          port: 6379
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
