@@ -5,6 +5,8 @@ namespace: rahbar
 
 resources:
   - namespace.yaml
+  - serviceaccounts.yaml
+  - data-pvc.yaml
   - configmap.yaml
   - chroma.yaml
   - redis.yaml
