@@ -23,6 +23,7 @@ from ..retrieval.chroma import _deterministic_query_vector
 from ..routes import metrics
 from ..schemas import Answer, AskResponse, Citation, Passage, RetrievedRef
 from .cache import SemanticCache
+from .guardrail import inspect_and_neutralize_passages, inspect_query
 from .tracing import (
     TraceRecord,
     TraceStageLatencies,
@@ -313,6 +314,11 @@ def answer_question(
             status="abstained",
         )
         return resp
+    # 4b. D4 Guardrail: check query and retrieved passages for injection
+    query_guard_actions = inspect_query(effective_q)
+    guardrail_actions.extend(query_guard_actions)
+    passages, retrieval_guard_actions = inspect_and_neutralize_passages(passages)
+    guardrail_actions.extend(retrieval_guard_actions)
     guard_ms = round((time.perf_counter() - guard_start) * 1000, 2)
 
     # 5. Generation with Schema Validation, Retry once, and Safe Fallback
