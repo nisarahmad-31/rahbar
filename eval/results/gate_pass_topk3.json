@@ -1,0 +1,55 @@
+{
+  "decision": "PASS",
+  "passed": true,
+  "checks": [
+    {
+      "metric": "recall@5_drop",
+      "baseline": 0.7955,
+      "candidate": 0.7955,
+      "measured": 0.0,
+      "threshold": "<= 0.02",
+      "passed": true
+    },
+    {
+      "metric": "faithfulness_lexical",
+      "baseline": 0.75,
+      "candidate": 0.7244,
+      "measured": 0.7244,
+      "threshold": ">= 0.7",
+      "passed": true
+    },
+    {
+      "metric": "latency_p95_ms",
+      "baseline": 56754.17,
+      "candidate": 56538.82,
+      "measured": 56538.82,
+      "threshold": "<= 65000.0",
+      "passed": true
+    },
+    {
+      "metric": "abstention_correctness",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "measured": 1.0,
+      "threshold": ">= 1.0",
+      "passed": true
+    },
+    {
+      "metric": "citation_validity",
+      "baseline": 0.9412,
+      "candidate": 0.9474,
+      "measured": 0.9474,
+      "threshold": ">= 0.9",
+      "passed": true
+    }
+  ],
+  "config": {
+    "description": "Release gate thresholds for Assignment 03 Part C2 (derived from baseline part_b_baseline_20261127_115127.json).",
+    "max_recall5_drop": 0.02,
+    "min_faithfulness_lexical": 0.7,
+    "max_latency_p95_ms": 65000.0,
+    "min_abstention_correctness": 1.0,
+    "min_citation_validity": 0.9,
+    "require_abstention_not_lower_than_baseline": true
+  }
+}
