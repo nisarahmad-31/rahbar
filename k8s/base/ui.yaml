@@ -31,11 +31,11 @@ spec:
               name: http
           resources:
             requests:
-              cpu: 20m
-              memory: 32Mi
+              cpu: 10m
+              memory: 16Mi
             limits:
               cpu: 100m
-              memory: 128Mi
+              memory: 64Mi
           securityContext:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false

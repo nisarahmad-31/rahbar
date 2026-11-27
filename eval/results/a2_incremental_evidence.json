@@ -1,0 +1,493 @@
+{
+  "chroma": "127.0.0.1:18000",
+  "collection": "rahbar_a2_test",
+  "step1_initial_batch_a": {
+    "verification_summary": {
+      "total_documents": 5,
+      "passed_count": 5,
+      "failed_count": 0,
+      "quarantined_count": 0,
+      "check_fail_counts": {
+        "quality": 0,
+        "completeness": 0,
+        "recency": 0,
+        "uniqueness": 0
+      }
+    },
+    "incremental": {
+      "mode": "sync",
+      "collection": "rahbar_a2_test",
+      "embed_model": "nomic-embed-text",
+      "documents_unchanged": 0,
+      "documents_new": 5,
+      "documents_changed": 0,
+      "documents_deleted": 0,
+      "documents_superseded": 0,
+      "unchanged_doc_ids": [],
+      "new_doc_ids": [
+        "academic-rules",
+        "attendance-policy",
+        "fee-schedule",
+        "grading-scale",
+        "library-rules"
+      ],
+      "changed_doc_ids": [],
+      "deleted_doc_ids": [],
+      "superseded_versions": [],
+      "chunks_embedded": 17,
+      "embed_api_calls": 3,
+      "chunks_added": 17,
+      "chunks_deleted": 0,
+      "chunks_superseded": 0,
+      "total_chunks_in_store": 17,
+      "counts_by_doc_id": {
+        "academic-rules": 4,
+        "attendance-policy": 3,
+        "fee-schedule": 4,
+        "grading-scale": 3,
+        "library-rules": 3
+      },
+      "counts_by_doc_and_status": {
+        "academic-rules": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "attendance-policy": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "fee-schedule": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "grading-scale": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "library-rules": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        }
+      }
+    }
+  },
+  "step2_unchanged_rerun": {
+    "verification_summary": {
+      "total_documents": 5,
+      "passed_count": 5,
+      "failed_count": 0,
+      "quarantined_count": 0,
+      "check_fail_counts": {
+        "quality": 0,
+        "completeness": 0,
+        "recency": 0,
+        "uniqueness": 0
+      }
+    },
+    "incremental": {
+      "mode": "sync",
+      "collection": "rahbar_a2_test",
+      "embed_model": "nomic-embed-text",
+      "documents_unchanged": 5,
+      "documents_new": 0,
+      "documents_changed": 0,
+      "documents_deleted": 0,
+      "documents_superseded": 0,
+      "unchanged_doc_ids": [
+        "academic-rules",
+        "attendance-policy",
+        "fee-schedule",
+        "grading-scale",
+        "library-rules"
+      ],
+      "new_doc_ids": [],
+      "changed_doc_ids": [],
+      "deleted_doc_ids": [],
+      "superseded_versions": [],
+      "chunks_embedded": 0,
+      "embed_api_calls": 0,
+      "chunks_added": 0,
+      "chunks_deleted": 0,
+      "chunks_superseded": 0,
+      "total_chunks_in_store": 17,
+      "counts_by_doc_id": {
+        "academic-rules": 4,
+        "attendance-policy": 3,
+        "fee-schedule": 4,
+        "grading-scale": 3,
+        "library-rules": 3
+      },
+      "counts_by_doc_and_status": {
+        "academic-rules": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "attendance-policy": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "fee-schedule": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "grading-scale": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "library-rules": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        }
+      }
+    }
+  },
+  "step3_changed_one_doc": {
+    "verification_summary": {
+      "total_documents": 5,
+      "passed_count": 5,
+      "failed_count": 0,
+      "quarantined_count": 0,
+      "check_fail_counts": {
+        "quality": 0,
+        "completeness": 0,
+        "recency": 0,
+        "uniqueness": 0
+      }
+    },
+    "incremental": {
+      "mode": "sync",
+      "collection": "rahbar_a2_test",
+      "embed_model": "nomic-embed-text",
+      "documents_unchanged": 4,
+      "documents_new": 0,
+      "documents_changed": 1,
+      "documents_deleted": 0,
+      "documents_superseded": 0,
+      "unchanged_doc_ids": [
+        "academic-rules",
+        "attendance-policy",
+        "fee-schedule",
+        "grading-scale"
+      ],
+      "new_doc_ids": [],
+      "changed_doc_ids": [
+        "library-rules"
+      ],
+      "deleted_doc_ids": [],
+      "superseded_versions": [],
+      "chunks_embedded": 3,
+      "embed_api_calls": 1,
+      "chunks_added": 3,
+      "chunks_deleted": 3,
+      "chunks_superseded": 0,
+      "total_chunks_in_store": 17,
+      "counts_by_doc_id": {
+        "academic-rules": 4,
+        "attendance-policy": 3,
+        "fee-schedule": 4,
+        "grading-scale": 3,
+        "library-rules": 3
+      },
+      "counts_by_doc_and_status": {
+        "academic-rules": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "attendance-policy": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "fee-schedule": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "grading-scale": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "library-rules": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        }
+      }
+    }
+  },
+  "step4_deleted_one_doc": {
+    "verification_summary": {
+      "total_documents": 4,
+      "passed_count": 4,
+      "failed_count": 0,
+      "quarantined_count": 0,
+      "check_fail_counts": {
+        "quality": 0,
+        "completeness": 0,
+        "recency": 0,
+        "uniqueness": 0
+      }
+    },
+    "incremental": {
+      "mode": "sync",
+      "collection": "rahbar_a2_test",
+      "embed_model": "nomic-embed-text",
+      "documents_unchanged": 4,
+      "documents_new": 0,
+      "documents_changed": 0,
+      "documents_deleted": 1,
+      "documents_superseded": 0,
+      "unchanged_doc_ids": [
+        "academic-rules",
+        "attendance-policy",
+        "fee-schedule",
+        "grading-scale"
+      ],
+      "new_doc_ids": [],
+      "changed_doc_ids": [],
+      "deleted_doc_ids": [
+        "library-rules"
+      ],
+      "superseded_versions": [],
+      "chunks_embedded": 0,
+      "embed_api_calls": 0,
+      "chunks_added": 0,
+      "chunks_deleted": 3,
+      "chunks_superseded": 0,
+      "total_chunks_in_store": 14,
+      "counts_by_doc_id": {
+        "academic-rules": 4,
+        "attendance-policy": 3,
+        "fee-schedule": 4,
+        "grading-scale": 3
+      },
+      "counts_by_doc_and_status": {
+        "academic-rules": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "attendance-policy": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "fee-schedule": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "grading-scale": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        }
+      }
+    }
+  },
+  "step5_batch_b_merge_and_supersede": {
+    "verification_summary": {
+      "total_documents": 11,
+      "passed_count": 4,
+      "failed_count": 7,
+      "quarantined_count": 7,
+      "check_fail_counts": {
+        "quality": 1,
+        "completeness": 3,
+        "recency": 1,
+        "uniqueness": 4
+      }
+    },
+    "incremental": {
+      "mode": "merge",
+      "collection": "rahbar_a2_test",
+      "embed_model": "nomic-embed-text",
+      "documents_unchanged": 0,
+      "documents_new": 3,
+      "documents_changed": 0,
+      "documents_deleted": 0,
+      "documents_superseded": 1,
+      "unchanged_doc_ids": [],
+      "new_doc_ids": [
+        "scholarship-policy",
+        "exam-conduct",
+        "advisor-notice"
+      ],
+      "changed_doc_ids": [],
+      "deleted_doc_ids": [],
+      "superseded_versions": [
+        "academic-rules@2024-08"
+      ],
+      "chunks_embedded": 12,
+      "embed_api_calls": 2,
+      "chunks_added": 12,
+      "chunks_deleted": 0,
+      "chunks_superseded": 4,
+      "total_chunks_in_store": 26,
+      "counts_by_doc_id": {
+        "academic-rules": 7,
+        "advisor-notice": 3,
+        "attendance-policy": 3,
+        "exam-conduct": 3,
+        "fee-schedule": 4,
+        "grading-scale": 3,
+        "scholarship-policy": 3
+      },
+      "counts_by_doc_and_status": {
+        "academic-rules": {
+          "active": 3,
+          "superseded": 4,
+          "total": 7
+        },
+        "advisor-notice": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "attendance-policy": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "exam-conduct": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "fee-schedule": {
+          "active": 4,
+          "superseded": 0,
+          "total": 4
+        },
+        "grading-scale": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        },
+        "scholarship-policy": {
+          "active": 3,
+          "superseded": 0,
+          "total": 3
+        }
+      }
+    },
+    "active_sources_filtered": [
+      "attendance-policy-2025.md",
+      "b01_scholarship_policy_2026.md",
+      "b02_exam_conduct_2026.md",
+      "b03_academic_rules_2026.md",
+      "b11_injected_advisor_notice.md",
+      "fee-schedule-2026.md",
+      "grading-scale-2026.md"
+    ],
+    "counts_by_doc_id": {
+      "academic-rules": 7,
+      "advisor-notice": 3,
+      "attendance-policy": 3,
+      "exam-conduct": 3,
+      "fee-schedule": 4,
+      "grading-scale": 3,
+      "scholarship-policy": 3
+    },
+    "counts_by_doc_and_status": {
+      "academic-rules": {
+        "active": 4,
+        "superseded": 3,
+        "total": 7
+      },
+      "advisor-notice": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      },
+      "attendance-policy": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      },
+      "exam-conduct": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      },
+      "fee-schedule": {
+        "active": 4,
+        "superseded": 0,
+        "total": 4
+      },
+      "grading-scale": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      },
+      "scholarship-policy": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      }
+    }
+  },
+  "step6_restore_academic_rules_2024_08": {
+    "restored": "academic-rules@2024-08",
+    "demoted_version": "2026-11",
+    "chunks_reactivated": 4,
+    "counts_by_doc_and_status": {
+      "academic-rules": {
+        "active": 4,
+        "superseded": 3,
+        "total": 7
+      },
+      "advisor-notice": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      },
+      "attendance-policy": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      },
+      "exam-conduct": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      },
+      "fee-schedule": {
+        "active": 4,
+        "superseded": 0,
+        "total": 4
+      },
+      "grading-scale": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      },
+      "scholarship-policy": {
+        "active": 3,
+        "superseded": 0,
+        "total": 3
+      }
+    },
+    "active_sources_filtered": [
+      "academic-rules-2024.md",
+      "attendance-policy-2025.md",
+      "b01_scholarship_policy_2026.md",
+      "b02_exam_conduct_2026.md",
+      "b11_injected_advisor_notice.md",
+      "fee-schedule-2026.md",
+      "grading-scale-2026.md"
+    ]
+  }
+}

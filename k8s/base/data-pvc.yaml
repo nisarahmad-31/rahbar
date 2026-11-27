@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rahbar-data-pvc
+  namespace: rahbar
+  labels:
+    app.kubernetes.io/name: rahbar-data
+    app.kubernetes.io/component: data-lake
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

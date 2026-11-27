@@ -5,8 +5,12 @@ metadata:
   namespace: rahbar
   labels:
     app.kubernetes.io/name: reindex
+    app.kubernetes.io/component: batch-indexer
 spec:
   schedule: "0 0 * * 0"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       backoffLimit: 3
@@ -14,17 +18,38 @@ spec:
         metadata:
           labels:
             app.kubernetes.io/name: indexer
+            app.kubernetes.io/component: batch-indexer
         spec:
+          serviceAccountName: rahbar-indexer
           restartPolicy: OnFailure
           automountServiceAccountToken: false
           securityContext:
             runAsNonRoot: true
             runAsUser: 10002
             fsGroup: 10002
+          initContainers:
+            - name: init-data-lake-dirs
+              image: busybox:1.36.1
+              imagePullPolicy: IfNotPresent
+              command:
+                - sh
+                - -c
+                - mkdir -p /data/lake /data/quarantine /data/archive /data/reports && chown -R 10002:10002 /data
+              securityContext:
+                runAsNonRoot: false
+                runAsUser: 0
+              volumeMounts:
+                - name: data-lake
+                  mountPath: /data
           containers:
             - name: indexer
               image: rahbar-indexer:dev
               imagePullPolicy: IfNotPresent
+              args:
+                - "--batch-name"
+                - "scheduled-reindex"
+                - "--incremental-mode"
+                - "merge"
               env:
                 - name: HOME
                   value: "/tmp"
@@ -47,12 +72,17 @@ spec:
               volumeMounts:
                 - name: tmp
                   mountPath: /tmp
+                - name: data-lake
+                  mountPath: /data
                 - name: corpus
                   mountPath: /corpus
                   readOnly: true
           volumes:
             - name: tmp
               emptyDir: {}
+            - name: data-lake
+              persistentVolumeClaim:
+                claimName: rahbar-data-pvc
             - name: corpus
               configMap:
                 name: rahbar-corpus

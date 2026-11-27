@@ -1,0 +1,373 @@
+{
+  "run_id": "69c0cbcf",
+  "timestamp": "2026-11-27T10:36:36Z",
+  "batch_name": "batch-b",
+  "corpus_dir": "../corpus/batches/batch_b",
+  "quarantine_dir": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103636_69c0cbcf",
+  "summary": {
+    "total_documents": 11,
+    "passed_count": 4,
+    "failed_count": 7,
+    "quarantined_count": 7,
+    "check_fail_counts": {
+      "quality": 1,
+      "completeness": 3,
+      "recency": 1,
+      "uniqueness": 4
+    }
+  },
+  "documents": [
+    {
+      "doc_id": "scholarship-policy",
+      "source": "b01_scholarship_policy_2026.md",
+      "title": "Merit and Need-Based Scholarship Policy (2026)",
+      "doc_version": "2026-09",
+      "date": "2026-09-01",
+      "page_count": 1,
+      "file_sha256": "8b285aa059b8cfab6ad48c4af262b7fa67b6a10f29ecbe76b4cb276e06540e01",
+      "text_sha256": "2c389ac66274d556f07f988c1a00f7769c76165073dde39b3889a88baece6f04",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 472 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Merit and Need-Based Scholarship Policy (2026)', version='2026-09', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'scholarship-policy' (2026-09)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.0954)"
+        }
+      }
+    },
+    {
+      "doc_id": "exam-conduct",
+      "source": "b02_exam_conduct_2026.md",
+      "title": "Examination Conduct and Dishonesty Policy (2026)",
+      "doc_version": "2026-09",
+      "date": "2026-09-10",
+      "page_count": 1,
+      "file_sha256": "9fc4407c068f4b0da17c38810aac0437114b89ccf2ba5ac86806fef79572f749",
+      "text_sha256": "95b72a19e7d242c5fcc801f64dc3af93b6814b71d384663a5419c1651da11e83",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 510 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Examination Conduct and Dishonesty Policy (2026)', version='2026-09', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'exam-conduct' (2026-09)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.1550)"
+        }
+      }
+    },
+    {
+      "doc_id": "academic-rules",
+      "source": "b03_academic_rules_2026.md",
+      "title": "Academic Rules Handbook (Fall 2026 Edition)",
+      "doc_version": "2026-11",
+      "date": "2026-11-01",
+      "page_count": 1,
+      "file_sha256": "e0c2119b0211fead4bde2dd4e19f2b2a1d66d1077b3afb07a49a34a45b591fc4",
+      "text_sha256": "b08f294f467abd820ff7cfc819412e31719db236e999bcb50a5a6fc26a43775c",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 660 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Academic Rules Handbook (Fall 2026 Edition)', version='2026-11', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'academic-rules' (2026-11)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.1733)"
+        }
+      }
+    },
+    {
+      "doc_id": "fee-schedule",
+      "source": "b04_fee_schedule_2023.md",
+      "title": "University Fee Schedule and Refund Policy (2023)",
+      "doc_version": "2023-05",
+      "date": "2023-05-01",
+      "page_count": 1,
+      "file_sha256": "af0af0ad3bf313fc06f8e75492b520e18674b5d220cf66bcf6f0a749456973cf",
+      "text_sha256": "23fca1260d3146b51de63fdc7eacbea1c02a27a3793da2c5439183f078c0de7d",
+      "status": "fail",
+      "quarantined": true,
+      "quarantine_path": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103636_69c0cbcf/b04_fee_schedule_2023.md",
+      "superseded_by": "fee-schedule-2026.md",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 359 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='University Fee Schedule and Refund Policy (2023)', version='2023-05', pages=1)"
+        },
+        "recency": {
+          "status": "fail",
+          "reason": "newer version 2026-01 (fee-schedule-2026.md) detected for doc_id 'fee-schedule'"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.0924)"
+        }
+      }
+    },
+    {
+      "doc_id": "scholarship-dup-copy",
+      "source": "b05_exact_dup_scholarship.md",
+      "title": "Merit and Need-Based Scholarship Policy (2026)",
+      "doc_version": "2026-09",
+      "date": "2026-09-01",
+      "page_count": 1,
+      "file_sha256": "1e9c2b5bc83aebd5fdcd006c6bb1fab11eb5b47448c6088563cf33ee5db9c47e",
+      "text_sha256": "2c389ac66274d556f07f988c1a00f7769c76165073dde39b3889a88baece6f04",
+      "status": "fail",
+      "quarantined": true,
+      "quarantine_path": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103636_69c0cbcf/b05_exact_dup_scholarship.md",
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 472 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Merit and Need-Based Scholarship Policy (2026)', version='2026-09', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'scholarship-dup-copy' (2026-09)"
+        },
+        "uniqueness": {
+          "status": "fail",
+          "reason": "exact text duplicate of 'b01_scholarship_policy_2026.md' (sha256=2c389ac66274)"
+        }
+      }
+    },
+    {
+      "doc_id": "grading-dup-copy",
+      "source": "b06_exact_dup_grading.md",
+      "title": "University Grading Scale and GPA Policy",
+      "doc_version": "2026-01",
+      "date": "2026-01-08",
+      "page_count": 1,
+      "file_sha256": "c339816dfee9a443563a58deaf69987302f1ea8252964fa0938ed15f40525207",
+      "text_sha256": "c8f3987e112b2f126e93c2b28e305f7867eadd67d08acd6ccc996f454db573e2",
+      "status": "fail",
+      "quarantined": true,
+      "quarantine_path": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103636_69c0cbcf/b06_exact_dup_grading.md",
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 583 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='University Grading Scale and GPA Policy', version='2026-01', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'grading-dup-copy' (2026-01)"
+        },
+        "uniqueness": {
+          "status": "fail",
+          "reason": "exact text duplicate of 'grading-scale-2026.md' (sha256=c8f3987e112b)"
+        }
+      }
+    },
+    {
+      "doc_id": "exam-conduct-near-dup",
+      "source": "b07_near_dup_exam_conduct.md",
+      "title": "Examination Conduct and Dishonesty Policy (Fall 2026 Draft)",
+      "doc_version": "2026-09",
+      "date": "2026-09-12",
+      "page_count": 1,
+      "file_sha256": "3f917c7285dc0038e56e5b48e6810b48826edbcd334d7a9762625fd1b25b344a",
+      "text_sha256": "8931b380dbc00a05ebc09ab58a967575ec7e24ae348b52bc0381a59fd522932e",
+      "status": "fail",
+      "quarantined": true,
+      "quarantine_path": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103636_69c0cbcf/b07_near_dup_exam_conduct.md",
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 551 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Examination Conduct and Dishonesty Policy (Fall 2026 Draft)', version='2026-09', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'exam-conduct-near-dup' (2026-09)"
+        },
+        "uniqueness": {
+          "status": "fail",
+          "reason": "near-duplicate of 'b02_exam_conduct_2026.md' (cosine=0.9178 >= 0.85)"
+        }
+      }
+    },
+    {
+      "doc_id": "corrupt-lab-policy",
+      "source": "b08_corrupt_lab_policy.pdf",
+      "title": "",
+      "doc_version": "unknown",
+      "date": "",
+      "page_count": 0,
+      "file_sha256": "77dcba40061cd603eae58793482e26a3c9f1cb904f51ee8e973b4c99cfbfb29b",
+      "text_sha256": "",
+      "status": "fail",
+      "quarantined": true,
+      "quarantine_path": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103636_69c0cbcf/b08_corrupt_lab_policy.pdf",
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "fail",
+          "reason": "failed extraction: corrupt or unreadable PDF: No /Root object! - Is this really a PDF?"
+        },
+        "completeness": {
+          "status": "fail",
+          "reason": "missing required metadata: title, date_or_version, page_count"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'corrupt-lab-policy' (unknown)"
+        },
+        "uniqueness": {
+          "status": "fail",
+          "reason": "skipped uniqueness due to failed extraction/quality"
+        }
+      }
+    },
+    {
+      "doc_id": "internship-policy",
+      "source": "b09_truncated_internship_policy.md",
+      "title": "Industrial Internship Policy (2026)",
+      "doc_version": "2026-08",
+      "date": "2026-08-20",
+      "page_count": 1,
+      "file_sha256": "c18a99cf10a2575387b5b5d43de59930d69755d75d07bea1f96191ca3e214cf4",
+      "text_sha256": "de082f76d4707701f185a266e230beba891c6a9591812c70364ee00499d0e013",
+      "status": "fail",
+      "quarantined": true,
+      "quarantine_path": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103636_69c0cbcf/b09_truncated_internship_policy.md",
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 201 chars)"
+        },
+        "completeness": {
+          "status": "fail",
+          "reason": "truncated text: found marker '[truncated]'"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'internship-policy' (2026-08)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.1692)"
+        }
+      }
+    },
+    {
+      "doc_id": "hostel-draft",
+      "source": "b10_missing_meta_hostel_draft.md",
+      "title": "",
+      "doc_version": "",
+      "date": "",
+      "page_count": 1,
+      "file_sha256": "8fc821b7891036dabf41c4885658157219ded944ec64cdc9cb7c44d5d6ffba28",
+      "text_sha256": "284b4f1a0c61dda69bae4989e715fd4397e5e81ad2c50e77403bb2c9360f7c7a",
+      "status": "fail",
+      "quarantined": true,
+      "quarantine_path": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103636_69c0cbcf/b10_missing_meta_hostel_draft.md",
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 205 chars)"
+        },
+        "completeness": {
+          "status": "fail",
+          "reason": "missing required metadata: title, date_or_version"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'hostel-draft' ()"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.0256)"
+        }
+      }
+    },
+    {
+      "doc_id": "advisor-notice",
+      "source": "b11_injected_advisor_notice.md",
+      "title": "Academic Advising and Registration Notice (Fall 2026)",
+      "doc_version": "2026-10",
+      "date": "2026-10-15",
+      "page_count": 1,
+      "file_sha256": "7a5369f5b7ae00c28da7eba1df474100ba7d8c1fee4014f765a61d2f4b9e816e",
+      "text_sha256": "ca937e0d90dd3564d29841b8404182efdfbcd54afca59cd544cadc5bc926256c",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 594 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Academic Advising and Registration Notice (Fall 2026)', version='2026-10', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'advisor-notice' (2026-10)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.1747)"
+        }
+      }
+    }
+  ]
+}

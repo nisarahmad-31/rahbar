@@ -22,12 +22,24 @@ spec:
         app.kubernetes.io/name: api
         app.kubernetes.io/component: backend
     spec:
+      serviceAccountName: rahbar-api
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 30
       securityContext:
         runAsNonRoot: true
         runAsUser: 10001
         fsGroup: 10001
+      initContainers:
+        - name: init-traces-dir
+          image: busybox:1.36.1
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "mkdir -p /traces && chown -R 10001:10001 /traces"]
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - name: traces
+              mountPath: /traces
       containers:
         - name: api
           image: rahbar-api:dev
@@ -49,11 +61,11 @@ spec:
               name: http
           resources:
             requests:
-              cpu: 100m
-              memory: 256Mi
+              cpu: 50m
+              memory: 128Mi
             limits:
               cpu: 500m
-              memory: 512Mi
+              memory: 256Mi
           securityContext:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
@@ -63,6 +75,8 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+            - name: traces
+              mountPath: /traces
           lifecycle:
             preStop:
               exec:
@@ -88,6 +102,9 @@ spec:
       volumes:
         - name: tmp
           emptyDir: {}
+        - name: traces
+          persistentVolumeClaim:
+            claimName: rahbar-traces-pvc
 ---
 apiVersion: v1
 kind: Service
