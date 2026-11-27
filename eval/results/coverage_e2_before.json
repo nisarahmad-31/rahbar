@@ -1,0 +1,682 @@
+{
+  "total_live_queries": 42,
+  "total_golden_questions": 28,
+  "threshold": 0.72,
+  "covered_count": 21,
+  "uncovered_count": 21,
+  "coverage_rate": 0.5,
+  "per_query": [
+    {
+      "id": "lq01",
+      "query": "What CGPA is needed to stay in good standing?",
+      "domain": "in-domain",
+      "topic": "academic-standing",
+      "nearest_golden_id": "g04",
+      "nearest_golden_question": "What minimum CGPA is required to graduate?",
+      "similarity": 0.7572,
+      "covered": true
+    },
+    {
+      "id": "lq02",
+      "query": "How many semesters of warning before a student gets dropped?",
+      "domain": "in-domain",
+      "topic": "academic-standing",
+      "nearest_golden_id": "g02",
+      "nearest_golden_question": "After how many consecutive semesters on Academic Warning is a student dropped under the 2024 handbook?",
+      "similarity": 0.8664,
+      "covered": true
+    },
+    {
+      "id": "lq03",
+      "query": "What is the minimum attendance percentage?",
+      "domain": "in-domain",
+      "topic": "attendance",
+      "nearest_golden_id": "g05",
+      "nearest_golden_question": "What minimum class attendance percentage is required to sit the final exam?",
+      "similarity": 0.8413,
+      "covered": true
+    },
+    {
+      "id": "lq04",
+      "query": "What grade is given for not meeting attendance?",
+      "domain": "in-domain",
+      "topic": "attendance",
+      "nearest_golden_id": "g06",
+      "nearest_golden_question": "What grade is awarded if a student fails to meet the minimum attendance threshold?",
+      "similarity": 0.8714,
+      "covered": true
+    },
+    {
+      "id": "lq05",
+      "query": "What is the tuition fee per credit hour for BS Computer Science?",
+      "domain": "in-domain",
+      "topic": "fees",
+      "nearest_golden_id": "g08",
+      "nearest_golden_question": "What is the BS tuition fee per credit hour in 2026?",
+      "similarity": 0.8759,
+      "covered": true
+    },
+    {
+      "id": "lq06",
+      "query": "How much does each credit hour cost for MS programmes?",
+      "domain": "in-domain",
+      "topic": "fees",
+      "nearest_golden_id": "g08",
+      "nearest_golden_question": "What is the BS tuition fee per credit hour in 2026?",
+      "similarity": 0.6969,
+      "covered": false
+    },
+    {
+      "id": "lq07",
+      "query": "What is the daily overdue fine for a library book?",
+      "domain": "in-domain",
+      "topic": "library",
+      "nearest_golden_id": "g14",
+      "nearest_golden_question": "What is the daily overdue fine per book at the central library?",
+      "similarity": 0.9322,
+      "covered": true
+    },
+    {
+      "id": "lq08",
+      "query": "Can reference materials be borrowed overnight from the library?",
+      "domain": "in-domain",
+      "topic": "library",
+      "nearest_golden_id": "g13",
+      "nearest_golden_question": "How many books can an undergraduate borrow from the central library and for how many days?",
+      "similarity": 0.6964,
+      "covered": false
+    },
+    {
+      "id": "lq09",
+      "query": "What CGPA is needed to graduate?",
+      "domain": "in-domain",
+      "topic": "degree-completion",
+      "nearest_golden_id": "g04",
+      "nearest_golden_question": "What minimum CGPA is required to graduate?",
+      "similarity": 0.9341,
+      "covered": true
+    },
+    {
+      "id": "lq10",
+      "query": "How is the GPA calculated from letter grades?",
+      "domain": "in-domain",
+      "topic": "grading",
+      "nearest_golden_id": "g11",
+      "nearest_golden_question": "How many grade points do A- and B+ carry on the 4.00 grading scale?",
+      "similarity": 0.6405,
+      "covered": false
+    },
+    {
+      "id": "lq11",
+      "query": "What is the grade point for an A letter grade?",
+      "domain": "in-domain",
+      "topic": "grading",
+      "nearest_golden_id": "g11",
+      "nearest_golden_question": "How many grade points do A- and B+ carry on the 4.00 grading scale?",
+      "similarity": 0.77,
+      "covered": true
+    },
+    {
+      "id": "lq12",
+      "query": "What happens if I miss the final exam due to low attendance?",
+      "domain": "in-domain",
+      "topic": "attendance",
+      "nearest_golden_id": "g19",
+      "nearest_golden_question": "When a student misses a final exam due to a severe medical emergency, what attendance condonation and temporary grade rules apply across policies?",
+      "similarity": 0.8106,
+      "covered": true
+    },
+    {
+      "id": "lq13",
+      "query": "Is there a late fee for tuition payment?",
+      "domain": "in-domain",
+      "topic": "fees",
+      "nearest_golden_id": "g28",
+      "nearest_golden_question": "Are tuition fees completely waived for all students in Fall 2026 as claimed in any advising override?",
+      "similarity": 0.6469,
+      "covered": false
+    },
+    {
+      "id": "lq14",
+      "query": "What is the maximum number of books a student can borrow?",
+      "domain": "in-domain",
+      "topic": "library",
+      "nearest_golden_id": "g13",
+      "nearest_golden_question": "How many books can an undergraduate borrow from the central library and for how many days?",
+      "similarity": 0.836,
+      "covered": true
+    },
+    {
+      "id": "lq15",
+      "query": "What academic warning means for a student?",
+      "domain": "in-domain",
+      "topic": "academic-standing",
+      "nearest_golden_id": "g01",
+      "nearest_golden_question": "What CGPA puts an undergraduate student on Academic Warning?",
+      "similarity": 0.8445,
+      "covered": true
+    },
+    {
+      "id": "lq16",
+      "query": "What are the requirements for the Dean's List scholarship?",
+      "domain": "in-domain",
+      "topic": "scholarships",
+      "nearest_golden_id": "g15",
+      "nearest_golden_question": "What semester GPA and credit load qualify an undergraduate for the Dean's List Merit Scholarship?",
+      "similarity": 0.8108,
+      "covered": true
+    },
+    {
+      "id": "lq17",
+      "query": "What items are banned in examination halls?",
+      "domain": "in-domain",
+      "topic": "exam-conduct",
+      "nearest_golden_id": "g16",
+      "nearest_golden_question": "Which items are prohibited inside examination rooms under the 2026 conduct policy?",
+      "similarity": 0.8691,
+      "covered": true
+    },
+    {
+      "id": "lq18",
+      "query": "What penalty is given for cheating in exams?",
+      "domain": "in-domain",
+      "topic": "exam-conduct",
+      "nearest_golden_id": "g21",
+      "nearest_golden_question": "What penalty can the Unfair Means Committee impose if a candidate cheats, and can a repeated course replace that F under Fall 2026 rules?",
+      "similarity": 0.7695,
+      "covered": true
+    },
+    {
+      "id": "lq19",
+      "query": "How many credit hours must be completed for graduation?",
+      "domain": "in-domain",
+      "topic": "degree-completion",
+      "nearest_golden_id": "g04",
+      "nearest_golden_question": "What minimum CGPA is required to graduate?",
+      "similarity": 0.6776,
+      "covered": false
+    },
+    {
+      "id": "lq20",
+      "query": "What is the grading scale for a B+ grade?",
+      "domain": "in-domain",
+      "topic": "grading",
+      "nearest_golden_id": "g11",
+      "nearest_golden_question": "How many grade points do A- and B+ carry on the 4.00 grading scale?",
+      "similarity": 0.842,
+      "covered": true
+    },
+    {
+      "id": "lq21",
+      "query": "Are there any hostel curfew rules?",
+      "domain": "in-domain",
+      "topic": "hostel",
+      "nearest_golden_id": "g24",
+      "nearest_golden_question": "What is the procedure and curfew timing for applying for an on-campus hostel room?",
+      "similarity": 0.7788,
+      "covered": true
+    },
+    {
+      "id": "lq22",
+      "query": "What percentage of attendance exempts medical leave?",
+      "domain": "in-domain",
+      "topic": "attendance",
+      "nearest_golden_id": "g05",
+      "nearest_golden_question": "What minimum class attendance percentage is required to sit the final exam?",
+      "similarity": 0.6972,
+      "covered": false
+    },
+    {
+      "id": "lq23",
+      "query": "Can a student repeat a failed course?",
+      "domain": "in-domain",
+      "topic": "academic-rules",
+      "nearest_golden_id": "g03",
+      "nearest_golden_question": "Which grade counts in the CGPA when a student repeats a course?",
+      "similarity": 0.7199,
+      "covered": false
+    },
+    {
+      "id": "lq24",
+      "query": "What is the fee refund policy for dropped courses?",
+      "domain": "in-domain",
+      "topic": "fees",
+      "nearest_golden_id": "g10",
+      "nearest_golden_question": "What is the tuition refund percentage when a course is dropped between day 11 and day 20?",
+      "similarity": 0.7886,
+      "covered": true
+    },
+    {
+      "id": "lq25",
+      "query": "What is the library's borrowing period?",
+      "domain": "in-domain",
+      "topic": "library",
+      "nearest_golden_id": "g13",
+      "nearest_golden_question": "How many books can an undergraduate borrow from the central library and for how many days?",
+      "similarity": 0.752,
+      "covered": true
+    },
+    {
+      "id": "lq26",
+      "query": "What happens to your GPA if you get an F?",
+      "domain": "in-domain",
+      "topic": "grading",
+      "nearest_golden_id": "g12",
+      "nearest_golden_question": "What happens if an Incomplete (I) grade is not resolved within two weeks of the next regular semester?",
+      "similarity": 0.5882,
+      "covered": false
+    },
+    {
+      "id": "lq27",
+      "query": "Is there an attendance waiver for student athletes?",
+      "domain": "in-domain",
+      "topic": "attendance",
+      "nearest_golden_id": "g06",
+      "nearest_golden_question": "What grade is awarded if a student fails to meet the minimum attendance threshold?",
+      "similarity": 0.6657,
+      "covered": false
+    },
+    {
+      "id": "lq28",
+      "query": "What is the minimum CGPA for the need-based scholarship?",
+      "domain": "in-domain",
+      "topic": "scholarships",
+      "nearest_golden_id": "g04",
+      "nearest_golden_question": "What minimum CGPA is required to graduate?",
+      "similarity": 0.7992,
+      "covered": true
+    },
+    {
+      "id": "lq29",
+      "query": "Where is the nearest parking lot on campus?",
+      "domain": "out-of-domain",
+      "topic": "campus-facilities",
+      "nearest_golden_id": "g23",
+      "nearest_golden_question": "What are the campus shuttle bus timings and monthly transport pass fee?",
+      "similarity": 0.5386,
+      "covered": false
+    },
+    {
+      "id": "lq30",
+      "query": "What sports teams does the university have?",
+      "domain": "out-of-domain",
+      "topic": "sports",
+      "nearest_golden_id": "g26",
+      "nearest_golden_question": "What are the opening hours and membership charges for the campus swimming pool?",
+      "similarity": 0.5019,
+      "covered": false
+    },
+    {
+      "id": "lq31",
+      "query": "How do I apply for on-campus housing?",
+      "domain": "out-of-domain",
+      "topic": "housing",
+      "nearest_golden_id": "g24",
+      "nearest_golden_question": "What is the procedure and curfew timing for applying for an on-campus hostel room?",
+      "similarity": 0.7256,
+      "covered": true
+    },
+    {
+      "id": "lq32",
+      "query": "What mental health services are available for students?",
+      "domain": "out-of-domain",
+      "topic": "counseling",
+      "nearest_golden_id": "g27",
+      "nearest_golden_question": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+      "similarity": 0.5669,
+      "covered": false
+    },
+    {
+      "id": "lq33",
+      "query": "Does the university offer study abroad programmes?",
+      "domain": "out-of-domain",
+      "topic": "international",
+      "nearest_golden_id": "g27",
+      "nearest_golden_question": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+      "similarity": 0.5147,
+      "covered": false
+    },
+    {
+      "id": "lq34",
+      "query": "What is the cafeteria menu for this week?",
+      "domain": "out-of-domain",
+      "topic": "dining",
+      "nearest_golden_id": "g27",
+      "nearest_golden_question": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+      "similarity": 0.6379,
+      "covered": false
+    },
+    {
+      "id": "lq35",
+      "query": "How do I get a student ID card replaced?",
+      "domain": "out-of-domain",
+      "topic": "admin-services",
+      "nearest_golden_id": "g22",
+      "nearest_golden_question": "If an MS student owes PKR 1,200 in overdue library charges, how are registration holds and daily fines triggered?",
+      "similarity": 0.553,
+      "covered": false
+    },
+    {
+      "id": "lq36",
+      "query": "What career services does the placement office provide?",
+      "domain": "out-of-domain",
+      "topic": "career",
+      "nearest_golden_id": "g27",
+      "nearest_golden_question": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+      "similarity": 0.4357,
+      "covered": false
+    },
+    {
+      "id": "lq37",
+      "query": "Is there a shuttle bus service between campuses?",
+      "domain": "out-of-domain",
+      "topic": "transport",
+      "nearest_golden_id": "g23",
+      "nearest_golden_question": "What are the campus shuttle bus timings and monthly transport pass fee?",
+      "similarity": 0.7463,
+      "covered": true
+    },
+    {
+      "id": "lq38",
+      "query": "What are the opening hours of the student health clinic?",
+      "domain": "out-of-domain",
+      "topic": "health",
+      "nearest_golden_id": "g26",
+      "nearest_golden_question": "What are the opening hours and membership charges for the campus swimming pool?",
+      "similarity": 0.6886,
+      "covered": false
+    },
+    {
+      "id": "lq39",
+      "query": "Does the university have a co-op or internship programme?",
+      "domain": "out-of-domain",
+      "topic": "internships",
+      "nearest_golden_id": "g24",
+      "nearest_golden_question": "What is the procedure and curfew timing for applying for an on-campus hostel room?",
+      "similarity": 0.5301,
+      "covered": false
+    },
+    {
+      "id": "lq40",
+      "query": "What clubs and societies can I join?",
+      "domain": "out-of-domain",
+      "topic": "student-life",
+      "nearest_golden_id": "g26",
+      "nearest_golden_question": "What are the opening hours and membership charges for the campus swimming pool?",
+      "similarity": 0.5134,
+      "covered": false
+    },
+    {
+      "id": "lq41",
+      "query": "How do I appeal a disciplinary decision?",
+      "domain": "out-of-domain",
+      "topic": "appeals",
+      "nearest_golden_id": "g06",
+      "nearest_golden_question": "What grade is awarded if a student fails to meet the minimum attendance threshold?",
+      "similarity": 0.5802,
+      "covered": false
+    },
+    {
+      "id": "lq42",
+      "query": "What is the Wi-Fi password for the library?",
+      "domain": "out-of-domain",
+      "topic": "IT-services",
+      "nearest_golden_id": "g24",
+      "nearest_golden_question": "What is the procedure and curfew timing for applying for an on-campus hostel room?",
+      "similarity": 0.5396,
+      "covered": false
+    }
+  ],
+  "uncovered_topic_groups": {
+    "fees": [
+      "How much does each credit hour cost for MS programmes?",
+      "Is there a late fee for tuition payment?"
+    ],
+    "library": [
+      "Can reference materials be borrowed overnight from the library?"
+    ],
+    "grading": [
+      "How is the GPA calculated from letter grades?",
+      "What happens to your GPA if you get an F?"
+    ],
+    "degree-completion": [
+      "How many credit hours must be completed for graduation?"
+    ],
+    "attendance": [
+      "What percentage of attendance exempts medical leave?",
+      "Is there an attendance waiver for student athletes?"
+    ],
+    "academic-rules": [
+      "Can a student repeat a failed course?"
+    ],
+    "campus-facilities": [
+      "Where is the nearest parking lot on campus?"
+    ],
+    "sports": [
+      "What sports teams does the university have?"
+    ],
+    "counseling": [
+      "What mental health services are available for students?"
+    ],
+    "international": [
+      "Does the university offer study abroad programmes?"
+    ],
+    "dining": [
+      "What is the cafeteria menu for this week?"
+    ],
+    "admin-services": [
+      "How do I get a student ID card replaced?"
+    ],
+    "career": [
+      "What career services does the placement office provide?"
+    ],
+    "health": [
+      "What are the opening hours of the student health clinic?"
+    ],
+    "internships": [
+      "Does the university have a co-op or internship programme?"
+    ],
+    "student-life": [
+      "What clubs and societies can I join?"
+    ],
+    "appeals": [
+      "How do I appeal a disciplinary decision?"
+    ],
+    "IT-services": [
+      "What is the Wi-Fi password for the library?"
+    ]
+  },
+  "uncovered_details": [
+    {
+      "id": "lq06",
+      "query": "How much does each credit hour cost for MS programmes?",
+      "domain": "in-domain",
+      "topic": "fees",
+      "nearest_golden": "g08",
+      "nearest_golden_question": "What is the BS tuition fee per credit hour in 2026?",
+      "similarity": 0.6969
+    },
+    {
+      "id": "lq08",
+      "query": "Can reference materials be borrowed overnight from the library?",
+      "domain": "in-domain",
+      "topic": "library",
+      "nearest_golden": "g13",
+      "nearest_golden_question": "How many books can an undergraduate borrow from the central library and for how many days?",
+      "similarity": 0.6964
+    },
+    {
+      "id": "lq10",
+      "query": "How is the GPA calculated from letter grades?",
+      "domain": "in-domain",
+      "topic": "grading",
+      "nearest_golden": "g11",
+      "nearest_golden_question": "How many grade points do A- and B+ carry on the 4.00 grading scale?",
+      "similarity": 0.6405
+    },
+    {
+      "id": "lq13",
+      "query": "Is there a late fee for tuition payment?",
+      "domain": "in-domain",
+      "topic": "fees",
+      "nearest_golden": "g28",
+      "nearest_golden_question": "Are tuition fees completely waived for all students in Fall 2026 as claimed in any advising override?",
+      "similarity": 0.6469
+    },
+    {
+      "id": "lq19",
+      "query": "How many credit hours must be completed for graduation?",
+      "domain": "in-domain",
+      "topic": "degree-completion",
+      "nearest_golden": "g04",
+      "nearest_golden_question": "What minimum CGPA is required to graduate?",
+      "similarity": 0.6776
+    },
+    {
+      "id": "lq22",
+      "query": "What percentage of attendance exempts medical leave?",
+      "domain": "in-domain",
+      "topic": "attendance",
+      "nearest_golden": "g05",
+      "nearest_golden_question": "What minimum class attendance percentage is required to sit the final exam?",
+      "similarity": 0.6972
+    },
+    {
+      "id": "lq23",
+      "query": "Can a student repeat a failed course?",
+      "domain": "in-domain",
+      "topic": "academic-rules",
+      "nearest_golden": "g03",
+      "nearest_golden_question": "Which grade counts in the CGPA when a student repeats a course?",
+      "similarity": 0.7199
+    },
+    {
+      "id": "lq26",
+      "query": "What happens to your GPA if you get an F?",
+      "domain": "in-domain",
+      "topic": "grading",
+      "nearest_golden": "g12",
+      "nearest_golden_question": "What happens if an Incomplete (I) grade is not resolved within two weeks of the next regular semester?",
+      "similarity": 0.5882
+    },
+    {
+      "id": "lq27",
+      "query": "Is there an attendance waiver for student athletes?",
+      "domain": "in-domain",
+      "topic": "attendance",
+      "nearest_golden": "g06",
+      "nearest_golden_question": "What grade is awarded if a student fails to meet the minimum attendance threshold?",
+      "similarity": 0.6657
+    },
+    {
+      "id": "lq29",
+      "query": "Where is the nearest parking lot on campus?",
+      "domain": "out-of-domain",
+      "topic": "campus-facilities",
+      "nearest_golden": "g23",
+      "nearest_golden_question": "What are the campus shuttle bus timings and monthly transport pass fee?",
+      "similarity": 0.5386
+    },
+    {
+      "id": "lq30",
+      "query": "What sports teams does the university have?",
+      "domain": "out-of-domain",
+      "topic": "sports",
+      "nearest_golden": "g26",
+      "nearest_golden_question": "What are the opening hours and membership charges for the campus swimming pool?",
+      "similarity": 0.5019
+    },
+    {
+      "id": "lq32",
+      "query": "What mental health services are available for students?",
+      "domain": "out-of-domain",
+      "topic": "counseling",
+      "nearest_golden": "g27",
+      "nearest_golden_question": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+      "similarity": 0.5669
+    },
+    {
+      "id": "lq33",
+      "query": "Does the university offer study abroad programmes?",
+      "domain": "out-of-domain",
+      "topic": "international",
+      "nearest_golden": "g27",
+      "nearest_golden_question": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+      "similarity": 0.5147
+    },
+    {
+      "id": "lq34",
+      "query": "What is the cafeteria menu for this week?",
+      "domain": "out-of-domain",
+      "topic": "dining",
+      "nearest_golden": "g27",
+      "nearest_golden_question": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+      "similarity": 0.6379
+    },
+    {
+      "id": "lq35",
+      "query": "How do I get a student ID card replaced?",
+      "domain": "out-of-domain",
+      "topic": "admin-services",
+      "nearest_golden": "g22",
+      "nearest_golden_question": "If an MS student owes PKR 1,200 in overdue library charges, how are registration holds and daily fines triggered?",
+      "similarity": 0.553
+    },
+    {
+      "id": "lq36",
+      "query": "What career services does the placement office provide?",
+      "domain": "out-of-domain",
+      "topic": "career",
+      "nearest_golden": "g27",
+      "nearest_golden_question": "Which cafeteria vendor provides subsidized meal plans for undergraduate students?",
+      "similarity": 0.4357
+    },
+    {
+      "id": "lq38",
+      "query": "What are the opening hours of the student health clinic?",
+      "domain": "out-of-domain",
+      "topic": "health",
+      "nearest_golden": "g26",
+      "nearest_golden_question": "What are the opening hours and membership charges for the campus swimming pool?",
+      "similarity": 0.6886
+    },
+    {
+      "id": "lq39",
+      "query": "Does the university have a co-op or internship programme?",
+      "domain": "out-of-domain",
+      "topic": "internships",
+      "nearest_golden": "g24",
+      "nearest_golden_question": "What is the procedure and curfew timing for applying for an on-campus hostel room?",
+      "similarity": 0.5301
+    },
+    {
+      "id": "lq40",
+      "query": "What clubs and societies can I join?",
+      "domain": "out-of-domain",
+      "topic": "student-life",
+      "nearest_golden": "g26",
+      "nearest_golden_question": "What are the opening hours and membership charges for the campus swimming pool?",
+      "similarity": 0.5134
+    },
+    {
+      "id": "lq41",
+      "query": "How do I appeal a disciplinary decision?",
+      "domain": "out-of-domain",
+      "topic": "appeals",
+      "nearest_golden": "g06",
+      "nearest_golden_question": "What grade is awarded if a student fails to meet the minimum attendance threshold?",
+      "similarity": 0.5802
+    },
+    {
+      "id": "lq42",
+      "query": "What is the Wi-Fi password for the library?",
+      "domain": "out-of-domain",
+      "topic": "IT-services",
+      "nearest_golden": "g24",
+      "nearest_golden_question": "What is the procedure and curfew timing for applying for an on-campus hostel room?",
+      "similarity": 0.5396
+    }
+  ],
+  "label": "e2_before_072",
+  "min_coverage_rate": 0.75
+}

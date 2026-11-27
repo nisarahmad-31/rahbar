@@ -1,0 +1,81 @@
+{
+  "window": {
+    "since": "2026-11-27T12:43:41Z",
+    "until": "2026-11-27T14:43:41Z",
+    "raw_records_loaded": 57,
+    "records_in_window": 57
+  },
+  "summary": {
+    "total_queries": 57,
+    "status_breakdown": {
+      "answered": 38,
+      "abstained": 15,
+      "cache_hit": 0,
+      "fallback": 4,
+      "rejected": 0
+    },
+    "top1_similarity_distribution": {
+      "count": 57,
+      "min": 0.5602,
+      "p25": 0.7338,
+      "p50": 0.8027,
+      "p75": 0.8401,
+      "p95": 0.8744,
+      "max": 0.8805,
+      "mean": 0.7684,
+      "buckets": {
+        "<0.55": 0,
+        "0.55-0.65": 10,
+        "0.65-0.75": 6,
+        "0.75-0.85": 32,
+        ">=0.85": 9
+      }
+    },
+    "abstention_count": 15,
+    "abstention_rate": 0.2632,
+    "cache_hit_count": 0,
+    "cache_hit_rate": 0.0,
+    "p50_latency_ms_per_stage": {
+      "total": 37837.57,
+      "embed": 209.18,
+      "cache": 7.92,
+      "retrieval": 26.99,
+      "guardrail": 0.36,
+      "generation": 37606.58
+    },
+    "p95_latency_ms_per_stage": {
+      "total": 65260.86,
+      "embed": 622.75,
+      "cache": 20.01,
+      "retrieval": 185.56,
+      "guardrail": 1.1,
+      "generation": 64558.14
+    },
+    "injection_attempts_flagged": 19,
+    "injection_events_count": 19,
+    "injection_trace_ids": [
+      "53501cfc4fb146699d995a59ad45b91e",
+      "a9944ebed72f499485e08f6e4ffa370d",
+      "d0333751f5bd43368c13f201ce705c94",
+      "f2c2e49284a0404eb67deed98d562a6e",
+      "9908d5acca0c43409eae0fe4f94b67e1",
+      "42ef34ab0bc94d6aa595ec2cb057d43b",
+      "423ca18394784750a5fa2ba7c57fd7bf",
+      "35eae959b13c42809d8a261e68f0b4ae",
+      "19a2be8823954dbb98b35a22dfdd5fcb",
+      "26f4f93d7049497e83816e219ec03f0a",
+      "92cb841a74fa4f18b7b30ab6486d77ca",
+      "76ca763fb60a4f4185504e8161992b82",
+      "6cc9521563df48958f3ff971efb63577",
+      "24ca155da2d2410598e60661bd1bc67d",
+      "23302e72eb474d4daeade88173d24916",
+      "19f4f95090d44e799eb5ebe4042da689",
+      "29c20105006a420b859e7f2439c93984",
+      "fab37fd4707440b89ff13cc3656882fc",
+      "a791fd7adbee4ba1a44ddf3ef9fee64e"
+    ],
+    "injection_flagged_chunks": [
+      "advisor-notice@2026-10-1-2"
+    ]
+  }
+}

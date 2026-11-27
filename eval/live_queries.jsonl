@@ -1,0 +1,42 @@
+{"id":"lq01","query":"What CGPA is needed to stay in good standing?","domain":"in-domain","topic":"academic-standing"}
+{"id":"lq02","query":"How many semesters of warning before a student gets dropped?","domain":"in-domain","topic":"academic-standing"}
+{"id":"lq03","query":"What is the minimum attendance percentage?","domain":"in-domain","topic":"attendance"}
+{"id":"lq04","query":"What grade is given for not meeting attendance?","domain":"in-domain","topic":"attendance"}
+{"id":"lq05","query":"What is the tuition fee per credit hour for BS Computer Science?","domain":"in-domain","topic":"fees"}
+{"id":"lq06","query":"How much does each credit hour cost for MS programmes?","domain":"in-domain","topic":"fees"}
+{"id":"lq07","query":"What is the daily overdue fine for a library book?","domain":"in-domain","topic":"library"}
+{"id":"lq08","query":"Can reference materials be borrowed overnight from the library?","domain":"in-domain","topic":"library"}
+{"id":"lq09","query":"What CGPA is needed to graduate?","domain":"in-domain","topic":"degree-completion"}
+{"id":"lq10","query":"How is the GPA calculated from letter grades?","domain":"in-domain","topic":"grading"}
+{"id":"lq11","query":"What is the grade point for an A letter grade?","domain":"in-domain","topic":"grading"}
+{"id":"lq12","query":"What happens if I miss the final exam due to low attendance?","domain":"in-domain","topic":"attendance"}
+{"id":"lq13","query":"Is there a late fee for tuition payment?","domain":"in-domain","topic":"fees"}
+{"id":"lq14","query":"What is the maximum number of books a student can borrow?","domain":"in-domain","topic":"library"}
+{"id":"lq15","query":"What academic warning means for a student?","domain":"in-domain","topic":"academic-standing"}
+{"id":"lq16","query":"What are the requirements for the Dean's List scholarship?","domain":"in-domain","topic":"scholarships"}
+{"id":"lq17","query":"What items are banned in examination halls?","domain":"in-domain","topic":"exam-conduct"}
+{"id":"lq18","query":"What penalty is given for cheating in exams?","domain":"in-domain","topic":"exam-conduct"}
+{"id":"lq19","query":"How many credit hours must be completed for graduation?","domain":"in-domain","topic":"degree-completion"}
+{"id":"lq20","query":"What is the grading scale for a B+ grade?","domain":"in-domain","topic":"grading"}
+{"id":"lq21","query":"Are there any hostel curfew rules?","domain":"in-domain","topic":"hostel"}
+{"id":"lq22","query":"What percentage of attendance exempts medical leave?","domain":"in-domain","topic":"attendance"}
+{"id":"lq23","query":"Can a student repeat a failed course?","domain":"in-domain","topic":"academic-rules"}
+{"id":"lq24","query":"What is the fee refund policy for dropped courses?","domain":"in-domain","topic":"fees"}
+{"id":"lq25","query":"What is the library's borrowing period?","domain":"in-domain","topic":"library"}
+{"id":"lq26","query":"What happens to your GPA if you get an F?","domain":"in-domain","topic":"grading"}
+{"id":"lq27","query":"Is there an attendance waiver for student athletes?","domain":"in-domain","topic":"attendance"}
+{"id":"lq28","query":"What is the minimum CGPA for the need-based scholarship?","domain":"in-domain","topic":"scholarships"}
+{"id":"lq29","query":"Where is the nearest parking lot on campus?","domain":"out-of-domain","topic":"campus-facilities"}
+{"id":"lq30","query":"What sports teams does the university have?","domain":"out-of-domain","topic":"sports"}
+{"id":"lq31","query":"How do I apply for on-campus housing?","domain":"out-of-domain","topic":"housing"}
+{"id":"lq32","query":"What mental health services are available for students?","domain":"out-of-domain","topic":"counseling"}
+{"id":"lq33","query":"Does the university offer study abroad programmes?","domain":"out-of-domain","topic":"international"}
+{"id":"lq34","query":"What is the cafeteria menu for this week?","domain":"out-of-domain","topic":"dining"}
+{"id":"lq35","query":"How do I get a student ID card replaced?","domain":"out-of-domain","topic":"admin-services"}
+{"id":"lq36","query":"What career services does the placement office provide?","domain":"out-of-domain","topic":"career"}
+{"id":"lq37","query":"Is there a shuttle bus service between campuses?","domain":"out-of-domain","topic":"transport"}
+{"id":"lq38","query":"What are the opening hours of the student health clinic?","domain":"out-of-domain","topic":"health"}
+{"id":"lq39","query":"Does the university have a co-op or internship programme?","domain":"out-of-domain","topic":"internships"}
+{"id":"lq40","query":"What clubs and societies can I join?","domain":"out-of-domain","topic":"student-life"}
+{"id":"lq41","query":"How do I appeal a disciplinary decision?","domain":"out-of-domain","topic":"appeals"}
+{"id":"lq42","query":"What is the Wi-Fi password for the library?","domain":"out-of-domain","topic":"IT-services"}
