@@ -208,6 +208,43 @@ python eval/run_eval.py --api http://127.0.0.1:8000 --golden eval/fixtures/golde
 
 ---
 
+## Assignment 03: RAGOps Pipeline (Parts A–F)
+
+Exact commands to reproduce every RAGOps stage added on top of the Assignment 02 baseline (details in [`docs/assignment-03/`](docs/assignment-03) and [`k8s/README.md`](k8s/README.md)):
+
+```bash
+# Part A — Verification, quarantine & incremental sync (Batch A -> Batch B)
+PYTHONPATH=indexer .venv/bin/python -m pipeline.run --corpus-dir corpus/batches/batch_a --batch-name batch_a --report-out eval/results/verification_batch_a.json
+PYTHONPATH=indexer .venv/bin/python -m pipeline.run --corpus-dir corpus/batches/batch_b --batch-name batch_b --incremental-mode merge --report-out eval/results/verification_batch_b.json
+.venv/bin/python scripts/run_a2_evidence.py   # unchanged 0-reembed, edit, delete (0 orphans), archive & restore
+
+# Part B — Embedding module evaluation + 3-level offline evaluation suite
+.venv/bin/python eval/embed_eval.py --ollama-url http://172.28.112.1:11434
+.venv/bin/python eval/run_part_b.py --api http://127.0.0.1:8011 --judge-ollama-url http://172.28.112.1:11434 --noise-via-chroma --collection rahbar_b2 --relevance-floor 0.65 --top-k 5 --label baseline
+
+# Part C — Configurable release gate (TOP_K=3 PASS vs TOP_K=1 FAIL)
+.venv/bin/python eval/release_gate.py --baseline eval/results/part_b_baseline_latest.json --candidate eval/results/part_b_candidate_topk3_latest.json --config eval/gate_config.json --out eval/results/gate_pass_topk3.json
+.venv/bin/python eval/release_gate.py --baseline eval/results/part_b_baseline_latest.json --candidate eval/results/part_b_candidate_topk1_latest.json --config eval/gate_config.json --out eval/results/gate_fail_topk1.json
+
+# Part D — Per-query JSONL trace lookup & time-window summary (with D4 injection guardrail)
+.venv/bin/python scripts/inspect_trace.py 87a7cca0db8b44a6acc3661e56cb5a8f --trace-file traces/traces.jsonl
+.venv/bin/python scripts/summarize_traces.py --trace-file traces/e3_batch_b_traces.jsonl --window-minutes 120 --anchor-to-latest --out eval/results/d3_summary_e3.json
+
+# Part E — Simulated live-query coverage check (exits non-zero below --min-coverage)
+.venv/bin/python eval/query_coverage.py --live-queries eval/live_queries.jsonl --golden eval/golden.jsonl --threshold 0.72 --min-coverage 0.75 --label e4_after_072
+
+# Part F — Minikube cluster deployment, ingestion Job/CronJob, eval Job & rollout/undo
+kubectl apply -k k8s/overlays/dev
+kubectl apply -f k8s/candidate.yaml
+kubectl apply -f k8s/eval-job.yaml
+kubectl rollout status deployment/api -n rahbar
+kubectl rollout undo deployment/api -n rahbar --to-revision=2
+```
+
+> See [`k8s/README.md`](k8s/README.md) for full Minikube cluster setup, PVC persistence checks, ConfigMap gate-flip steps, trace streaming, Prometheus `/metrics` port-forwarding, and measured resource limits.
+
+---
+
 ## Documentation Index
 
 | Document | Contents |
