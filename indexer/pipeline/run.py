@@ -17,6 +17,7 @@ import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 from urllib.parse import quote, urlsplit
 
 from .config import IndexerSettings, get_settings
@@ -162,15 +163,18 @@ def run_pipeline(
     *,
     batch_name: str = "default",
     verify_only: bool = False,
+    incremental_mode: str = "sync",
+    full_rebuild: bool = False,
     manifest_path: Path | None = None,
     report_path: Path | None = None,
     update_manifest: bool = True,
+    client: Any = None,
 ) -> int:
     from .chunk import chunk
     from .clean import clean
     from .embed import embed
     from .extract import extract
-    from .store import store
+    from .store import incremental_sync, store
     from .verify import verify_documents
 
     entries = discover_entries(settings.corpus_dir)
@@ -223,20 +227,30 @@ def run_pipeline(
     if verify_only:
         return len(passed_docs)
 
-    all_chunks: list[Chunk] = []
-    for path, doc in passed_docs:
-        pieces = chunk(doc, settings.chunk_size, settings.chunk_overlap)
-        log(
-            "chunked",
-            source=path.name,
-            doc_id=doc.doc_id,
-            pages=len(doc.pages),
-            ocr_pages=sum(1 for p in doc.pages if p.ocr),
-            chunks=len(pieces),
-        )
-        all_chunks.extend(pieces)
-    vectors = embed([c.text for c in all_chunks], settings)
-    return store(all_chunks, vectors, settings)
+    if full_rebuild:
+        all_chunks: list[Chunk] = []
+        for path, doc in passed_docs:
+            pieces = chunk(doc, settings.chunk_size, settings.chunk_overlap)
+            log(
+                "chunked",
+                source=path.name,
+                doc_id=doc.doc_id,
+                pages=len(doc.pages),
+                ocr_pages=sum(1 for p in doc.pages if p.ocr),
+                chunks=len(pieces),
+            )
+            all_chunks.extend(pieces)
+        vectors = embed([c.text for c in all_chunks], settings)
+        return store(all_chunks, vectors, settings)
+
+    inc_report = incremental_sync(
+        passed_docs,
+        settings,
+        client=client,
+        incremental_mode=incremental_mode,
+    )
+    log("incremental_update", **inc_report)
+    return int(inc_report["total_chunks_in_store"])
 
 
 def main() -> int:
@@ -245,6 +259,11 @@ def main() -> int:
     parser.add_argument("--corpus-dir", help="override CORPUS_DIR")
     parser.add_argument("--batch-name", default="default", help="label for verification reports")
     parser.add_argument("--verify-only", action="store_true", help="run extraction + verification only (no Chroma write)")
+    parser.add_argument("--incremental-mode", choices=["sync", "merge"], default="sync", help="sync deletes removed docs; merge keeps existing active docs")
+    parser.add_argument("--full-rebuild", action="store_true", help="wipe and recreate collection instead of incremental update")
+    parser.add_argument("--restore-doc", help="logical doc_id to restore from archive")
+    parser.add_argument("--restore-version", help="archived version to restore")
+    parser.add_argument("--counts", action="store_true", help="print chunk counts grouped by doc_id in Chroma")
     parser.add_argument("--report-out", help="optional path for JSON verification report")
     parser.add_argument("--manifest-path", help="optional path for data lake manifest JSON")
     parser.add_argument("--quarantine-dir", help="override QUARANTINE_DIR")
@@ -267,6 +286,19 @@ def main() -> int:
         pod=os.environ.get("HOSTNAME", "-"))
     started = time.perf_counter()
     try:
+        if args.counts:
+            from .store import count_chunks_by_doc_and_status, get_client, get_or_create_collection
+
+            col, _ = get_or_create_collection(get_client(settings), settings)
+            print(json.dumps(count_chunks_by_doc_and_status(col), indent=2))
+            return 0
+        if args.restore_doc and args.restore_version:
+            from .store import restore_document_version
+
+            res = restore_document_version(args.restore_doc, args.restore_version, settings)
+            log("restored", **res)
+            print(json.dumps(res, indent=2))
+            return 0
         if args.dummy:
             from .dummy import write_dummy_index
             from .store import get_client
@@ -277,6 +309,8 @@ def main() -> int:
                 settings,
                 batch_name=args.batch_name,
                 verify_only=args.verify_only,
+                incremental_mode=args.incremental_mode,
+                full_rebuild=args.full_rebuild,
                 manifest_path=Path(args.manifest_path) if args.manifest_path else None,
                 report_path=Path(args.report_out) if args.report_out else None,
             )
