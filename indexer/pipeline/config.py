@@ -16,6 +16,12 @@ class IndexerSettings:
     chunk_size: int
     chunk_overlap: int
     ollama_url: str
+    data_lake_dir: str = "/tmp/rahbar-data/lake"
+    quarantine_dir: str = "/tmp/rahbar-data/quarantine"
+    archive_dir: str = "/tmp/rahbar-data/archive"
+    verification_report_dir: str = "/tmp/rahbar-data/reports"
+    near_dup_threshold: float = 0.85
+    quarantine_mode: str = "copy"   # "copy" preserves source fixtures; "move" moves staging files
 
 
 def get_settings() -> IndexerSettings:
@@ -28,4 +34,10 @@ def get_settings() -> IndexerSettings:
         chunk_size=int(os.environ.get("CHUNK_SIZE", 400)),
         chunk_overlap=int(os.environ.get("CHUNK_OVERLAP", 50)),
         ollama_url=os.environ.get("OLLAMA_URL", "http://host.minikube.internal:11434"),
+        data_lake_dir=os.environ.get("DATA_LAKE_DIR", "/tmp/rahbar-data/lake"),
+        quarantine_dir=os.environ.get("QUARANTINE_DIR", "/tmp/rahbar-data/quarantine"),
+        archive_dir=os.environ.get("ARCHIVE_DIR", "/tmp/rahbar-data/archive"),
+        verification_report_dir=os.environ.get("VERIFICATION_REPORT_DIR", "/tmp/rahbar-data/reports"),
+        near_dup_threshold=float(os.environ.get("NEAR_DUP_THRESHOLD", 0.85)),
+        quarantine_mode=os.environ.get("QUARANTINE_MODE", "copy"),
     )

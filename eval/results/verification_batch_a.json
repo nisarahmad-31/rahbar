@@ -1,0 +1,181 @@
+{
+  "run_id": "b63c42f1",
+  "timestamp": "2026-11-27T10:36:32Z",
+  "batch_name": "batch-a",
+  "corpus_dir": "../corpus/batches/batch_a",
+  "quarantine_dir": "/tmp/tmp.tRaGu8lZTX/quarantine/20261127_103632_b63c42f1",
+  "summary": {
+    "total_documents": 5,
+    "passed_count": 5,
+    "failed_count": 0,
+    "quarantined_count": 0,
+    "check_fail_counts": {
+      "quality": 0,
+      "completeness": 0,
+      "recency": 0,
+      "uniqueness": 0
+    }
+  },
+  "documents": [
+    {
+      "doc_id": "academic-rules",
+      "source": "academic-rules-2024.md",
+      "title": "Academic Rules Handbook (2024 Edition)",
+      "doc_version": "2024-08",
+      "date": "2024-08-15",
+      "page_count": 1,
+      "file_sha256": "8f5ac5cb102f5b10ecf1c8a1cc6d743fff0fdf2466f9491d967395b01e04b968",
+      "text_sha256": "b837d2c44d4d73467c070364f27fc35ecaf5409f2828e245b2c1ccb76ce708ea",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 749 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Academic Rules Handbook (2024 Edition)', version='2024-08', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'academic-rules' (2024-08)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.0000)"
+        }
+      }
+    },
+    {
+      "doc_id": "attendance-policy",
+      "source": "attendance-policy-2025.md",
+      "title": "Attendance and Examination Eligibility Policy",
+      "doc_version": "2025-01",
+      "date": "2025-01-10",
+      "page_count": 1,
+      "file_sha256": "f53143dc2778d650e7ce4301c0e68994a7102c9bcade6c68648cf38cdc9dfdaf",
+      "text_sha256": "d8e879b2ee1dfe3a0e942a5ca77fc683d63141877ef649377989a76321e3246a",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 583 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Attendance and Examination Eligibility Policy', version='2025-01', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'attendance-policy' (2025-01)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.0445)"
+        }
+      }
+    },
+    {
+      "doc_id": "fee-schedule",
+      "source": "fee-schedule-2026.md",
+      "title": "University Fee Schedule and Refund Policy (2026)",
+      "doc_version": "2026-01",
+      "date": "2026-01-05",
+      "page_count": 1,
+      "file_sha256": "0eadfef45c96d26db340ea6a6db9a8941135d1947edb6529a8c195b198170a8c",
+      "text_sha256": "150fa4df915fbec6f9e916a1919a5efd8c2e0e911dc2ef97e31ab86a37d40ef8",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 696 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='University Fee Schedule and Refund Policy (2026)', version='2026-01', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'fee-schedule' (2026-01)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.0651)"
+        }
+      }
+    },
+    {
+      "doc_id": "grading-scale",
+      "source": "grading-scale-2026.md",
+      "title": "University Grading Scale and GPA Policy",
+      "doc_version": "2026-01",
+      "date": "2026-01-08",
+      "page_count": 1,
+      "file_sha256": "64dbf9dfb3216ed456078708042f82ca9db8039925e45d58ea2c4e977a6dcb79",
+      "text_sha256": "c8f3987e112b2f126e93c2b28e305f7867eadd67d08acd6ccc996f454db573e2",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 583 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='University Grading Scale and GPA Policy', version='2026-01', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'grading-scale' (2026-01)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.1710)"
+        }
+      }
+    },
+    {
+      "doc_id": "library-rules",
+      "source": "library-rules-2026.md",
+      "title": "Central Library Borrowing and Conduct Rules",
+      "doc_version": "2026-02",
+      "date": "2026-02-01",
+      "page_count": 1,
+      "file_sha256": "29d0b9b22c1f5b28261cb916bc8643f2e0a9dc878e8a4a51a532a5e3c63bb6c2",
+      "text_sha256": "f05896e1ba2de2617019fd51e519cbba5600c7752674943f341f239f758fc217",
+      "status": "pass",
+      "quarantined": false,
+      "quarantine_path": null,
+      "superseded_by": null,
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "clean extraction (1 pages, 500 chars)"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "metadata complete (title='Central Library Borrowing and Conduct Rules', version='2026-02', pages=1)"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "latest version for doc_id 'library-rules' (2026-02)"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "unique document (max cross-doc cosine=0.0617)"
+        }
+      }
+    }
+  ]
+}
