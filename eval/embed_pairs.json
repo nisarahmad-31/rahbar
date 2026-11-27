@@ -1,0 +1,134 @@
+{
+  "paraphrase_pairs": [
+    [
+      "What CGPA places an undergraduate student on academic warning?",
+      "Below what cumulative grade point average does a student receive an academic warning?"
+    ],
+    [
+      "How many lectures must a student attend to sit the final examination?",
+      "What minimum class attendance percentage is required to be eligible for final exams?"
+    ],
+    [
+      "What happens if an Incomplete grade is not resolved in time?",
+      "When does a temporary I grade automatically convert into an F?"
+    ],
+    [
+      "How much does one credit hour cost for a BS degree program?",
+      "What is the per-credit-hour undergraduate tuition fee for computer science?"
+    ],
+    [
+      "Can a student get a tuition refund if they drop a course after two weeks?",
+      "What percentage of tuition is refunded when dropping a class between day 11 and day 20?"
+    ],
+    [
+      "How many books can an undergraduate borrow from the library?",
+      "What is the physical book borrowing limit and loan duration for BS students?"
+    ],
+    [
+      "What is the daily fine for returning a library book late?",
+      "How much overdue penalty per day is charged per book by the central library?"
+    ],
+    [
+      "When can the Head of Department excuse an attendance shortage?",
+      "Under what medical emergency conditions may a 10 percent attendance shortfall be condoned?"
+    ],
+    [
+      "Which electronic devices are banned inside exam halls?",
+      "Are mobile phones, smartwatches, and programmable calculators prohibited during exams?"
+    ],
+    [
+      "What GPA is needed for the Dean's List Merit Scholarship?",
+      "What semester grade point average qualifies a full-time undergraduate for a 50 percent merit waiver?"
+    ],
+    [
+      "How does repeating a course affect a student's CGPA?",
+      "When a course is retaken, does only the latest grade count toward the cumulative average?"
+    ],
+    [
+      "What penalty applies when a student is caught cheating in an exam?",
+      "What disciplinary actions can the Unfair Means Committee impose for examination dishonesty?"
+    ],
+    [
+      "When are registration holds placed on a student's account?",
+      "Can unpaid library fines above PKR 1,000 block course registration?"
+    ],
+    [
+      "How many grade points does an A- letter grade carry?",
+      "What is the numerical GPA value assigned to A minus on the 4.00 grading scale?"
+    ],
+    [
+      "How much is charged for an official university transcript?",
+      "What administrative fee must be paid per copy of an official transcript?"
+    ],
+    [
+      "What is the minimum CGPA required to graduate with a degree?",
+      "What cumulative GPA threshold must a student achieve for degree completion?"
+    ]
+  ],
+  "unrelated_pairs": [
+    [
+      "What CGPA places an undergraduate student on academic warning?",
+      "How much is the inter-campus transfer processing fee?"
+    ],
+    [
+      "What is the daily fine for returning a library book late?",
+      "Mobile phones and smartwatches are strictly prohibited inside examination rooms."
+    ],
+    [
+      "What minimum class attendance percentage is required for final exams?",
+      "Full-time undergraduates with a 3.75 GPA receive a 50 percent merit waiver."
+    ],
+    [
+      "How much does one credit hour cost for an MS engineering degree?",
+      "Reference textbooks and past theses may only be consulted in the reading room."
+    ],
+    [
+      "What grade points does a B+ carry on the grading scale?",
+      "Students must meet their faculty advisor during pre-registration week."
+    ],
+    [
+      "When does a temporary Incomplete grade convert to an F?",
+      "No tuition refund is issued when a course is dropped after day 20."
+    ],
+    [
+      "How many books can a graduate student borrow from the library?",
+      "Caught cheating results in referral to the Unfair Means Committee."
+    ],
+    [
+      "What is the late registration administrative fee?",
+      "An inpatient medical emergency condonation requires documentation within five working days."
+    ],
+    [
+      "How do students apply for need-based financial aid?",
+      "Programmable calculators are prohibited during mid-term and final examinations."
+    ],
+    [
+      "What happens after two consecutive semesters on academic warning?",
+      "The official transcript costs PKR 1,500 per copy."
+    ],
+    [
+      "When are registration holds applied for unpaid dues?",
+      "Undergraduate BS tuition is PKR 10,000 per credit hour."
+    ],
+    [
+      "How long can an undergraduate keep a borrowed library book?",
+      "A student who misses the 80 percent attendance rule receives an FA grade."
+    ],
+    [
+      "What is the minimum CGPA required for graduation?",
+      "Students can apply for financial aid before the third week of classes."
+    ],
+    [
+      "What penalty applies for unfair means in an examination?",
+      "Graduate students may borrow up to 8 books for 21 calendar days."
+    ],
+    [
+      "How is a repeated course grade counted in Fall 2026?",
+      "Inter-campus transfer processing fee is PKR 5,000."
+    ],
+    [
+      "What is the tuition refund timeline within the first 10 days?",
+      "An A- carries 3.67 grade points while D carries 1.00."
+    ]
+  ]
+}
