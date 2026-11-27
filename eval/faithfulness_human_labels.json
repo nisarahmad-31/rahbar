@@ -1,0 +1,17 @@
+{
+  "notes": "Human ground-truth faithfulness labels for 12 answered queries from eval/results/part_b_baseline_20261127_115127.json, comparing human judgment against the 3B LLM-as-judge (llama3.2:3b).",
+  "labels": [
+    {"id": "g01", "human_faithful": true, "reason": "Answer '2.00' matches Academic Rules 1.1 (CGPA below 2.00)."},
+    {"id": "g02", "human_faithful": true, "reason": "Answer '3' matches Academic Rules 1.2 (three consecutive semesters)."},
+    {"id": "g03", "human_faithful": true, "reason": "Answer 'The grade of the latest attempt.' matches Academic Rules 2.2."},
+    {"id": "g04", "human_faithful": true, "reason": "Answer '2.00' matches Academic Rules 3.1 (minimum CGPA 2.00)."},
+    {"id": "g05", "human_faithful": true, "reason": "Answer '80' matches Attendance Policy 1.1 (80 percent)."},
+    {"id": "g06", "human_faithful": true, "reason": "Answer 'FA' matches Attendance Policy 1.2."},
+    {"id": "g07", "human_faithful": true, "reason": "Answer '10' matches Attendance Policy 2.1 (up to 10 percent)."},
+    {"id": "g09", "human_faithful": true, "reason": "Answer '5,000, 1,500' matches Fee Schedule 2 (5,000 transfer, 1,500 transcript)."},
+    {"id": "g10", "human_faithful": true, "reason": "Answer '50' matches Fee Schedule 3.1 (50 percent refund)."},
+    {"id": "g11", "human_faithful": true, "reason": "Answer '3.67 and 3.33' matches Grading Scale 1.1."},
+    {"id": "g13", "human_faithful": true, "reason": "Answer matches Library Rules 1.1 (5 books for 14 calendar days)."},
+    {"id": "g14", "human_faithful": true, "reason": "Answer 'PKR 50' matches Library Rules 2.1."}
+  ]
+}
