@@ -167,6 +167,7 @@ def chunk(doc: Document, size: int, overlap: int) -> list[Chunk]:
                 page=page_num,
                 doc_version=doc.doc_version,
                 superseded=doc.superseded,
+                doc_id=doc.doc_id,
             )
         )
         chunk_index += 1

@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
 import logging
 import os
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -118,21 +120,91 @@ def _run_batched_ocr(pdf_path: str, page_numbers: list[int], batch_size: int = 6
     return texts
 
 
-def extract(path: str, doc_version: str, superseded: bool) -> Document:
+def derive_doc_id(source: str, explicit_doc_id: str = "") -> str:
+    """Compute a stable logical document ID across versions of the same document."""
+    if explicit_doc_id.strip():
+        return re.sub(r"[^a-z0-9]+", "-", explicit_doc_id.lower()).strip("-")
+    stem = Path(source).stem.lower()
+    stem = re.sub(r"^b\d+_", "", stem)
+    stem = re.sub(r"[-_](?:19|20)\d{2}(?:[-_]\d{2,4})?$", "", stem)
+    stem = re.sub(r"[-_]v\d+(?:\.\d+)?$", "", stem)
+    return re.sub(r"[^a-z0-9]+", "-", stem).strip("-") or "document"
+
+
+def _extract_markdown_title(text: str) -> str:
+    for line in text.splitlines():
+        s = line.strip()
+        if s.startswith("# "):
+            return s[2:].strip()
+    return ""
+
+
+def _parse_front_matter(raw_text: str) -> tuple[dict[str, str], str]:
+    lines = raw_text.splitlines()
+    if not lines or lines[0].strip() != "---":
+        return {}, raw_text
+    meta: dict[str, str] = {}
+    for end_idx in range(1, len(lines)):
+        if lines[end_idx].strip() == "---":
+            body = "\n".join(lines[end_idx + 1 :]).lstrip()
+            return meta, body
+        key, _, value = lines[end_idx].partition(":")
+        if key.strip():
+            meta[key.strip()] = value.strip()
+    return {}, raw_text
+
+
+def extract(
+    path: str,
+    doc_version: str,
+    superseded: bool,
+    doc_id: str = "",
+    title: str = "",
+    date: str = "",
+) -> Document:
     """Return the document's text page by page.
 
     Detect pages with no text layer and OCR them; mark those pages ocr=True.
-    Preserves table structure and document headings.
+    Preserves table structure and document headings, and records extraction errors safely.
     """
     file_path = Path(path)
     source = file_path.name
     suffix = file_path.suffix.lower()
     pages: list[Page] = []
+    extraction_error: str | None = None
+    inferred_title = title.strip()
+    resolved_doc_id = doc_id.strip()
+    resolved_date = date.strip()
+    resolved_version = doc_version.strip()
+
+    try:
+        file_bytes = file_path.read_bytes()
+        content_hash = hashlib.sha256(file_bytes).hexdigest()
+    except Exception as exc:
+        return Document(
+            source=source,
+            doc_version=resolved_version,
+            superseded=superseded,
+            pages=[],
+            doc_id=derive_doc_id(source, resolved_doc_id),
+            title=inferred_title,
+            date=resolved_date or resolved_version,
+            content_hash="",
+            extraction_error=f"unreadable file: {exc}",
+            metadata_present={
+                "source": bool(source),
+                "title": bool(inferred_title),
+                "date_or_version": bool(resolved_date or (resolved_version and resolved_version.lower() != "unknown")),
+                "page_count": False,
+            },
+        )
 
     if suffix == ".pdf":
         try:
             ocr_needed: list[int] = []
             reader = PdfReader(str(file_path))
+            if not inferred_title and reader.metadata and reader.metadata.title:
+                inferred_title = str(reader.metadata.title).strip()
             for idx, page in enumerate(reader.pages, start=1):
                 text = page.extract_text() or ""
                 if len(text.strip()) < 20:
@@ -147,32 +219,67 @@ def extract(path: str, doc_version: str, superseded: bool) -> Document:
                     if ocr_result:
                         p.text = ocr_result
                         p.ocr = True
+            if not inferred_title and pages:
+                inferred_title = _extract_markdown_title(pages[0].text)
         except Exception as exc:
             log.warning(f"pypdf failed for {source}, falling back to pdfplumber: {exc}")
-            with pdfplumber.open(file_path) as pdf:
-                for idx, pl_page in enumerate(pdf.pages, start=1):
-                    try:
-                        text = pl_page.extract_text() or ""
-                        pages.append(Page(source=source, page=idx, text=text, ocr=False))
-                    finally:
-                        pl_page.flush_cache()
+            try:
+                with pdfplumber.open(file_path) as pdf:
+                    for idx, pl_page in enumerate(pdf.pages, start=1):
+                        try:
+                            text = pl_page.extract_text() or ""
+                            pages.append(Page(source=source, page=idx, text=text, ocr=False))
+                        finally:
+                            pl_page.flush_cache()
+                if not inferred_title and pages:
+                    inferred_title = _extract_markdown_title(pages[0].text)
+            except Exception as pl_exc:
+                extraction_error = f"corrupt or unreadable PDF: {pl_exc}"
 
     elif suffix in (".html", ".htm"):
-        raw_html = file_path.read_text(encoding="utf-8", errors="replace")
+        raw_html = file_bytes.decode("utf-8", errors="replace")
+        if not inferred_title:
+            m = re.search(r"<title[^>]*>(.*?)</title>", raw_html, re.I | re.S)
+            if m:
+                inferred_title = " ".join(m.group(1).split())
         parser = _HTMLToText()
         parser.feed(raw_html)
         text = parser.get_text()
+        if not inferred_title:
+            inferred_title = _extract_markdown_title(text)
         pages.append(Page(source=source, page=1, text=text, ocr=False))
 
     else:
-        text = file_path.read_text(encoding="utf-8", errors="replace")
-        # Strip YAML front matter (used by CI fixture Markdown files) so metadata is not indexed as prose
-        lines = text.splitlines()
-        if lines and lines[0].strip() == "---":
-            for end_idx in range(1, len(lines)):
-                if lines[end_idx].strip() == "---":
-                    text = "\n".join(lines[end_idx + 1 :]).lstrip()
-                    break
+        raw_text = file_bytes.decode("utf-8", errors="replace")
+        fm, text = _parse_front_matter(raw_text)
+        if not resolved_doc_id and fm.get("doc_id"):
+            resolved_doc_id = fm["doc_id"]
+        if not inferred_title and fm.get("title"):
+            inferred_title = fm["title"]
+        if not resolved_date and fm.get("date"):
+            resolved_date = fm["date"]
+        if (not resolved_version or resolved_version.lower() == "unknown") and fm.get("doc_version"):
+            resolved_version = fm["doc_version"]
+        if not inferred_title and "title" not in fm:
+            inferred_title = _extract_markdown_title(text)
         pages.append(Page(source=source, page=1, text=text, ocr=False))
 
-    return Document(source=source, doc_version=doc_version, superseded=superseded, pages=pages)
+    final_doc_id = derive_doc_id(source, resolved_doc_id)
+    final_date = resolved_date or (resolved_version if resolved_version.lower() != "unknown" else "")
+    return Document(
+        source=source,
+        doc_version=resolved_version,
+        superseded=superseded,
+        pages=pages,
+        doc_id=final_doc_id,
+        title=inferred_title,
+        date=final_date,
+        content_hash=content_hash,
+        extraction_error=extraction_error,
+        metadata_present={
+            "source": bool(source.strip()),
+            "title": bool(inferred_title.strip()),
+            "date_or_version": bool(final_date or (resolved_version and resolved_version.lower() != "unknown")),
+            "page_count": len(pages) > 0,
+        },
+    )

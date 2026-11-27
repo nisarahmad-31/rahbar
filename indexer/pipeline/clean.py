@@ -47,4 +47,10 @@ def clean(doc: Document) -> Document:
         doc_version=doc.doc_version,
         superseded=doc.superseded,
         pages=cleaned_pages,
+        doc_id=doc.doc_id,
+        title=doc.title,
+        date=doc.date,
+        content_hash=doc.content_hash,
+        extraction_error=doc.extraction_error,
+        metadata_present=dict(doc.metadata_present),
     )
