@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-11-27T11:15:53Z",
+  "model": "nomic-embed-text",
+  "backend": "ollama",
+  "ollama_url": "http://172.28.112.1:11434",
+  "dimensions": 768,
+  "seed": 42,
+  "chunk_size": 400,
+  "chunk_overlap": 50,
+  "hardware_context": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "cpu_count": 8
+  },
+  "paraphrase_pairs_count": 16,
+  "unrelated_pairs_count": 16,
+  "paraphrase_mean_cosine": 0.719447,
+  "unrelated_mean_cosine": 0.435815,
+  "cosine_similarity_gap": 0.283633,
+  "paraphrase_similarities": [
+    0.825504,
+    0.729658,
+    0.655322,
+    0.707802,
+    0.772311,
+    0.737012,
+    0.761365,
+    0.675403,
+    0.779817,
+    0.713193,
+    0.685027,
+    0.678217,
+    0.571505,
+    0.635481,
+    0.802886,
+    0.780654
+  ],
+  "unrelated_similarities": [
+    0.409005,
+    0.446533,
+    0.549065,
+    0.402201,
+    0.415214,
+    0.534599,
+    0.394063,
+    0.461121,
+    0.433541,
+    0.391706,
+    0.428134,
+    0.449642,
+    0.464044,
+    0.405071,
+    0.422589,
+    0.366506
+  ],
+  "chunks_timed": 17,
+  "total_embed_ms": 3546.289,
+  "ms_per_chunk": 208.605,
+  "determinism": {
+    "sample_text": "A student whose cumulative grade point average falls below 2.00 is placed on Academic Warning.",
+    "max_abs_diff": 0.0,
+    "l2_diff": 0.0,
+    "exact_match": true
+  },
+  "chunk_embed_stats": {
+    "chunks_embedded": 17,
+    "embed_api_calls": 3,
+    "ollama_calls": 3,
+    "fallback_calls": 0
+  },
+  "actual_chunk_vectors_count": 17
+}
