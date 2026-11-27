@@ -133,6 +133,8 @@ class ChromaRetriever:
                     section=str(meta.get("section", "unknown")),
                     page=int(meta["page"]) if meta.get("page") is not None else None,
                     score=similarity,
+                    doc_id=str(meta.get("doc_id") or meta.get("source") or "unknown"),
+                    doc_version=str(meta.get("doc_version") or "unknown"),
                 )
             )
 

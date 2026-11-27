@@ -17,12 +17,23 @@ from pydantic import ValidationError
 
 from ..config import Settings
 from ..logjson import request_id_var
-from ..providers.llm.base import LLMProvider
+from ..providers.llm.base import LLMProvider, build_evidence_prompt
 from ..retrieval.base import Retriever
 from ..retrieval.chroma import _deterministic_query_vector
 from ..routes import metrics
 from ..schemas import Answer, AskResponse, Citation, Passage, RetrievedRef
 from .cache import SemanticCache
+from .tracing import (
+    TraceRecord,
+    TraceStageLatencies,
+    build_trace_chunks,
+    emit_trace,
+    normalize_trace_id,
+    redact_secrets,
+    sha256_text,
+    system_prompt_hash,
+    utc_timestamp,
+)
 
 log = logging.getLogger("rahbar.answer")
 _cache_instance: SemanticCache | None = None
@@ -65,8 +76,19 @@ def _retrieve_passages(
     return retriever.retrieve(question, k, **kwargs)  # type: ignore[arg-type]
 
 
+def _normalize_query(question: str) -> tuple[str, str | None]:
+    """Strip edges and collapse excess internal whitespace; return (clean, rewritten_or_none)."""
+    clean_q = question.strip()
+    collapsed = " ".join(clean_q.split())
+    rewritten = collapsed if collapsed != clean_q else None
+    return clean_q, rewritten
+
+
 def _verify_citations(
-    citations: list[Citation], passages: list[Passage], answered_from_context: bool = True
+    citations: list[Citation],
+    passages: list[Passage],
+    answered_from_context: bool = True,
+    dropped_sources: list[str] | None = None,
 ) -> list[Citation]:
     """Ensure every citation matches a retrieved chunk; drop fabricated citations."""
     retrieved_pairs = {(p.source, p.section) for p in passages}
@@ -78,6 +100,8 @@ def _verify_citations(
             verified.append(c)
         else:
             log.warning(f"Fabricated citation dropped: {c.source} / {c.section}")
+            if dropped_sources is not None:
+                dropped_sources.append(f"fabricated_citation_dropped:{c.source}")
 
     if not verified and answered_from_context and passages:
         top = passages[0]
@@ -99,16 +123,77 @@ def _to_retrieved_refs(passages: list[Passage]) -> list[RetrievedRef]:
     ]
 
 
+def _model_params(settings: Settings) -> dict[str, object]:
+    return {
+        "temperature": settings.temperature,
+        "top_k": settings.top_k,
+        "relevance_floor": settings.relevance_floor,
+        "cache_threshold": settings.cache_threshold,
+    }
+
+
+def _emit_query_trace(
+    *,
+    trace_id: str,
+    settings: Settings,
+    provider_name: str,
+    user_query: str,
+    rewritten_query: str | None,
+    passages: list[Passage],
+    filters_applied: dict[str, object],
+    prompt: str | None,
+    response: AskResponse,
+    guardrail_actions: list[str],
+    latencies: TraceStageLatencies,
+    cache_hit: bool,
+    status: str,
+) -> None:
+    redacted_prompt = redact_secrets(prompt) if prompt is not None else None
+    record = TraceRecord(
+        trace_id=trace_id,
+        timestamp=utc_timestamp(),
+        user_query=redact_secrets(user_query),
+        rewritten_query=redact_secrets(rewritten_query) if rewritten_query is not None else None,
+        embedding_model=settings.embed_model,
+        embedding_version=settings.embed_model_version,
+        collection_name=settings.collection,
+        collection_version=settings.collection_version,
+        retrieved_chunks=build_trace_chunks(passages),
+        filters_applied=filters_applied,
+        reranked_order=[p.chunk_id for p in passages],
+        system_prompt_sha256=system_prompt_hash(),
+        prompt_sha256=sha256_text(redacted_prompt) if redacted_prompt is not None else "",
+        prompt=redacted_prompt,
+        model=settings.llm_model,
+        model_parameters={"provider": provider_name, **_model_params(settings)},
+        response=redact_secrets(response.answer),
+        answered_from_context=response.answered_from_context,
+        confidence=response.confidence,
+        citations=response.citations,
+        guardrail_actions=guardrail_actions,
+        latency_ms_per_stage=latencies,
+        cache_hit=cache_hit,
+        status=status,  # type: ignore[arg-type]
+    )
+    emit_trace(record, settings)
+
+
 def answer_question(
     question: str, retriever: Retriever, provider: LLMProvider, settings: Settings
 ) -> AskResponse:
-    req_id = request_id_var.get()
+    total_start = time.perf_counter()
+    raw_req_id = request_id_var.get()
+    trace_id = normalize_trace_id(raw_req_id)
+    req_id = trace_id if raw_req_id == "-" else raw_req_id
     cache = get_cache(settings)
+    guardrail_actions: list[str] = []
 
     # 1. Validation of question length
-    clean_q = question.strip()
+    clean_q, rewritten_q = _normalize_query(question)
+    effective_q = rewritten_q or clean_q
     if len(clean_q) < 3 or len(clean_q) > 500:
-        return AskResponse(
+        guardrail_actions.append("length_validation_failed")
+        resp = AskResponse(
             request_id=req_id,
             answer="Question must be between 3 and 500 characters.",
             citations=[],
@@ -117,26 +202,78 @@ def answer_question(
             retrieved=[],
             provider=provider.name,
         )
+        _emit_query_trace(
+            trace_id=trace_id,
+            settings=settings,
+            provider_name=provider.name,
+            user_query=clean_q,
+            rewritten_query=rewritten_q,
+            passages=[],
+            filters_applied={"relevance_floor": settings.relevance_floor, "top_k": settings.top_k},
+            prompt=None,
+            response=resp,
+            guardrail_actions=guardrail_actions,
+            latencies=TraceStageLatencies(total=round((time.perf_counter() - total_start) * 1000, 2)),
+            cache_hit=False,
+            status="rejected",
+        )
+        return resp
 
     # 2. Compute query embedding once and check semantic cache
+    embed_start = time.perf_counter()
     embed_fn = getattr(retriever, "embed_query", None)
-    query_vector = embed_fn(clean_q) if callable(embed_fn) else _deterministic_query_vector(clean_q)
+    query_vector = embed_fn(effective_q) if callable(embed_fn) else _deterministic_query_vector(effective_q)
+    embed_ms = round((time.perf_counter() - embed_start) * 1000, 2)
 
-    cached_response = cache.get(clean_q, query_vector=query_vector)
+    cache_start = time.perf_counter()
+    cached_response = cache.get(effective_q, query_vector=query_vector)
+    cache_ms = round((time.perf_counter() - cache_start) * 1000, 2)
     if cached_response is not None:
         metrics.CACHE_HITS.inc()
         log.info("served from semantic cache", extra={"request_id": req_id})
-        return cached_response.model_copy(update={"request_id": req_id})
+        resp = cached_response.model_copy(update={"request_id": req_id})
+        guardrail_actions.append("semantic_cache_hit")
+        _emit_query_trace(
+            trace_id=trace_id,
+            settings=settings,
+            provider_name=provider.name,
+            user_query=clean_q,
+            rewritten_query=rewritten_q,
+            passages=[],
+            filters_applied={"relevance_floor": settings.relevance_floor, "top_k": settings.top_k},
+            prompt=None,
+            response=resp,
+            guardrail_actions=guardrail_actions,
+            latencies=TraceStageLatencies(
+                total=round((time.perf_counter() - total_start) * 1000, 2),
+                embed=embed_ms,
+                cache=cache_ms,
+            ),
+            cache_hit=True,
+            status="cache_hit",
+        )
+        return resp
     metrics.CACHE_MISSES.inc()
 
     # 3. Retrieve top-k chunks from Chroma (excludes superseded unless asked)
-    include_old = _wants_superseded(clean_q)
+    include_old = _wants_superseded(effective_q)
+    filters_applied: dict[str, object] = {
+        "include_superseded": include_old,
+        "where": None if include_old else {"superseded": False},
+        "relevance_floor": settings.relevance_floor,
+        "top_k": settings.top_k,
+    }
     ret_start = time.perf_counter()
-    passages = _retrieve_passages(retriever, clean_q, settings.top_k, include_old, query_vector)
-    metrics.RETRIEVAL_LATENCY.observe(time.perf_counter() - ret_start)
+    passages = _retrieve_passages(retriever, effective_q, settings.top_k, include_old, query_vector)
+    ret_sec = time.perf_counter() - ret_start
+    retrieval_ms = round(ret_sec * 1000, 2)
+    metrics.RETRIEVAL_LATENCY.observe(ret_sec)
 
     # 4. Relevance Floor & Honest Abstention (section 3.4)
+    guard_start = time.perf_counter()
     if not passages or passages[0].score < settings.relevance_floor:
+        guard_ms = round((time.perf_counter() - guard_start) * 1000, 2)
+        guardrail_actions.append("relevance_floor_abstain")
         metrics.ABSTENTIONS.inc()
         log.info(
             "abstaining: relevance floor not reached",
@@ -145,7 +282,7 @@ def answer_question(
                 "floor": settings.relevance_floor,
             },
         )
-        return AskResponse(
+        resp = AskResponse(
             request_id=req_id,
             answer="I am sorry, but the official university documents in the corpus do not cover this question.",
             citations=[],
@@ -154,22 +291,48 @@ def answer_question(
             retrieved=_to_retrieved_refs(passages),
             provider=provider.name,
         )
+        _emit_query_trace(
+            trace_id=trace_id,
+            settings=settings,
+            provider_name=provider.name,
+            user_query=clean_q,
+            rewritten_query=rewritten_q,
+            passages=passages,
+            filters_applied=filters_applied,
+            prompt=None,
+            response=resp,
+            guardrail_actions=guardrail_actions,
+            latencies=TraceStageLatencies(
+                total=round((time.perf_counter() - total_start) * 1000, 2),
+                embed=embed_ms,
+                cache=cache_ms,
+                retrieval=retrieval_ms,
+                guardrail=guard_ms,
+            ),
+            cache_hit=False,
+            status="abstained",
+        )
+        return resp
+    guard_ms = round((time.perf_counter() - guard_start) * 1000, 2)
 
     # 5. Generation with Schema Validation, Retry once, and Safe Fallback
+    rendered_prompt = build_evidence_prompt(effective_q, passages)
     answer_obj: Answer
     used_fallback = False
     gen_start = time.perf_counter()
     try:
-        raw_answer = provider.generate(clean_q, passages)
+        raw_answer = provider.generate(effective_q, passages)
         answer_obj = Answer.model_validate(raw_answer)
     except (ValidationError, Exception) as exc:
+        guardrail_actions.append("schema_validation_retry")
         log.warning(f"Generation validation error: {exc}. Retrying once...")
         try:
-            retry_raw = provider.generate(clean_q, passages)
+            retry_raw = provider.generate(effective_q, passages)
             answer_obj = Answer.model_validate(retry_raw)
         except Exception as retry_exc:
             log.error(f"Generation retry failed ({retry_exc}). Returning safe fallback.")
             used_fallback = True
+            guardrail_actions.append("schema_validation_fallback")
             metrics.FALLBACKS.inc()
             top_p = passages[0]
             answer_obj = Answer(
@@ -179,19 +342,25 @@ def answer_question(
                 answered_from_context=True,
                 confidence="low",
             )
-    metrics.GENERATION_LATENCY.observe(time.perf_counter() - gen_start)
+    gen_sec = time.perf_counter() - gen_start
+    generation_ms = round(gen_sec * 1000, 2)
+    metrics.GENERATION_LATENCY.observe(gen_sec)
 
     if not answer_obj.answered_from_context:
         metrics.ABSTENTIONS.inc()
+        guardrail_actions.append("model_abstained")
 
-    tokens_in = _approx_tokens(clean_q) + sum(_approx_tokens(p.text) for p in passages)
+    tokens_in = _approx_tokens(effective_q) + sum(_approx_tokens(p.text) for p in passages)
     tokens_out = _approx_tokens(answer_obj.answer) + _approx_tokens(answer_obj.reasoning)
     metrics.TOKENS.labels(direction="in").inc(tokens_in)
     metrics.TOKENS.labels(direction="out").inc(tokens_out)
 
     # 6. Citation Verification: assert every citation matches a chunk actually retrieved
     verified_citations = _verify_citations(
-        answer_obj.citations, passages, answered_from_context=answer_obj.answered_from_context
+        answer_obj.citations,
+        passages,
+        answered_from_context=answer_obj.answered_from_context,
+        dropped_sources=guardrail_actions,
     )
 
     # 7. Construct Response
@@ -220,6 +389,30 @@ def answer_question(
     )
 
     # 8. Store in Semantic Cache if safe to cache
-    cache.set(clean_q, query_vector=query_vector, response=response, fallback_used=used_fallback)
+    cache.set(effective_q, query_vector=query_vector, response=response, fallback_used=used_fallback)
+
+    status = "fallback" if used_fallback else ("answered" if response.answered_from_context else "abstained")
+    _emit_query_trace(
+        trace_id=trace_id,
+        settings=settings,
+        provider_name=provider.name,
+        user_query=clean_q,
+        rewritten_query=rewritten_q,
+        passages=passages,
+        filters_applied=filters_applied,
+        prompt=rendered_prompt,
+        response=response,
+        guardrail_actions=guardrail_actions,
+        latencies=TraceStageLatencies(
+            total=round((time.perf_counter() - total_start) * 1000, 2),
+            embed=embed_ms,
+            cache=cache_ms,
+            retrieval=retrieval_ms,
+            guardrail=guard_ms,
+            generation=generation_ms,
+        ),
+        cache_hit=False,
+        status=status,
+    )
 
     return response

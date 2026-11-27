@@ -26,11 +26,13 @@ class Settings:
 
     # The embedding pin (section 4.4). The indexer reads the same ConfigMap key.
     embed_model: str = "nomic-embed-text"
+    embed_model_version: str = "latest"
 
     # Vector store
     chroma_host: str = "chroma"
     chroma_port: int = 8000
     collection: str = "rahbar"
+    collection_version: str = "v1"
 
     # Semantic cache
     redis_host: str = "redis"
@@ -47,6 +49,8 @@ class Settings:
     llm_api_key: str = field(default="", repr=False)   # from the Secret; never log it
 
     log_level: str = "INFO"
+    trace_file: str = ""
+    trace_stdout: bool = True
 
 
 def get_settings() -> Settings:
@@ -54,9 +58,11 @@ def get_settings() -> Settings:
         retriever=os.environ.get("RETRIEVER", "stub"),
         llm_provider=os.environ.get("LLM_PROVIDER", "stub"),
         embed_model=os.environ.get("EMBED_MODEL", "nomic-embed-text"),
+        embed_model_version=os.environ.get("EMBED_MODEL_VERSION", "latest"),
         chroma_host=os.environ.get("CHROMA_HOST", "chroma"),
         chroma_port=_int("CHROMA_PORT", 8000),
         collection=os.environ.get("CHROMA_COLLECTION", "rahbar"),
+        collection_version=os.environ.get("COLLECTION_VERSION", "v1"),
         redis_host=os.environ.get("REDIS_HOST", "redis"),
         redis_port=_int("REDIS_PORT", 6379),
         cache_threshold=_float("CACHE_THRESHOLD", 0.88),
@@ -68,4 +74,6 @@ def get_settings() -> Settings:
         hosted_base_url=os.environ.get("HOSTED_BASE_URL", ""),
         llm_api_key=os.environ.get("LLM_API_KEY", ""),
         log_level=os.environ.get("LOG_LEVEL", "INFO"),
+        trace_file=os.environ.get("TRACE_LOG_PATH", ""),
+        trace_stdout=os.environ.get("TRACE_STDOUT", "true").lower() in ("1", "true", "yes"),
     )
