@@ -1,0 +1,9 @@
+{
+  "description": "Release gate thresholds for Assignment 03 Part C2 (derived from baseline part_b_baseline_20261127_115127.json).",
+  "max_recall5_drop": 0.02,
+  "min_faithfulness_lexical": 0.70,
+  "max_latency_p95_ms": 65000.0,
+  "min_abstention_correctness": 1.0,
+  "min_citation_validity": 0.90,
+  "require_abstention_not_lower_than_baseline": true
+}
