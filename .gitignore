@@ -24,4 +24,23 @@ htmlcov/
 
 # Local scratch
 *.log
+*.tmp
+*.bak
+*.swp
+*.swo
 .DS_Store
+Thumbs.db
+Distribution_Plan_Assignment_03.md
+
+# Editors & IDEs
+.vscode/
+.idea/
+
+# Python build/test extras
+*.pyo
+*.pyd
+.coverage.*
+.hypothesis/
+dist/
+build/
+*.egg-info/
