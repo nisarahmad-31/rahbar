@@ -47,14 +47,16 @@ def _deterministic_vector(text: str, dim: int = 768) -> list[float]:
     return [x / norm for x in vec]
 
 
-def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
-    """Embed with settings.embed_model and nothing else.
-
-    With Ollama: POST {ollama_url}/api/embed with {"model": ..., "input": [texts]}
-    returns {"embeddings": [[...], ...]}. Batches requests for performance.
-    """
+def embed_with_stats(texts: list[str], settings: IndexerSettings) -> tuple[list[list[float]], dict[str, int]]:
+    """Embed texts with settings.embed_model and return (vectors, instrumentation_stats)."""
+    stats = {
+        "chunks_embedded": len(texts),
+        "embed_api_calls": 0,
+        "ollama_calls": 0,
+        "fallback_calls": 0,
+    }
     if not texts:
-        return []
+        return [], stats
 
     batch_size = 8
     all_embeddings: list[list[float]] = []
@@ -62,8 +64,9 @@ def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
 
     for i in range(0, len(texts), batch_size):
         batch = texts[i : i + batch_size]
+        stats["embed_api_calls"] += 1
         try:
-            with httpx.Client(timeout=90.0) as client:
+            with httpx.Client(timeout=5.0) as client:
                 res = client.post(
                     embed_url,
                     json={"model": settings.embed_model, "input": batch},
@@ -72,6 +75,7 @@ def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
                     data = res.json()
                     embeddings = data.get("embeddings") or []
                     if len(embeddings) == len(batch):
+                        stats["ollama_calls"] += 1
                         all_embeddings.extend(embeddings)
                         continue
             log.warning("Ollama embed returned non-200 or mismatched count, falling back to deterministic vectors.")
@@ -79,7 +83,14 @@ def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
             log.info(f"Ollama unavailable at {embed_url} ({exc}), using deterministic vectors for model {settings.embed_model}.")
 
         # Fallback for offline tests / CI
+        stats["fallback_calls"] += 1
         for t in batch:
             all_embeddings.append(_deterministic_vector(t, dim=768))
 
-    return all_embeddings
+    return all_embeddings, stats
+
+
+def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
+    """Embed with settings.embed_model and nothing else."""
+    vectors, _stats = embed_with_stats(texts, settings)
+    return vectors

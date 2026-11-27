@@ -182,36 +182,46 @@ def verify_documents(
         if cur is None or vk > cur[0]:
             latest_by_doc_id[doc.doc_id] = (vk, doc.doc_version or doc.date, doc.source)
 
-    # Pre-compute embeddings for uniqueness near-duplicate checks on non-empty documents
-    doc_texts: list[str] = []
-    doc_text_indices: list[int] = []
-    for idx, (_path, doc) in enumerate(items):
-        full_text = "\n".join(p.text for p in doc.pages).strip()
-        if not doc.extraction_error and len(full_text) >= 40:
-            doc_texts.append(full_text[:2500])
-            doc_text_indices.append(idx)
-
-    computed_vectors: dict[int, list[float]] = {}
-    if doc_texts:
-        vecs = embed(doc_texts, settings)
-        for idx, vec in zip(doc_text_indices, vecs):
-            computed_vectors[idx] = vec
-
     # Known accepted hashes & vectors (seeded from active existing lake documents)
-    accepted_file_hashes: dict[str, str] = {}
-    accepted_text_hashes: dict[str, str] = {}
+    accepted_file_hashes: dict[str, tuple[str, str]] = {}
+    accepted_text_hashes: dict[str, tuple[str, str]] = {}
     accepted_vectors: list[tuple[str, str, list[float]]] = []  # (source, doc_id, vec)
+    cached_embeddings: dict[tuple[str, str, str], list[float]] = {}
     for entry in existing_docs.values():
         if entry.get("superseded"):
             continue
         src = str(entry.get("source", ""))
         did = str(entry.get("doc_id", ""))
+        thash = str(entry.get("text_sha256", ""))
         if entry.get("file_sha256"):
-            accepted_file_hashes[str(entry["file_sha256"])] = src
-        if entry.get("text_sha256"):
-            accepted_text_hashes[str(entry["text_sha256"])] = src
+            accepted_file_hashes[str(entry["file_sha256"])] = (src, did)
+        if thash:
+            accepted_text_hashes[thash] = (src, did)
         if entry.get("embedding"):
-            accepted_vectors.append((src, did, list(entry["embedding"])))
+            vec_cached = list(entry["embedding"])
+            accepted_vectors.append((src, did, vec_cached))
+            if thash:
+                cached_embeddings[(did, src, thash)] = vec_cached
+
+    # Pre-compute embeddings only for documents without a cached unchanged embedding
+    doc_texts: list[str] = []
+    doc_text_indices: list[int] = []
+    computed_vectors: dict[int, list[float]] = {}
+    for idx, (_path, doc) in enumerate(items):
+        full_text = "\n".join(p.text for p in doc.pages).strip()
+        if not doc.extraction_error and len(full_text) >= 40:
+            thash = _text_sha256(full_text)
+            cached = cached_embeddings.get((doc.doc_id, doc.source, thash))
+            if cached:
+                computed_vectors[idx] = cached
+            else:
+                doc_texts.append(full_text[:2500])
+                doc_text_indices.append(idx)
+
+    if doc_texts:
+        vecs = embed(doc_texts, settings)
+        for idx, vec in zip(doc_text_indices, vecs):
+            computed_vectors[idx] = vec
 
     passed_items: list[tuple[Path, Document]] = []
     verifications: list[DocumentVerification] = []
@@ -244,12 +254,16 @@ def verify_documents(
 
         # Uniqueness check (exact hash + embedding cosine similarity)
         doc_vec = computed_vectors.get(idx)
+        f_match = accepted_file_hashes.get(file_hash)
+        t_match = accepted_text_hashes.get(text_hash)
+        is_exact_file_dup = f_match is not None and (f_match[0] != doc.source or f_match[1] != doc.doc_id)
+        is_exact_text_dup = t_match is not None and (t_match[0] != doc.source or t_match[1] != doc.doc_id)
         if q_res.status == "fail" or not text_hash:
             u_res = CheckResult("fail", "skipped uniqueness due to failed extraction/quality")
-        elif file_hash in accepted_file_hashes:
-            u_res = CheckResult("fail", f"exact file duplicate of '{accepted_file_hashes[file_hash]}' (sha256={file_hash[:12]})")
-        elif text_hash in accepted_text_hashes:
-            u_res = CheckResult("fail", f"exact text duplicate of '{accepted_text_hashes[text_hash]}' (sha256={text_hash[:12]})")
+        elif is_exact_file_dup and f_match is not None:
+            u_res = CheckResult("fail", f"exact file duplicate of '{f_match[0]}' (sha256={file_hash[:12]})")
+        elif is_exact_text_dup and t_match is not None:
+            u_res = CheckResult("fail", f"exact text duplicate of '{t_match[0]}' (sha256={text_hash[:12]})")
         else:
             max_sim = 0.0
             max_src = ""
@@ -285,9 +299,9 @@ def verify_documents(
         if overall_pass:
             passed_items.append((path, doc))
             if file_hash:
-                accepted_file_hashes[file_hash] = doc.source
+                accepted_file_hashes[file_hash] = (doc.source, doc.doc_id)
             if text_hash:
-                accepted_text_hashes[text_hash] = doc.source
+                accepted_text_hashes[text_hash] = (doc.source, doc.doc_id)
             if doc_vec is not None:
                 accepted_vectors.append((doc.source, doc.doc_id, doc_vec))
             if update_manifest:

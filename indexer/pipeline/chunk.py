@@ -158,9 +158,10 @@ def chunk(doc: Document, size: int, overlap: int) -> list[Chunk]:
 
     def _emit(section: str, page_num: int, text: str) -> None:
         nonlocal chunk_index
+        cid_prefix = f"{doc.doc_id}@{doc.doc_version}" if doc.doc_id else doc.source
         chunks.append(
             Chunk(
-                id=f"{doc.source}-{page_num}-{chunk_index}",
+                id=f"{cid_prefix}-{page_num}-{chunk_index}",
                 text=text,
                 source=doc.source,
                 section=section,

@@ -27,6 +27,7 @@ def _make_settings(tmp_path: Path, corpus_dir: Path, threshold: float = 0.85):
         verification_report_dir=str(tmp_path / "reports"),
         near_dup_threshold=threshold,
         quarantine_mode="copy",
+        ollama_url="http://127.0.0.1:11434",
     )
 
 
@@ -80,7 +81,7 @@ def test_batch_a_and_batch_b_verification_and_non_indexing(tmp_path: Path, monke
 
     # Run Batch A
     settings_a = _make_settings(tmp_path, BATCH_A, threshold=0.85)
-    count_a = run_pipeline(settings_a, batch_name="batch-a")
+    count_a = run_pipeline(settings_a, batch_name="batch-a", full_rebuild=True)
     assert count_a >= 5
     reports_a = sorted((tmp_path / "reports").glob("verification_batch-a_*.json"))
     assert len(reports_a) == 1
@@ -92,7 +93,7 @@ def test_batch_a_and_batch_b_verification_and_non_indexing(tmp_path: Path, monke
     # Reset captured chunks and run Batch B against same data lake manifest
     captured_chunks.clear()
     settings_b = _make_settings(tmp_path, BATCH_B, threshold=0.85)
-    count_b = run_pipeline(settings_b, batch_name="batch-b")
+    count_b = run_pipeline(settings_b, batch_name="batch-b", full_rebuild=True)
     assert count_b >= 4
 
     reports_b = sorted((tmp_path / "reports").glob("verification_batch-b_*.json"))
